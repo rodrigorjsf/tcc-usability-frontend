@@ -1,28 +1,28 @@
-# ngx-admin [<img src="https://i.imgur.com/oMcxwZ0.png" alt="Eva Design System" height="20px" />](https://eva.design?utm_campaign=eva_design%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=top_status_tile) [![Build Status](https://travis-ci.org/akveo/ngx-admin.svg?branch=master)](https://travis-ci.org/akveo/ngx-admin)
+# tcc-usability-frontend [<img src="https://i.imgur.com/oMcxwZ0.png" alt="Eva Design System" height="20px" />](https://eva.design?utm_campaign=eva_design%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=top_status_tile) [![Build Status](https://travis-ci.org/akveo/tcc-usability-frontend.svg?branch=master)](https://travis-ci.org/akveo/tcc-usability-frontend)
 
-[Who uses ngx-admin?](https://github.com/akveo/ngx-admin/issues/1645)| [Documentation](https://akveo.github.io/ngx-admin?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_documentation_link) | [Installation Guidelines](https://akveo.github.io/ngx-admin/docs/getting-started/what-is-ngxadmin?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_installation_guidelines) | [Angular templates](https://www.akveo.com/templates?utm_campaign=services%20-%20github%20-%20templates&utm_source=ngx_admin&utm_medium=referral&utm_content=github%20readme%20top%20angular%20templates%20link)
+[Who uses tcc-usability-frontend?](https://github.com/akveo/tcc-usability-frontend/issues/1645)| [Documentation](https://akveo.github.io/tcc-usability-frontend?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_documentation_link) | [Installation Guidelines](https://akveo.github.io/tcc-usability-frontend/docs/getting-started/what-is-ngxadmin?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_installation_guidelines) | [Angular templates](https://www.akveo.com/templates?utm_campaign=services%20-%20github%20-%20templates&utm_source=ngx_admin&utm_medium=referral&utm_content=github%20readme%20top%20angular%20templates%20link)
 
-# New! Material theme for ngx-admin
+# New! Material theme for tcc-usability-frontend
 
-Material admin theme is based on the most popular Angular dashboard template - [ngx-admin](https://akveo.github.io/ngx-admin?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin_material&utm_medium=referral&utm_content=github_readme)
+Material admin theme is based on the most popular Angular dashboard template - [tcc-usability-frontend](https://akveo.github.io/tcc-usability-frontend?utm_campaign=ngx_admin%20-%20home%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin_material&utm_medium=referral&utm_content=github_readme)
 To use material theme checkout `feat/material-theme` branch.
 
-Get material ngx-admin integrated with backend technology of your choice. [Check out our store](https://store.akveo.com/pages/all-collections?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral%20&utm_content=check_out_our_store).
+Get material tcc-usability-frontend integrated with backend technology of your choice. [Check out our store](https://store.akveo.com/pages/all-collections?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral%20&utm_content=check_out_our_store).
 
 ## Key features
 
 - The most popular and trusted Angular open source dashboard template is out there. Used by hundreds of thousands developers worldwide and Fortune 500 companies*.
-- Over 40+ Angular Components and 60+ Usage Examples. Kick off your project and save money by using ngx-admin.
-- Already using ngx-admin and willing to switch to material theme? Material theme is backward-compatible. Check out the article describing how to do that.
-- ngx-admin material works perfectly with Angular Material and Nebular. Take the best from both!
+- Over 40+ Angular Components and 60+ Usage Examples. Kick off your project and save money by using tcc-usability-frontend.
+- Already using tcc-usability-frontend and willing to switch to material theme? Material theme is backward-compatible. Check out the article describing how to do that.
+- tcc-usability-frontend material works perfectly with Angular Material and Nebular. Take the best from both!
 
 ### To use material theme checkout `feat/material-theme` branch
 
 # Admin template based on Angular 10+ and <a href="https://github.com/akveo/nebular">Nebular</a>
-<a target="_blank" href="https://akveo.com/ngx-admin/pages/dashboard?theme=corporate&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=hero_banner_corporate"><img src="https://i.imgur.com/mFdqvgG.png"/></a>
+<a target="_blank" href="https://akveo.com/tcc-usability-frontend/pages/dashboard?theme=corporate&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=hero_banner_corporate"><img src="https://i.imgur.com/mFdqvgG.png"/></a>
 
 ### Backend Integration Bundles
-Easy way to integrate ngx-admin with any backend (PHP, .Net, .Net Core, Java etc. )
+Easy way to integrate tcc-usability-frontend with any backend (PHP, .Net, .Net Core, Java etc. )
 <a href="https://store.akveo.com/pages/all-collections?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral%20&utm_content=check_out_our_store"><img src="https://i.imgur.com/qbtASmP.png"></a>
 
 [Check out our Store](https://store.akveo.com/pages/all-collections?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral%20&utm_content=check_out_our_store) for ready to use Backend Bundles.
@@ -30,19 +30,19 @@ Easy way to integrate ngx-admin with any backend (PHP, .Net, .Net Core, Java etc
 ### Free Bundles
 <a href="https://store.akveo.com/products/free-angular-net-starter-dashboard?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin%20&utm_medium=referral&utm_content=.net_free_dashboard"><img src="https://i.imgur.com/NzTDxRG.png"></a>
 
-[Download ngx-admin with .net backend for FREE!](https://github.com/akveo/ngx-admin-dotnet-starter?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=.net_free_dashboard)
+[Download tcc-usability-frontend with .net backend for FREE!](https://github.com/akveo/tcc-usability-frontend-dotnet-starter?utm_campaign=akveo_store%20-%20all%20bundles%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=.net_free_dashboard)
 
 ### With 6 stunning visual themes
 
-| <a target="_blank" href="https://www.akveo.com/ngx-admin/pages/dashboard?theme=material-dark&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20docs&utm_source=ngx_admin&utm_medium=referral&utm_content=ngx_admin_material_themes_material_dark"><img src="https://i.imgur.com/67YAlhf.png"/></a> | <a target="_blank" href="https://www.akveo.com/ngx-admin/pages/dashboard?theme=material-light&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20docs&utm_source=ngx_admin&utm_medium=referral&utm_content=ngx_admin_material_themes_material_light"><img src="https://i.imgur.com/aQzw0hD.png"/></a> |
+| <a target="_blank" href="https://www.akveo.com/tcc-usability-frontend/pages/dashboard?theme=material-dark&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20docs&utm_source=ngx_admin&utm_medium=referral&utm_content=ngx_admin_material_themes_material_dark"><img src="https://i.imgur.com/67YAlhf.png"/></a> | <a target="_blank" href="https://www.akveo.com/tcc-usability-frontend/pages/dashboard?theme=material-light&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20docs&utm_source=ngx_admin&utm_medium=referral&utm_content=ngx_admin_material_themes_material_light"><img src="https://i.imgur.com/aQzw0hD.png"/></a> |
 | --- | --- |
 |  Material Dark | Material Light |
 
-| <a target="_blank" href="https://www.akveo.com/ngx-admin/pages/dashboard?theme=dark&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_dark"><img src="https://i.imgur.com/9UkTGgr.png"/></a> | <a target="_blank" href="https://akveo.com/ngx-admin/pages/dashboard?theme=default&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_default"><img src="https://i.imgur.com/Kn3xDKQ.png"/></a> |
+| <a target="_blank" href="https://www.akveo.com/tcc-usability-frontend/pages/dashboard?theme=dark&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_dark"><img src="https://i.imgur.com/9UkTGgr.png"/></a> | <a target="_blank" href="https://akveo.com/tcc-usability-frontend/pages/dashboard?theme=default&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_default"><img src="https://i.imgur.com/Kn3xDKQ.png"/></a> |
 | --- | --- |
 |  Dark| Default |
 
-| <a target="_blank" href="https://www.akveo.com/ngx-admin/pages/dashboard?theme=cosmic&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_cosmic"><img src="https://i.imgur.com/iJu2YDF.png"/></a> | <a target="_blank" href="https://www.akveo.com/ngx-admin/pages/dashboard?theme=corporate&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_corporate"><img src="https://i.imgur.com/GpUt6NW.png"/></a> |
+| <a target="_blank" href="https://www.akveo.com/tcc-usability-frontend/pages/dashboard?theme=cosmic&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_cosmic"><img src="https://i.imgur.com/iJu2YDF.png"/></a> | <a target="_blank" href="https://www.akveo.com/tcc-usability-frontend/pages/dashboard?theme=corporate&utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=github_readme_theme_corporate"><img src="https://i.imgur.com/GpUt6NW.png"/></a> |
 | --- | --- |
 | Cosmic  | Corporate |
 
@@ -60,13 +60,13 @@ Easy way to integrate ngx-admin with any backend (PHP, .Net, .Net Core, Java etc
 
 ### Demo
 
-<a target="_blank" href="http://www.akveo.com/ngx-admin/?utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=live_demo_link">Live Demo</a>
+<a target="_blank" href="http://www.akveo.com/tcc-usability-frontend/?utm_campaign=ngx_admin%20-%20demo%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=live_demo_link">Live Demo</a>
 
 ## Documentation
 This template is using [Nebular](https://github.com/akveo/nebular) modules set, [here you can find documentation and other useful articles](https://akveo.github.io/nebular/docs/guides/install-based-on-starter-kit?utm_campaign=nebular%20-%20docs%20-%20ngx_admin%20github%20readme&utm_source=ngx_admin&utm_medium=referral&utm_content=documentation_useful_articles).
 
 ### Empty starter kit
-Don't need all the pages and modules and just looking for an empty starter kit for your next project? Check out our [starter-kit branch](https://github.com/akveo/ngx-admin/tree/starter-kit).
+Don't need all the pages and modules and just looking for an empty starter kit for your next project? Check out our [starter-kit branch](https://github.com/akveo/tcc-usability-frontend/tree/starter-kit).
 
 ## BrowserStack
 This project runs its tests on multiple desktop and mobile browsers using [BrowserStack](http://www.browserstack.com).

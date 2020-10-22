@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-admin-demo": {
+    "tcc-usability-frontend-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -90,18 +90,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-admin-demo:build"
+            "browserTarget": "tcc-usability-frontend-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-admin-demo:build:production"
+              "browserTarget": "tcc-usability-frontend-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-admin-demo:build"
+            "browserTarget": "tcc-usability-frontend-demo:build"
           }
         },
         "test": {
@@ -158,7 +158,7 @@
         }
       }
     },
-    "ngx-admin-demo-e2e": {
+    "tcc-usability-frontend-demo-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -167,7 +167,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "ngx-admin-demo:serve"
+            "devServerTarget": "tcc-usability-frontend-demo:serve"
           }
         },
         "lint": {
@@ -182,7 +182,7 @@
       }
     }
   },
-  "defaultProject": "ngx-admin-demo",
+  "defaultProject": "tcc-usability-frontend-demo",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "ngx",
