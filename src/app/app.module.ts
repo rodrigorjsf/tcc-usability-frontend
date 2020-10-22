@@ -16,7 +16,7 @@ import {
   NbDatepickerModule,
   NbDialogModule,
   NbMenuModule,
-  NbSidebarModule,
+  NbSidebarModule, NbThemeModule,
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
