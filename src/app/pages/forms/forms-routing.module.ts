@@ -29,7 +29,7 @@ const routes: Routes = [
         component: ButtonsComponent,
       },
       {
-        path: 'datepicker',
+        path: 'review-assesment',
         component: DatepickerComponent,
       },
     ],
