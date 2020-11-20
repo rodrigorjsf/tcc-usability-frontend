@@ -16,10 +16,13 @@ import {
   NbDatepickerModule,
   NbDialogModule,
   NbMenuModule,
-  NbSidebarModule, NbThemeModule,
+  NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import {StoreModule} from '@ngrx/store';
+import {AuthReducer} from './store/modules/auth/auth.reduce';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +42,10 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    StoreModule.forRoot({
+      auth: AuthReducer,
+    }),
+    StoreDevtoolsModule.instrument({maxAge: 50}),
   ],
   bootstrap: [AppComponent],
 })
