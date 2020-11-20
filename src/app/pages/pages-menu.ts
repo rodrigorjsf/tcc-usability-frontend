@@ -2,15 +2,51 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce',
-    icon: 'shopping-cart-outline',
-    link: '/pages/dashboard',
+    title: 'Home',
+    icon: 'home-outline',
+    link: '/pages/home',
     home: true,
   },
   {
-    title: 'IoT Dashboard',
-    icon: 'home-outline',
+    title: 'Assessment',
+    icon: 'folder-outline',
+    expanded: true,
+    children: [
+      {
+        title: 'Create',
+        icon: 'file-add-outline',
+        link: '/pages/assessment/create',
+      },
+      {
+        title: 'Review',
+        icon: 'file-text-outline',
+        link: '/pages/assessment/review',
+      },
+      {
+        title: 'List Assessments',
+        icon: 'list-outline',
+        link: '/pages/assessment/list',
+      },
+    ],
+  },
+  {
+    title: 'References',
+    icon: 'book-open-outline',
     link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'ABOUT',
+    group: true,
+  },
+  {
+    title: 'Evaluation criteria',
+    icon: 'checkmark-square-outline',
+    link: '/pages/layout/stepper',
+  },
+  {
+    title: 'The evaluation',
+    icon: 'bar-chart-outline',
+    link: '/pages/layout/list',
   },
   {
     title: 'FEATURES',
@@ -57,11 +93,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Buttons',
-        link: '/pages/forms/buttons',
+        link: '/pages/forms/create-assessment',
       },
       {
         title: 'Datepicker',
-        link: '/pages/forms/datepicker',
+        link: '/pages/forms/review-assesment',
       },
     ],
   },
