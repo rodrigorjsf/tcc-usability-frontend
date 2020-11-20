@@ -1,0 +1,16 @@
+@mixin pex-auth-block-theme() {
+  pex-auth-block {
+    .text-link {
+      color: pex-theme(text-hint-color);
+    }
+
+    .forgot-password {
+      color: pex-theme(text-disabled-color);
+    }
+
+    .socials a {
+      color: pex-theme(text-hint-color);
+    }
+  }
+}
+

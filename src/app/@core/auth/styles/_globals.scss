@@ -1,0 +1,5 @@
+@import 'global/components';
+
+@mixin pex-auth-global() {
+  @include pex-auth-components();
+}
