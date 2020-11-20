@@ -23,6 +23,7 @@ import {
 import {StoreModule} from '@ngrx/store';
 import {AuthReducer} from './store/modules/auth/auth.reduce';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {InterceptorsModule} from './interceptors/interceptors.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
       auth: AuthReducer,
     }),
     StoreDevtoolsModule.instrument({maxAge: 50}),
+    InterceptorsModule,
   ],
   bootstrap: [AppComponent],
 })
