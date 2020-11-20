@@ -1,0 +1,8 @@
+@import "~src/stylesheet/all";
+@import '../all';
+
+$pex-enabled-themes: (default);
+
+@include pex-install() {
+  @include pex-auth-global();
+};

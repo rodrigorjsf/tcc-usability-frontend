@@ -31,7 +31,7 @@ import { CountryOrderData } from './data/country-order';
 import { StatsProgressBarData } from './data/stats-progress-bar';
 import { VisitorsAnalyticsData } from './data/visitors-analytics';
 import { SecurityCamerasData } from './data/security-cameras';
-
+import { AdminGuard } from './auth/services/guard/admin.guard';
 import { UserService } from './mock/users.service';
 import { ElectricityService } from './mock/electricity.service';
 import { SmartTableService } from './mock/smart-table.service';
@@ -52,6 +52,20 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
+import { AuthModule, PasswordAuthStrategy } from './auth';
+import {RouterModule} from '@angular/router';
+import {JwtModule} from '@auth0/angular-jwt';
+import {
+  NbCardModule,
+  NbGlobalPhysicalPosition,
+  NbIconModule,
+  NbInputModule,
+  NbLayoutModule,
+  NbToastrModule,
+} from '@nebular/theme';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
+import {Authentication} from "./data/authentication";
+import {AuthenticationService} from "./service/authentication.service";
 
 const socialLinks = [
   {
@@ -87,6 +101,7 @@ const DATA_SERVICES = [
   { provide: SolarData, useClass: SolarService },
   { provide: TrafficChartData, useClass: TrafficChartService },
   { provide: StatsBarData, useClass: StatsBarService },
+  { provide: Authentication, useClass: AuthenticationService},
   { provide: CountryOrderData, useClass: CountryOrderService },
   { provide: StatsProgressBarData, useClass: StatsProgressBarService },
   { provide: VisitorsAnalyticsData, useClass: VisitorsAnalyticsService },
@@ -103,22 +118,14 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
-  ...NbAuthModule.forRoot({
+  ...AuthModule.forRoot({
 
     strategies: [
-      NbDummyAuthStrategy.setup({
+      PasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
       }),
     ],
-    forms: {
-      login: {
-        socialLinks: socialLinks,
-      },
-      register: {
-        socialLinks: socialLinks,
-      },
-    },
+    forms: {},
   }).providers,
 
   NbSecurityModule.forRoot({
@@ -147,7 +154,27 @@ export const NB_CORE_PROVIDERS = [
 
 @NgModule({
   imports: [
+    AuthModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function tokenGetter() {
+          return localStorage.getItem('accessToken');
+        },
+        allowedDomains: ['localhost:4200'],
+        disallowedRoutes: ['http://localhost:4200/auth/login'],
+      },
+    }),
     CommonModule,
+    NbToastrModule.forRoot({
+      duration: 3000,
+      position: NbGlobalPhysicalPosition.TOP_RIGHT,
+    }),
+    NbLayoutModule,
+    RouterModule,
+    NbCardModule,
+    Ng2SmartTableModule,
+    NbInputModule,
+    NbIconModule,
   ],
   exports: [
     NbAuthModule,

@@ -1,0 +1,5 @@
+@import '../../components/auth-block/auth-block.component.theme';
+
+@mixin pex-auth-components() {
+  @include pex-auth-block-theme();
+}
