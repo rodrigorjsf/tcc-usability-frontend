@@ -1,0 +1,56 @@
+@import "../../../../../node_modules/@nebular/theme/styles/global/breakpoints";
+
+:host {
+  .logo-app {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+
+  $auth-layout-padding: 2.5rem;
+
+  pex-card {
+    margin: 0;
+    height: calc(100vh - 2 * #{$auth-layout-padding});
+  }
+
+  .navigation .link {
+    display: inline-block;
+    text-decoration: none;
+
+    pex-icon {
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+  }
+
+  .links pex-icon {
+    font-size: 2.5rem;
+  }
+
+  pex-card-body {
+    display: flex;
+    width: 100%;
+  }
+
+  pex-auth-block {
+    margin: auto;
+  }
+
+  @include media-breakpoint-down(sm) {
+    pex-card {
+      border-radius: 0;
+      height: 100vh;
+    }
+  }
+
+  ::ng-deep {
+    pex-layout .layout .layout-container .content .columns pex-layout-column {
+      padding: $auth-layout-padding;
+
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+  }
+}

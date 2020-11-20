@@ -30,14 +30,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'References',
-    icon: 'book-open-outline',
-    link: '/pages/iot-dashboard',
-  },
-  {
     title: 'ABOUT',
     group: true,
   },
+
   {
     title: 'Evaluation criteria',
     icon: 'checkmark-square-outline',

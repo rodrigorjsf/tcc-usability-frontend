@@ -1,202 +1,244 @@
-<div class="steppers-container row">
-  <div class="col-md-12 col-lg-12 col-xxxl-12">
+<!--<div class="steppers-container row">-->
+<!--  <div class="col-md-12 col-lg-12 col-xxxl-12">-->
+<!--    <nb-card>-->
+<!--      <nb-card-body>-->
+<!--        <nb-stepper #stepper>-->
+<!--          <nb-step [stepControl]="firstForm" label="APPLICATION">-->
+<!--            <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">-->
+<!--              <nb-card>-->
+<!--                <nb-card-header>What will be assessed?</nb-card-header>-->
+<!--                <nb-card-body class="example-items-col">-->
+<!--                  <label>Project name</label>-->
+<!--                  <div class="input-group">-->
+<!--                    <input nbInput fullWidth type="text" class="form-control" formControlName="projectName"-->
+<!--                           [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">-->
+<!--                    <label>Project description</label>-->
+<!--                    <textarea nbInput fullWidth type="text" class="form-control" formControlName="projectDescription"-->
+<!--                              [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}"></textarea>-->
+<!--                  </div>-->
+<!--                </nb-card-body>-->
+<!--              </nb-card>-->
+<!--              <nb-card>-->
+<!--                <nb-card-header>Is it a smart city application?</nb-card-header>-->
+<!--                <nb-card-body class="example-items-col">-->
+<!--                  <div class="form-group">-->
+<!--                    <label>Does the application use NoSQL DBs for unstructured or semi-structured data, relational DBs-->
+<!--                      for-->
+<!--                      structured data,-->
+<!--                      Big Data tools to analyze and process data or report and image generators for data visualization?-->
+<!--                      (Data Management)</label>-->
+<!--                    <nb-radio-group class="flex" [(ngModel)]="assessment.smartForm.hasDataManagement">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label>Does the platform offer an environment for the deployment of services and applications or a-->
+<!--                      service for-->
+<!--                      running applications developed with the platform's own tools? (Application Execution-->
+<!--                      Environment)</label>-->
+<!--                    <nb-radio-group class="flex" [(ngModel)]="assessment.smartForm.hasAppExecutionEnv">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                    <label>Does the application manage sensors that collect data from the environment, sensors that-->
+<!--                      verify-->
+<!--                      the-->
+<!--                      functioning of urban systems or sensors that monitor traffic flow? (Sensor Network-->
+<!--                      Management)</label>-->
+<!--                    <nb-radio-group class="flex">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label>Does the platform use inference machines, workflow processors or Big Data tools for-->
+<!--                      processing-->
+<!--                      large-->
+<!--                      amounts of data? (Data processing)</label>-->
+<!--                    <nb-radio-group class="flex">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                    <label>Are the data collected available through open data portals in standardized formats and with-->
+<!--                      associated-->
+<!--                      descriptive metadata, well-defined APIs that facilitate the development of automated applications-->
+<!--                      or-->
+<!--                      publish /-->
+<!--                      subscribe services? (Data Access)</label>-->
+<!--                    <nb-radio-group class="flex">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label>Does the application use components for data processing such as inference machines and-->
+<!--                      machine-->
+<!--                      learning algorithms,-->
+<!--                      components for the execution of workflows and user management services for the platform or-->
+<!--                      deployment of-->
+<!--                      services on the platform that are available for other city applications? (Service-->
+<!--                      Management)</label>-->
+<!--                    <nb-radio-group class="flex">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                    <label>Does the platform use visual interfaces for the description of applications using the data-->
+<!--                      sources and-->
+<!--                      services available on the platform, tools for the description of workflows, tools for reporting-->
+<!--                      and-->
+<!--                      data-->
+<!--                      analysis or a kit for the development of applications (Software Development Kit or SDK) with-->
+<!--                      several-->
+<!--                      integrated tools-->
+<!--                      (Tools for Software Development)</label>-->
+<!--                    <nb-radio-group class="flex">-->
+<!--                      <nb-radio value="true">Yes</nb-radio>-->
+<!--                      <nb-radio value="false">No</nb-radio>-->
+<!--                    </nb-radio-group>-->
+<!--                  </div>-->
+<!--                </nb-card-body>-->
+<!--              </nb-card>-->
+<!--              <div>-->
+<!--                <button nbButton nbStepperNext status="success" class="padding-right">-->
+<!--                  <b>NEXT</b>-->
+<!--                  <nb-icon icon="arrow-circle-right-outline"></nb-icon>-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </form>-->
+<!--          </nb-step>-->
+<!--          <nb-step [stepControl]="secondForm" label="GOALS">-->
+<!--            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">-->
+<!--              <p class="lorem">-->
+<!--                Pellentesque we gonna chung tortor.-->
+<!--                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus-->
+<!--                tempor.-->
+<!--                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.-->
+<!--              </p>-->
+<!--              <div class="input-group">-->
+<!--                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"-->
+<!--                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">-->
+<!--              </div>-->
+<!--              <button nbButton nbStepperPrevious>prev</button>-->
+<!--              <button nbButton nbStepperNext>next</button>-->
+<!--            </form>-->
+<!--          </nb-step>-->
+<!--          <nb-step [stepControl]="secondForm" label="Second step">-->
+<!--            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">-->
+<!--              <p class="lorem">-->
+<!--                Pellentesque we gonna chung tortor.-->
+<!--                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus-->
+<!--                tempor.-->
+<!--                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.-->
+<!--              </p>-->
+<!--              <div class="input-group">-->
+<!--                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"-->
+<!--                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">-->
+<!--              </div>-->
+<!--              <button nbButton nbStepperPrevious>prev</button>-->
+<!--              <button nbButton nbStepperNext>next</button>-->
+<!--            </form>-->
+<!--          </nb-step>-->
+<!--          <nb-step [stepControl]="secondForm" label="Second step">-->
+<!--            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">-->
+<!--              <p class="lorem">-->
+<!--                Pellentesque we gonna chung tortor.-->
+<!--                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus-->
+<!--                tempor.-->
+<!--                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.-->
+<!--              </p>-->
+<!--              <div class="input-group">-->
+<!--                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"-->
+<!--                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">-->
+<!--              </div>-->
+<!--              <button nbButton nbStepperPrevious>prev</button>-->
+<!--              <button nbButton nbStepperNext>next</button>-->
+<!--            </form>-->
+<!--          </nb-step>-->
+<!--          <nb-step [stepControl]="thirdForm" label="Third step">-->
+<!--            <form [formGroup]="thirdForm" (ngSubmit)="onThirdSubmit()" class="step-container">-->
+<!--              <p class="lorem">-->
+<!--                Things boom shackalack rhoncus yo. In fo shizzle my nizzle gangsta platea dictumst. Check it out pot.-->
+<!--              </p>-->
+<!--              <div class="input-group">-->
+<!--                <input type="text" placeholder="Enter something" class="form-control" formControlName="thirdCtrl"-->
+<!--                       [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">-->
+<!--              </div>-->
+<!--              <button nbButton nbStepperPrevious>prev</button>-->
+<!--              <button nbButton nbStepperNext>Confirm</button>-->
+<!--            </form>-->
+<!--          </nb-step>-->
+<!--          <nb-step [stepControl]="thirdForm" [hidden]="true" label="Third step">-->
+<!--            <div class="step-container">-->
+<!--              <h3>Wizard completed!</h3>-->
+<!--              <button nbButton (click)="stepper.reset()">Try again</button>-->
+<!--            </div>-->
+<!--          </nb-step>-->
+<!--        </nb-stepper>-->
+<!--      </nb-card-body>-->
+<!--    </nb-card>-->
+<!--  </div>-->
+
+<div class="row">
+  <div class="col-lg-12">
+    <h3>
+      Create new assessment
+    </h3>
     <nb-card>
-      <nb-card-body>
-        <nb-stepper #stepper>
-          <nb-step [stepControl]="firstForm" label="APPLICATION">
-            <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">
-              <nb-card>
-                <nb-card-header>What will be assessed?</nb-card-header>
-                <nb-card-body class="example-items-col">
-                  <label>Project name</label>
-                  <div class="input-group">
-                    <input nbInput fullWidth type="text" class="form-control" formControlName="projectName"
-                           [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
-                    <label>Project description</label>
-                    <textarea nbInput fullWidth type="text" class="form-control" formControlName="projectDescription"
-                              [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}"></textarea>
-                  </div>
-                </nb-card-body>
-              </nb-card>
-              <nb-card>
-                <nb-card-header>Is it a smart city application?</nb-card-header>
-                <nb-card-body class="example-items-col">
-                  <div class="form-group">
-                    <label>Does the application use NoSQL DBs for unstructured or semi-structured data, relational DBs
-                      for
-                      structured data,
-                      Big Data tools to analyze and process data or report and image generators for data visualization?
-                      (Data Management)</label>
-                    <nb-radio-group class="flex" [(ngModel)]="assessment.smartForm.hasDataManagement">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                  </div>
-                  <div class="form-group">
-                    <label>Does the platform offer an environment for the deployment of services and applications or a
-                      service for
-                      running applications developed with the platform's own tools? (Application Execution
-                      Environment)</label>
-                    <nb-radio-group class="flex" [(ngModel)]="assessment.smartForm.hasAppExecutionEnv">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                    <label>Does the application manage sensors that collect data from the environment, sensors that
-                      verify
-                      the
-                      functioning of urban systems or sensors that monitor traffic flow? (Sensor Network
-                      Management)</label>
-                    <nb-radio-group class="flex">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                  </div>
-                  <div class="form-group">
-                    <label>Does the platform use inference machines, workflow processors or Big Data tools for
-                      processing
-                      large
-                      amounts of data? (Data processing)</label>
-                    <nb-radio-group class="flex">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                    <label>Are the data collected available through open data portals in standardized formats and with
-                      associated
-                      descriptive metadata, well-defined APIs that facilitate the development of automated applications
-                      or
-                      publish /
-                      subscribe services? (Data Access)</label>
-                    <nb-radio-group class="flex">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                  </div>
-                  <div class="form-group">
-                    <label>Does the application use components for data processing such as inference machines and
-                      machine
-                      learning algorithms,
-                      components for the execution of workflows and user management services for the platform or
-                      deployment of
-                      services on the platform that are available for other city applications? (Service
-                      Management)</label>
-                    <nb-radio-group class="flex">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                    <label>Does the platform use visual interfaces for the description of applications using the data
-                      sources and
-                      services available on the platform, tools for the description of workflows, tools for reporting
-                      and
-                      data
-                      analysis or a kit for the development of applications (Software Development Kit or SDK) with
-                      several
-                      integrated tools
-                      (Tools for Software Development)</label>
-                    <nb-radio-group class="flex">
-                      <nb-radio value="true">Yes</nb-radio>
-                      <nb-radio value="false">No</nb-radio>
-                    </nb-radio-group>
-                  </div>
-                </nb-card-body>
-              </nb-card>
-              <div>
-                <button nbButton nbStepperNext status="success" class="padding-right">
-                  <b>NEXT</b>
-                  <nb-icon icon="arrow-circle-right-outline"></nb-icon>
+      <nb-card-header>What will be assessed?</nb-card-header>
+      <nb-card-body class="example-items-col">
+          <div class="row col-lg-12 bottom-margin">
+            <label><b>Project name</b></label>
+            <input type="text" nbInput fullWidth required="true" [(ngModel)]="newAssessment.projectName">
+          </div>
+
+          <div class="row col-lg-12 bottom-margin">
+            <label><b>Project description</b></label>
+            <textarea rows="5" nbInput fullWidth shape="round" required="true"
+                      placeholder="Describe your project"
+                      [(ngModel)]="newAssessment.projectDescription"></textarea>
+          </div>
+          <label *ngIf="hasCollaborator == true"><b>Collaborator(s) email(s):</b></label>
+          <form *ngIf="hasCollaborator == true" #addressForm="ngForm" class="container mt-3">
+            <section *ngFor="let email of emails; let i = index;">
+              <div class="row col-lg-8">
+                <input nbInput class="display-next"
+                       [(ngModel)]="email.newEmail"
+                       #email="ngModel"
+                       id="input-email"
+                       name="email"
+                       pattern=".+@.+..+"
+                       placeholder="Collaborator email address"
+                       fullWidth
+                       fieldSize="large"
+                       [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                       [required]="true"
+                       [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+                <button nbButton ghost status="danger" class="display-next">
+                  <nb-icon icon="minus-circle-outline" (click)="removeEmail(i)"></nb-icon>
                 </button>
               </div>
-            </form>
-          </nb-step>
-          <nb-step [stepControl]="secondForm" label="GOALS">
-            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">
-              <p class="lorem">
-                Pellentesque we gonna chung tortor.
-                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus
-                tempor.
-                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.
-              </p>
-              <div class="input-group">
-                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"
-                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
-              </div>
-              <button nbButton nbStepperPrevious>prev</button>
-              <button nbButton nbStepperNext>next</button>
-            </form>
-          </nb-step>
-          <nb-step [stepControl]="secondForm" label="Second step">
-            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">
-              <p class="lorem">
-                Pellentesque we gonna chung tortor.
-                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus
-                tempor.
-                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.
-              </p>
-              <div class="input-group">
-                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"
-                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
-              </div>
-              <button nbButton nbStepperPrevious>prev</button>
-              <button nbButton nbStepperNext>next</button>
-            </form>
-          </nb-step>
-          <nb-step [stepControl]="secondForm" label="Second step">
-            <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">
-              <p class="lorem">
-                Pellentesque we gonna chung tortor.
-                Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus
-                tempor.
-                Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor.
-              </p>
-              <div class="input-group">
-                <input type="text" placeholder="Enter favorite movie" class="form-control" formControlName="secondCtrl"
-                       [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
-              </div>
-              <button nbButton nbStepperPrevious>prev</button>
-              <button nbButton nbStepperNext>next</button>
-            </form>
-          </nb-step>
-          <nb-step [stepControl]="thirdForm" label="Third step">
-            <form [formGroup]="thirdForm" (ngSubmit)="onThirdSubmit()" class="step-container">
-              <p class="lorem">
-                Things boom shackalack rhoncus yo. In fo shizzle my nizzle gangsta platea dictumst. Check it out pot.
-              </p>
-              <div class="input-group">
-                <input type="text" placeholder="Enter something" class="form-control" formControlName="thirdCtrl"
-                       [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
-              </div>
-              <button nbButton nbStepperPrevious>prev</button>
-              <button nbButton nbStepperNext>Confirm</button>
-            </form>
-          </nb-step>
-          <nb-step [stepControl]="thirdForm" [hidden]="true" label="Third step">
-            <div class="step-container">
-              <h3>Wizard completed!</h3>
-              <button nbButton (click)="stepper.reset()">Try again</button>
-            </div>
-          </nb-step>
-        </nb-stepper>
-      </nb-card-body>
-    </nb-card>
-  </div>
+            </section>
+          </form>
+          <button nbButton outline shape="round" size="small" status="success" class="top-margin" (click)="addEmail()">
+            Add
+            Collaborator
+          </button>
 
-  <!--<div class="row">-->
-  <!--  <div class="col-lg-12">-->
-  <!--    <nb-card>-->
-  <!--      <nb-card-header>What will be assessed?</nb-card-header>-->
-  <!--      <nb-card-body class="example-items-col">-->
-  <!--        <label>Project name</label>-->
-  <!--        <input type="text" nbInput fullWidth>-->
-  <!--        <label>Project description</label>-->
-  <!--        <textarea rows="5" nbInput fullWidth shape="round"></textarea>-->
-  <!--      </nb-card-body>-->
-  <!--      <nb-card-footer>-->
-  <!--        <div>-->
-  <!--          <button nbButton status="success" class="padding-right">-->
-  <!--            <nb-icon icon="save-outline"></nb-icon>-->
-  <!--            <b>CREATE</b>-->
-  <!--          </button>-->
-  <!--        </div>-->
-  <!--      </nb-card-footer>-->
-  <!--    </nb-card>-->
-  <!--  </div>-->
-  <!--</div>-->
+      </nb-card-body>
+      <nb-card-footer>
+        <div>
+          <button nbButton status="success" class="padding-right"
+                  [disabled]="!verifyAssessment()"
+                  [class.btn-pulse]="isVald"
+                  (click)="create()">
+            <nb-icon icon="save-outline"></nb-icon>
+            <b>CREATE</b>
+          </button>
+        </div>
+      </nb-card-footer>
+
+    </nb-card>
+
+  </div>
+</div>
