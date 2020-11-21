@@ -1,7 +1,7 @@
 import {Injector, ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpRequest} from '@angular/common/http';
 
 
@@ -77,25 +77,26 @@ export function noOpInterceptorFilter(req: HttpRequest<any>): boolean {
 }
 
 @NgModule({
-  imports: [
-    AuthRoutingModule,
-    NbThemeModule,
-    NbAlertModule,
-    NbIconModule,
-    NbCheckboxModule,
-    FormsModule,
-    CommonModule,
-    NbCardModule,
-    NbCheckboxModule,
-    NbAlertModule,
-    NbInputModule,
-    NbButtonModule,
-    RouterModule,
-    FormsModule,
-    NbIconModule,
-    NbLayoutModule,
-    NbSelectModule,
-  ],
+    imports: [
+        AuthRoutingModule,
+        NbThemeModule,
+        NbAlertModule,
+        NbIconModule,
+        NbCheckboxModule,
+        FormsModule,
+        CommonModule,
+        NbCardModule,
+        NbCheckboxModule,
+        NbAlertModule,
+        NbInputModule,
+        NbButtonModule,
+        RouterModule,
+        FormsModule,
+        NbIconModule,
+        NbLayoutModule,
+        NbSelectModule,
+        ReactiveFormsModule,
+    ],
   declarations: [
     AuthComponent,
     AuthBlockComponent,

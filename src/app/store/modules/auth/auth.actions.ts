@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {AuthSignInRequestModel, AuthSignInSuccessModel} from '../../../models/auth.model';
+import {AuthSignInRequestModel, AuthSignInResponseModel} from '../../../models/auth.model';
 import {HttpErrorResponse} from '@angular/common/http';
 
 export enum AuthActionsType {
@@ -16,7 +16,7 @@ export class AuthSignInRequest implements Action {
 
 export class AuthSignInSuccess implements Action {
   readonly type = AuthActionsType.AUTH_SIGN_IN_SUCCESS;
-  constructor(public payload: AuthSignInSuccessModel) {
+  constructor(public payload: AuthSignInResponseModel) {
   }
 }
 

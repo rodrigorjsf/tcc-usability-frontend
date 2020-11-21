@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8084/api',
+  baseUrl: 'https://validusabilityassessment.herokuapp.com/api',
 };
