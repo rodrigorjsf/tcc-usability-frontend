@@ -7,7 +7,7 @@ export interface AuthSignInRequestModel {
   password: string;
 }
 
-export interface AuthSignInSuccessModel {
+export interface AuthSignInResponseModel {
   username: string;
   userUid: string;
   accessToken: string;

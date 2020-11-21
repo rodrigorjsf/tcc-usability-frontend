@@ -24,7 +24,10 @@ import {StoreModule} from '@ngrx/store';
 import {AuthReducer} from './store/modules/auth/auth.reduce';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {InterceptorsModule} from './interceptors/interceptors.module';
-import {AuthInterceptor} from "./interceptors/auth-interceptor";
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './store/modules/auth/auth.effects';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +52,9 @@ import {AuthInterceptor} from "./interceptors/auth-interceptor";
     }),
     StoreDevtoolsModule.instrument({maxAge: 50}),
     InterceptorsModule,
+    EffectsModule.forRoot([AuthEffects]),
+    ToastrModule.forRoot(),
+    NgxSpinnerModule,
   ],
   bootstrap: [AppComponent],
 })
