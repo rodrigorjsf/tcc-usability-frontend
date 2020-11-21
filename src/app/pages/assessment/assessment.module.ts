@@ -3,13 +3,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ThemeModule} from '../../@theme/theme.module';
 import {AssessmentComponent} from './assessment.component';
 import {
-    NbAccordionModule, NbActionsModule,
-    NbButtonModule,
-    NbCardModule,
-    NbIconModule,
-    NbInputModule, NbProgressBarModule,
-    NbRadioModule, NbSelectModule, NbSpinnerModule,
-    NbStepperModule, NbTooltipModule,
+  NbAccordionModule,
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbInputModule,
+  NbProgressBarModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbSpinnerModule,
+  NbStepperModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 import {CreateAssessmentComponent} from './create-assessment/create-assessment.component';
 import {ListAssessmentComponent} from './list-assessment/list-assessment.component';
@@ -17,8 +22,8 @@ import {ReviewAssessmentComponent} from './review-assesment/review-assessment.co
 import {AssessmentRoutingModule} from './assessment-routing.module';
 import {AssessmentService} from '../../@core/auth/services/assessment.service';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
-import { EditPlanComponent } from './list-assessment/edit-plan/edit-plan.component';
-import {QuestionService} from "../../@core/auth/services/question.service";
+import {EditPlanComponent} from './list-assessment/edit-plan/edit-plan.component';
+import {QuestionService} from '../../@core/auth/services/question.service';
 
 @NgModule({
     imports: [

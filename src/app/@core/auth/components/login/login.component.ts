@@ -1,10 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthSocialLink, PEX_AUTH_OPTIONS} from '../../auth.options';
-import {getDeepFromObject} from '../../helpers';
-import {AuthService} from '../../services/auth.service';
-import {NbToastrService} from '@nebular/theme';
-import {Authentication} from '../../../data/authentication';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../../store';
