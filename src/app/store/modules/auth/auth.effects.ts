@@ -24,7 +24,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   authSignInSuccess = this.actions$.pipe(
     ofType(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
-    tap(() => this.router.navigate(['/'])),
+    tap(() => this.router.navigate(['/pages/home'])),
   );
 
   @Effect({ dispatch: false })
