@@ -28,6 +28,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/modules/auth/auth.effects';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
+import {UserReducer} from './store/modules/user/user.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +50,7 @@ import {ToastrModule} from 'ngx-toastr';
     ThemeModule.forRoot(),
     StoreModule.forRoot({
       auth: AuthReducer,
+      user: UserReducer,
     }),
     StoreDevtoolsModule.instrument({maxAge: 50}),
     InterceptorsModule,

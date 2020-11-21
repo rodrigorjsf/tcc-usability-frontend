@@ -21,13 +21,13 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder, private store: Store<AppState>) {
     this.form = this.formBuilder.group({
-      username: [null, Validators.required],
+      login: [null, Validators.required],
       password: [null, Validators.required],
       rememberMe: [null],
     });
   }
 
-  login () {
+  signIn () {
     this.store.dispatch(new AuthSignInRequest(this.value));
   }
 
@@ -39,8 +39,8 @@ export class LoginComponent {
     return this.form.controls;
   }
 
-  get username() {
-    return this.controls.username;
+  get login() {
+    return this.controls.login;
   }
 
   get password() {

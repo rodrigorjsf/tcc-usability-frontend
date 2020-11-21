@@ -15,6 +15,6 @@ export class AuthService implements AuthData {
   }
 
   getUserByUsernameAndPassword(data: AuthSignInRequestModel): Observable<AuthSignInResponseModel> {
-    return this.http.post<AuthSignInResponseModel>(`${this.url}/auth/sign-in`, data);
+    return this.http.post<AuthSignInResponseModel>(`${this.url}/auth/login`, data);
   }
 }
