@@ -52,6 +52,7 @@
     "@nebular/eva-icons": "6.0.0",
     "@nebular/security": "6.0.0",
     "@nebular/theme": "6.0.0",
+    "@ngrx/effects": "^10.0.1",
     "@ngrx/store": "^10.0.1",
     "@ngrx/store-devtools": "^10.0.1",
     "@swimlane/ngx-charts": "^14.0.0",
