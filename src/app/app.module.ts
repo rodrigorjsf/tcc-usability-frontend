@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -24,6 +24,7 @@ import {StoreModule} from '@ngrx/store';
 import {AuthReducer} from './store/modules/auth/auth.reduce';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {InterceptorsModule} from './interceptors/interceptors.module';
+import {AuthInterceptor} from "./interceptors/auth-interceptor";
 
 @NgModule({
   declarations: [AppComponent],

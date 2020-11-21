@@ -12,9 +12,6 @@ import {AssessmentService} from '../../../@core/auth/services/assessment.service
 export class CreateAssessmentComponent implements OnInit {
 
   assessment: Assessment;
-  firstForm: FormGroup;
-  secondForm: FormGroup;
-  thirdForm: FormGroup;
   newAssessment: CreateAssessmentDTO;
   email: string;
   isVald = false;
@@ -24,8 +21,7 @@ export class CreateAssessmentComponent implements OnInit {
     newEmail: '',
   }];
 
-  constructor(private fb: FormBuilder,
-              private assessmentService: AssessmentService) {
+  constructor (private assessmentService: AssessmentService) {
   }
 
   ngOnInit() {

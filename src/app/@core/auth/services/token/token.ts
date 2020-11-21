@@ -1,4 +1,4 @@
-import { urlBase64Decode } from '../../helpers';
+import {urlBase64Decode} from '../../helpers';
 
 export abstract class AuthToken {
 

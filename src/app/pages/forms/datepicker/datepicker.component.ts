@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NbDateService } from '@nebular/theme';
+import {Component} from '@angular/core';
+import {NbDateService} from '@nebular/theme';
 
 @Component({
   selector: 'ngx-datepicker',

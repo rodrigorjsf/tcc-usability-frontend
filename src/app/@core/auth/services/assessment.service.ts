@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CreateAssessmentDTO} from '../../../models/dto/CreateAssessmentDTO';
 import {environment} from '../../../../environments/environment';
@@ -25,5 +25,23 @@ export class AssessmentService {
       observe: 'body',
       responseType: 'json',
     });
+  }
+
+  getUserAssessments(userUid: string) {
+    return this.http.get<any>(`${this.baseUrl}/assessment/list/by-user-uid/` + userUid,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  getAssessmentByUid(userUid: string) {
+    return this.http.get<any>(`${this.baseUrl}/assessment/by-uid/` + userUid,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
   }
 }

@@ -1,13 +1,9 @@
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthResult } from '../services/auth-result';
-import { AuthStrategyOptions } from './auth-strategy-options';
-import { deepExtend, getDeepFromObject } from '../helpers';
-import {
-  AuthToken,
-  authCreateToken,
-  AuthIllegalTokenError,
-} from '../services/token/token';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {AuthResult} from '../services/auth-result';
+import {AuthStrategyOptions} from './auth-strategy-options';
+import {deepExtend, getDeepFromObject} from '../helpers';
+import {authCreateToken, AuthIllegalTokenError, AuthToken,} from '../services/token/token';
 
 export abstract class AuthStrategy {
 

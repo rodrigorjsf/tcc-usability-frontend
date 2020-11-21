@@ -1,4 +1,4 @@
-import { AuthTokenClass } from '../services/token/token';
+import {AuthTokenClass} from '../services/token/token';
 
 export class AuthStrategyOptions {
   name: string;

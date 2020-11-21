@@ -1,7 +1,7 @@
-import { AuthSimpleToken, AuthTokenClass } from '../../services/token/token';
-import { AuthStrategyOptions } from '../auth-strategy-options';
-import { getDeepFromObject } from '../../helpers';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {AuthSimpleToken, AuthTokenClass} from '../../services/token/token';
+import {AuthStrategyOptions} from '../auth-strategy-options';
+import {getDeepFromObject} from '../../helpers';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
 export interface PasswordStrategyModule {
   alwaysFail?: boolean;

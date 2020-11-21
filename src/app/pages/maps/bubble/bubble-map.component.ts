@@ -1,9 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { combineLatest } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
-import { NbThemeService } from '@nebular/theme';
-import { registerMap } from 'echarts';
+import {Component, OnDestroy} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {combineLatest} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
+import {NbThemeService} from '@nebular/theme';
+import {registerMap} from 'echarts';
 
 @Component({
   selector: 'ngx-bubble-map',

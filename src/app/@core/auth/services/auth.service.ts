@@ -1,13 +1,13 @@
-import { Inject, Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import {Observable, of as observableOf} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
-import { AuthStrategy } from '../strategies/auth-strategy';
-import { PEX_AUTH_STRATEGIES } from '../auth.options';
-import { AuthResult } from './auth-result';
-import { TokenService } from './token/token.service';
-import { AuthToken } from './token/token';
+import {AuthStrategy} from '../strategies/auth-strategy';
+import {PEX_AUTH_STRATEGIES} from '../auth.options';
+import {AuthResult} from './auth-result';
+import {TokenService} from './token/token.service';
+import {AuthToken} from './token/token';
 
 @Injectable()
 export class AuthService {

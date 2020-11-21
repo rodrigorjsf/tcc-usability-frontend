@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, Inject, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { PEX_AUTH_OPTIONS } from '../../auth.options';
-import { getDeepFromObject } from '../../helpers';
-import { AuthService } from '../../services/auth.service';
-import { AuthResult } from '../../services/auth-result';
+import {PEX_AUTH_OPTIONS} from '../../auth.options';
+import {getDeepFromObject} from '../../helpers';
+import {AuthService} from '../../services/auth.service';
+import {AuthResult} from '../../services/auth-result';
 
 @Component({
   selector: 'pex-logout',

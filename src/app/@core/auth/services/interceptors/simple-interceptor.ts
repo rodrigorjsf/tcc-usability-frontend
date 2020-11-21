@@ -1,11 +1,11 @@
-import { Inject, Injectable, Injector } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import {Inject, Injectable, Injector} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
-import { AuthService } from '../auth.service';
-import { PEX_AUTH_INTERCEPTOR_HEADER } from '../../auth.options';
-import { AuthJWTToken } from '../token/token';
+import {AuthService} from '../auth.service';
+import {PEX_AUTH_INTERCEPTOR_HEADER} from '../../auth.options';
+import {AuthJWTToken} from '../token/token';
 
 @Injectable()
 export class NbAuthSimpleInterceptor implements HttpInterceptor {

@@ -3,6 +3,9 @@ export class AssessmentData {
   analysisDescription: string;
   statisticalMethods: boolean;
   statisticalMethodsDescription: string;
+
+  constructor() {
+  }
 }
 
 export class AssessmentProcedure {
@@ -14,6 +17,9 @@ export class AssessmentProcedure {
   isPilotAssessment: boolean;
   pilotDescription: string;
   questionsAllowed: boolean;
+
+  constructor() {
+  }
 }
 
 export class AssessmentThreat {
@@ -24,6 +30,9 @@ export class AssessmentThreat {
   ethicalAspectsDefined: boolean;
   ethicalAspectsDescription: string;
   biasDescription: string;
+
+  constructor() {
+  }
 }
 
 export class SystemUser {
@@ -35,23 +44,37 @@ export class SystemUser {
   admin: boolean;
   isEnabled: boolean;
   isReviewer: boolean;
+
+  constructor() {
+  }
 }
 
 export class UsabilityGoal {
   assessmentId: number;
   attribute: string;
   goal: string;
+
+  constructor() {
+  }
 }
 
 export class SmartCityQuestionnaire {
-  hasDataManagement: boolean;
-  hasAppExecution: boolean;
-  hasSensorNetwork: boolean;
-  hasDataProcessing: boolean;
-  hasDataAccess: boolean;
-  hasServiceManagement: boolean;
-  hasSoftwareTools: boolean;
-  defineCityModel: boolean;
+  public hasDataManagement: boolean;
+  public hasAppExecution: boolean;
+  public hasSensorNetwork: boolean;
+  public hasDataProcessing: boolean;
+  public hasDataAccess: boolean;
+  public hasServiceManagement: boolean;
+  public hasSoftwareTools: boolean;
+  public defineCityModel: boolean;
+
+  constructor() {
+  }
+
+  getValueList(): boolean[] {
+    return [this.hasDataManagement, this.hasAppExecution, this.hasSensorNetwork, this.hasDataProcessing,
+      this.hasDataAccess, this.hasServiceManagement, this.hasSoftwareTools, this.defineCityModel];
+  }
 }
 
 export class ScaleQuestion {
@@ -60,6 +83,9 @@ export class ScaleQuestion {
   question: string;
   lowerScoreLabel: string;
   higherScoreLabel: string;
+
+  constructor() {
+  }
 }
 
 export class Scale {
@@ -69,6 +95,9 @@ export class Scale {
   description: string;
   measures: string[];
   scaleQuestions: ScaleQuestion[];
+
+  constructor() {
+  }
 }
 
 export class Variable {
@@ -77,6 +106,9 @@ export class Variable {
   variableList: string[];
   obtainedBy: string;
   scale: Scale[];
+
+  constructor() {
+  }
 }
 
 export class ScaleQuestion2 {
@@ -85,6 +117,9 @@ export class ScaleQuestion2 {
   question: string;
   lowerScoreLabel: string;
   higherScoreLabel: string;
+
+  constructor() {
+  }
 }
 
 export class Scale2 {
@@ -94,11 +129,17 @@ export class Scale2 {
   description: string;
   measures: string[];
   scaleQuestions: ScaleQuestion2[];
+
+  constructor() {
+  }
 }
 
 export class AttributeAssessmentVariables {
   variables: Variable[];
   scale: Scale2[];
+
+  constructor() {
+  }
 }
 
 export class Participant {
@@ -111,6 +152,9 @@ export class Participant {
   collectedInformationUse: string;
   instructions: string;
   questions: string[];
+
+  constructor() {
+  }
 }
 
 export class Task {
@@ -118,16 +162,25 @@ export class Task {
   description: string;
   taskExecutionTime: number;
   acceptanceCriteria: string;
+
+  constructor() {
+  }
 }
 
 export class AssessmentTools {
   tools: string[];
   toolsUsageDescription: string;
   tasks: Task[];
+
+  constructor() {
+  }
 }
 
 export class AssessmentProcedureStep {
   assessmentProcedureId: number;
   name: string;
   description: string;
+
+  constructor() {
+  }
 }
