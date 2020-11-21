@@ -24,6 +24,9 @@ import {StoreModule} from '@ngrx/store';
 import {AuthReducer} from './store/modules/auth/auth.reduce';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {InterceptorsModule} from './interceptors/interceptors.module';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './store/modules/auth/auth.effects';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,6 +51,8 @@ import {InterceptorsModule} from './interceptors/interceptors.module';
     }),
     StoreDevtoolsModule.instrument({maxAge: 50}),
     InterceptorsModule,
+    EffectsModule.forRoot([AuthEffects]),
+    ToastrModule.forRoot(),
   ],
   bootstrap: [AppComponent],
 })
