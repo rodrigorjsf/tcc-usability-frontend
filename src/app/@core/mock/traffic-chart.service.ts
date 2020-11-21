@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { of as observableOf,  Observable } from 'rxjs';
-import { TrafficChartData } from '../data/traffic-chart';
+import {Injectable} from '@angular/core';
+import {Observable, of as observableOf} from 'rxjs';
+import {TrafficChartData} from '../data/traffic-chart';
 
 @Injectable()
 export class TrafficChartService extends TrafficChartData {

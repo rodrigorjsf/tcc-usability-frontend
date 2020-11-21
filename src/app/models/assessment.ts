@@ -25,6 +25,9 @@ export class Assessment {
   assessmentProcedure: AssessmentProcedure;
   assessmentData: AssessmentData;
   assessmentThreat: AssessmentThreat;
+
+  constructor() {
+  }
 }
 
 

@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService, NbColorHelper } from '@nebular/theme';
+import {Component, OnDestroy} from '@angular/core';
+import {NbColorHelper, NbThemeService} from '@nebular/theme';
 
 @Component({
   selector: 'ngx-chartjs-line',

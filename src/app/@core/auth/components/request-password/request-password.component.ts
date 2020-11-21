@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { PEX_AUTH_OPTIONS } from '../../auth.options';
-import { getDeepFromObject } from '../../helpers';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
+import {Router} from '@angular/router';
+import {PEX_AUTH_OPTIONS} from '../../auth.options';
+import {getDeepFromObject} from '../../helpers';
 
-import { AuthService } from '../../services/auth.service';
-import { AuthResult } from '../../services/auth-result';
+import {AuthService} from '../../services/auth.service';
+import {AuthResult} from '../../services/auth-result';
 
 @Component({
   selector: 'pex-request-password-page',
