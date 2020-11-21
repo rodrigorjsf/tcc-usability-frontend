@@ -26,6 +26,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {InterceptorsModule} from './interceptors/interceptors.module';
 import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/modules/auth/auth.effects';
+import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
@@ -53,6 +54,7 @@ import {ToastrModule} from 'ngx-toastr';
     InterceptorsModule,
     EffectsModule.forRoot([AuthEffects]),
     ToastrModule.forRoot(),
+    NgxSpinnerModule,
   ],
   bootstrap: [AppComponent],
 })

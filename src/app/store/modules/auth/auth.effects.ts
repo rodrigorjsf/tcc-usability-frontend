@@ -21,15 +21,15 @@ export class AuthEffects {
     )),
   );
 
-  @Effect()
+  @Effect({ dispatch: false })
   authSignInSuccess = this.actions$.pipe(
     ofType(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
     tap(() => this.router.navigate(['/'])),
   );
 
-  @Effect()
+  @Effect({ dispatch: false })
   authSignInFailure = this.actions$.pipe(
     ofType<AuthSignInFailure>(AuthActionsType.AUTH_SIGN_IN_FAILURE),
-    tap(({ error }) => this.toastr.warning(error.error)),
+    tap(({ error }) => this.toastr.warning('Houve um erro')),
   );
 }
