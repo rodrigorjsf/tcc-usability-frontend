@@ -4,7 +4,7 @@ import {AuthComponent} from './components/auth.component';
 import {LoginComponent} from './components/login/login.component';
 import {LogoutComponent} from './components/logout/logout.component';
 import {NgModule} from '@angular/core';
-import {AdminGuard} from './services/guard/admin.guard';
+import {AdminGuard} from '../../guards/admin.guard';
 import {RequestPasswordComponent} from "./components/request-password/request-password.component";
 import {ResetPasswordComponent} from "./components/reset-password/reset-password.component";
 import {RegisterComponent} from "./components/register/register.component";

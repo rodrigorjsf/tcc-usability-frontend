@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CreateAssessmentDTO} from '../../../models/dto/CreateAssessmentDTO';
 import {environment} from '../../../../environments/environment';

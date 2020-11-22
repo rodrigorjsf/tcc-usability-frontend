@@ -1,7 +1,7 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import {AdminGuard} from './@core/auth/services/guard/admin.guard';
+import {AdminGuard} from './guards/admin.guard';
 
 export const routes: Routes = [
   {
