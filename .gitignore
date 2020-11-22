@@ -2,6 +2,7 @@
 /dist
 /tmp
 /out-tsc
+/angularapp
 
 # dependencies
 /node_modules
@@ -40,5 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-package-lock.json
+./package-lock.json
 yarn.lock

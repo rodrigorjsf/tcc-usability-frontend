@@ -14,7 +14,7 @@ import {AuthTokenParceler, PEX_AUTH_FALLBACK_TOKEN} from './services/token/token
 import {AuthStrategy} from './strategies/auth-strategy';
 import {AuthStrategyOptions} from './strategies/auth-strategy-options';
 import {PasswordAuthStrategy} from './strategies/password/password-strategy';
-import {AdminGuard} from './services/guard/admin.guard';
+import {AdminGuard} from '../../guards/admin.guard';
 
 import {
   AuthOptions,

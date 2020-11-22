@@ -3,7 +3,7 @@ import {Authentication, LoginAuthentication} from '../data/authentication';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {RegisterDTO} from "../../models/dto/RegisterDTO";
+import {RegisterDTO} from '../../models/dto/RegisterDTO';
 
 @Injectable()
 export class AuthenticationService extends Authentication {

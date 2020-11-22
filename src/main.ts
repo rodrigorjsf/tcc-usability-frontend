@@ -1,8 +1,3 @@
-/**
- * @license
- * Copyright Akveo. All Rights Reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
@@ -12,6 +7,16 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 }
+import {getAllDataFromLocalForage, default as localForage} from 'ngrx-store-persist';
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+getAllDataFromLocalForage({
+  driver: localForage.INDEXEDDB,
+  keys: [
+    'user',
+    'auth',
+  ],
+}).then(() => {
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+});
+

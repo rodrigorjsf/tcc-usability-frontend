@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../../../store';
-import {selectSigned} from '../../../../store/modules/auth/auth.selectors';
+import {AppState} from '../store';
+import {selectSigned} from '../store/modules/auth/auth.selectors';
 
 @Injectable()
 
