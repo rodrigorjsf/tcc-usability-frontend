@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { AuthToken } from './token';
-import { AuthTokenParceler } from './token-parceler';
+import {AuthToken} from './token';
+import {AuthTokenParceler} from './token-parceler';
 
 export abstract class TokenStorage {
 

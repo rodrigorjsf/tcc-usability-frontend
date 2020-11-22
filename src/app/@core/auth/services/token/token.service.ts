@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of as observableOf } from 'rxjs';
-import { filter, share } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, of as observableOf} from 'rxjs';
+import {filter, share} from 'rxjs/operators';
 
-import { TokenStorage } from './token-storage';
-import { AuthToken } from './token';
+import {TokenStorage} from './token-storage';
+import {AuthToken} from './token';
 
 @Injectable()
 export class TokenService {

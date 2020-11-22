@@ -5,6 +5,7 @@ import {CreateAssessmentComponent} from './create-assessment/create-assessment.c
 import {ReviewAssessmentComponent} from './review-assesment/review-assessment.component';
 import {ListAssessmentComponent} from './list-assessment/list-assessment.component';
 import {AdminGuard} from '../../@core/auth/services/guard/admin.guard';
+import {EditPlanComponent} from './list-assessment/edit-plan/edit-plan.component';
 
 const routes: Routes = [
   {
@@ -17,13 +18,18 @@ const routes: Routes = [
         canActivate: [AdminGuard],
       },
       {
-        path: 'review',
-        component: ReviewAssessmentComponent,
+        path: 'my-assessments',
+        component: ListAssessmentComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-assessments/edit',
+        component: EditPlanComponent,
         canActivate: [AdminGuard],
       },
       {
         path: 'list',
-        component: ListAssessmentComponent,
+        component: ReviewAssessmentComponent,
         canActivate: [AdminGuard],
       },
     ],

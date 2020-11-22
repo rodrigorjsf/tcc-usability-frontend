@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { of as observableOf, Observable } from 'rxjs';
-import { Electricity, ElectricityChart, ElectricityData } from '../data/electricity';
+import {Injectable} from '@angular/core';
+import {Observable, of as observableOf} from 'rxjs';
+import {Electricity, ElectricityChart, ElectricityData} from '../data/electricity';
 
 @Injectable()
 export class ElectricityService extends ElectricityData {

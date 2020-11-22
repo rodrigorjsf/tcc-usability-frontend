@@ -1,7 +1,7 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
 
-import { authCreateToken, AuthToken, AuthTokenClass } from './token';
-import { PEX_AUTH_TOKENS } from '../../auth.options';
+import {authCreateToken, AuthToken, AuthTokenClass} from './token';
+import {PEX_AUTH_TOKENS} from '../../auth.options';
 
 export interface TokenPack {
   name: string;

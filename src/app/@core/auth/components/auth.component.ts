@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
+import {Component, OnDestroy} from '@angular/core';
+import {Location} from '@angular/common';
 
-import { AuthService } from '../services/auth.service';
-import { takeWhile } from 'rxjs/operators';
+import {AuthService} from '../services/auth.service';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'pex-auth',
