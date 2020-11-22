@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalDataSource} from 'ng2-smart-table';
 import {AssessmentService} from '../../../@core/auth/services/assessment.service';
+import {selectSigned} from "../../../store/modules/auth/auth.selectors";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../../store";
+import {selectUser} from "../../../store/modules/user/user.selectors";
 
 @Component({
   selector: 'ngx-list-assessment',
@@ -14,6 +18,7 @@ export class ListAssessmentComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   show: boolean = true;
   router: Router;
+  user: any;
 
   settings = {
     mode: 'external',
@@ -50,11 +55,13 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   constructor(private assessmentService: AssessmentService,
-              router: Router) {
+              router: Router, private store: Store<AppState>) {
     this.router = router;
-    const user = JSON.parse(localStorage.getItem('user'));
-    this.assessmentService.getUserAssessments(user.userUid)
+    this.store.select(selectUser).subscribe(signed => this.user = signed);
+    console.log(this.user);
+    this.assessmentService.getUserAssessments(this.user.uid)
       .subscribe(data => {
+        console.log(data);
         this.source.load(data);
       });
     this.show = false;
