@@ -7,6 +7,7 @@ import {AuthActionsType, AuthSignInFailure, AuthSignInRequest, AuthSignInSuccess
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {UserSignedInformation} from '../user/user.actions';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class AuthEffects {
@@ -17,7 +18,11 @@ export class AuthEffects {
   authSignInRequest = this.actions$.pipe(
     ofType<AuthSignInRequest>(AuthActionsType.AUTH_SIGN_IN_REQUEST),
     exhaustMap(({ payload }) => this.authService.getUserByUsernameAndPassword(payload).pipe(
-      map(auth => new AuthSignInSuccess(auth)),
+      map(response => {
+        const { status, body: auth } = response;
+        const error = new HttpErrorResponse({ error: 'User not found' });
+        return status === 204 ? new AuthSignInFailure(error) : new AuthSignInSuccess(auth);
+      }),
       catchError(err => of(new AuthSignInFailure(err))),
     )),
   );
@@ -32,7 +37,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   authSignInFailure = this.actions$.pipe(
     ofType<AuthSignInFailure>(AuthActionsType.AUTH_SIGN_IN_FAILURE),
-    tap(({ error }) => this.toastr.warning('Houve um erro')),
+    tap(({ error }) => this.toastr.warning(error.error)),
   );
 
   @Effect({ dispatch: false })
