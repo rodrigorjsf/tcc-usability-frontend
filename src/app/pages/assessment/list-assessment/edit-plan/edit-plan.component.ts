@@ -4,7 +4,7 @@ import {AssessmentService} from '../../../../@core/auth/services/assessment.serv
 import {Router} from '@angular/router';
 import {QuestionService} from '../../../../@core/auth/services/question.service';
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
-import {SmartCityQuestionnaire} from "../../../../models/AssessmentSections";
+import {SmartCityQuestionnaire, UsabilityGoal} from "../../../../models/AssessmentSections";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -14,7 +14,6 @@ import {SmartCityQuestionnaire} from "../../../../models/AssessmentSections";
 export class EditPlanComponent implements OnInit {
 
   assessment: Assessment;
-  show = true;
   router: Router;
   isVald = false;
   planInfo: any;
@@ -85,7 +84,6 @@ export class EditPlanComponent implements OnInit {
               router: Router) {
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
-    console.log(this.planInfo);
   }
 
   ngOnInit() {
@@ -93,16 +91,28 @@ export class EditPlanComponent implements OnInit {
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
         this.data = data;
-        console.log(this.data);
         this.assessment = data;
+        this.initQuestionnaire();
+        this.initGoals();
         console.log(this.assessment);
         this.dataloaded = Promise.resolve(true);
       });
-    this.show = false;
   }
 
   getApplicationAcronym() {
     return this.categories.application.acronym;
+  }
+
+  initQuestionnaire() {
+    if (this.isNullOrUndefined(this.assessment.smartCityQuestionnaire))
+      this.assessment.smartCityQuestionnaire = new SmartCityQuestionnaire(null, null,
+        null, null, null, null, null, null);
+  }
+
+  initGoals() {
+    if (this.isNullOrUndefined(this.assessment.usabilityGoals) || this.assessment.usabilityGoals.length === 0)
+      this.assessment.usabilityGoals = [new UsabilityGoal('LRN'), new UsabilityGoal('EFF'),
+        new UsabilityGoal('USR'), new UsabilityGoal('ERR'), new UsabilityGoal('STF')];
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -111,7 +121,8 @@ export class EditPlanComponent implements OnInit {
 
   onClickApplication(section: string) {
     if (this.assessment.smartCityQuestionnaire === null || this.assessment.smartCityQuestionnaire === undefined) {
-      this.assessment.smartCityQuestionnaire = new SmartCityQuestionnaire();
+      this.assessment.smartCityQuestionnaire = new SmartCityQuestionnaire(null, null,
+        null, null, null, null, null, null);
     }
     this.calculateProgressPercentage(section);
   }
@@ -122,6 +133,10 @@ export class EditPlanComponent implements OnInit {
 
   isNull(object: any): boolean {
     return object === null;
+  }
+
+  isEqual(var1: any, var2: any): boolean {
+    return var1 === var2;
   }
 
   booleanToString(bool: boolean): string {
@@ -174,24 +189,42 @@ export class EditPlanComponent implements OnInit {
   calculateProgressPercentage(section: string) {
     this.questionsPercentage = 0;
     this.questionsAnswered = 0;
+    let questionQuantity;
     if (this.categories.application.acronym === section) {
-      const questionQuantity = 11;
+      questionQuantity = 11;
       if (!this.isNullOrUndefined(this.assessment.projectName))
         this.questionsAnswered = this.questionsAnswered + 1;
       if (!this.isNullOrUndefined(this.assessment.projectDescription))
         this.questionsAnswered = this.questionsAnswered + 1;
       if (!this.isNull(this.assessment.smartCityPercentage))
         this.questionsAnswered = this.questionsAnswered + 1;
-      for (const questionnaire in this.assessment.smartCityQuestionnaire) {
-        if (!this.isNullOrUndefined(questionnaire))
-          this.questionsAnswered = this.questionsAnswered + 1;
-      }
-      const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
-      this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasDataManagement))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.defineCityModel))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasSoftwareTools))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasServiceManagement))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasDataAccess))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasDataProcessing))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasSensorNetwork))
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (!this.isNull(this.assessment.smartCityQuestionnaire.hasAppExecution))
+        this.questionsAnswered = this.questionsAnswered + 1;
     } else if (this.categories.goals.acronym === section) {
-
+      questionQuantity = 5;
+      this.assessment.usabilityGoals.forEach(value => {
+        console.log(value.goal);
+        if (!this.isNullOrUndefined(value.goal))
+          this.questionsAnswered = this.questionsAnswered + 1;
+      });
     }
-
+    const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
+    console.log(this.questionsAnswered , calculatedPercentage);
+    this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
   }
 
   calculateGoalsPercentage() {
