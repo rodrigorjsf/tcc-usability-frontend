@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthActionsType, AuthSignInFailure, AuthSignInRequest, AuthSignInSuccess} from './auth.actions';
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {UserSignedInformation} from '../user/user.actions';
 
 @Injectable()
 export class AuthEffects {
