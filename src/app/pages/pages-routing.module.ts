@@ -4,7 +4,6 @@ import {NgModule} from '@angular/core';
 import {PagesComponent} from './pages.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import {HomeComponent} from './home/home.component';
-import {AdminGuard} from '../@core/auth/services/guard/admin.guard';
 
 const routes: Routes = [{
   path: '',
@@ -13,13 +12,11 @@ const routes: Routes = [{
     {
       path: 'home',
       component: HomeComponent,
-      canActivate: [AdminGuard],
     },
     {
       path: 'assessment',
       loadChildren: () => import('./assessment/assessment.module')
         .then(m => m.AssessmentModule),
-      canActivate: [AdminGuard],
     },
     {
       path: 'layout',

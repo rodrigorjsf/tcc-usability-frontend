@@ -1,5 +1,6 @@
 export interface AuthState {
   token: string;
+  signed: boolean;
 }
 
 export interface AuthSignInRequestModel {
