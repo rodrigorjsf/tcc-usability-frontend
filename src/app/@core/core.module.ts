@@ -57,8 +57,8 @@ import {
   NbToastrModule,
 } from '@nebular/theme';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
-import {Authentication} from "./data/authentication";
-import {AuthenticationService} from "./service/authentication.service";
+import {Authentication} from './data/authentication';
+import {AuthenticationService} from './service/authentication.service';
 
 const socialLinks = [
   {

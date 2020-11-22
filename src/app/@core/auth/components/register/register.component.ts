@@ -1,77 +1,73 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthSocialLink, PEX_AUTH_OPTIONS} from '../../auth.options';
-import {getDeepFromObject} from '../../helpers';
-
-import {AuthService} from '../../services/auth.service';
-import {RegisterDTO} from '../../../../models/dto/RegisterDTO';
-import {Authentication} from "../../../data/authentication";
-import {NbToastrService} from "@nebular/theme";
-
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../../../services/user/user.service';
+import {catchError, map, tap} from 'rxjs/operators';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
 
 @Component({
-  selector: 'pex-register',
+  selector: 'ngx-register',
   styleUrls: ['./register.component.scss'],
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-
-  redirectDelay = 0;
-  showMessages: any = {};
-  strategy = '';
-  registerDTO: RegisterDTO;
-  submitted = false;
-  errors: string[] = [];
-  messages: string[] = [];
-  userRegistration: any = {};
-  user: any = {};
-  socialLinks: AuthSocialLink[] = [];
-  clicked: boolean;
-
-  constructor(protected service: AuthService,
-              private toastrService: NbToastrService,
-              @Inject(PEX_AUTH_OPTIONS) protected options = {},
-              protected cd: ChangeDetectorRef,
-              protected router: Router,
-              private authentication: Authentication) {
-
-    this.redirectDelay = this.getConfigValue('forms.register.redirectDelay');
-    this.showMessages = this.getConfigValue('forms.register.showMessages');
-    this.strategy = this.getConfigValue('forms.register.strategy');
-    this.socialLinks = this.getConfigValue('forms.login.socialLinks');
+  form: FormGroup;
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+              private router: Router, private toastr: ToastrService) {
+    this.form = formBuilder.group({
+      name: [null, Validators.required],
+      userName: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      confirmPassword: [null, Validators.required],
+      isReviewer: [false, Validators.required],
+    });
   }
 
   register(): void {
-    this.registerDTO = new RegisterDTO();
-    this.registerDTO.email = this.user.email;
-    this.registerDTO.name = this.user.fullName;
-    this.registerDTO.userName = this.user.username;
-    this.registerDTO.password = this.user.password;
-    this.registerDTO.isReviewer = this.user.isReviewer;
-    this.clicked = true;
-
-    this.authentication.postRegister(this.registerDTO)
-      .subscribe(async res => {
-        console.log(res);
-        if (res != null) {
-          this.userRegistration = res;
-          this.showToast('top-left', 'User successfully registered!', `User: ${this.userRegistration.name}`, 'success', 'checkmark-outline');
-          await this.router.navigate(['/auth/login'], {skipLocationChange: true});
-        } else {
-          this.showToast('top-left', 'Error when registering user.', 'Error', 'danger', 'close-circle-outline');
-        }
-      });
+    this.userService.registerUser(this.value).pipe(
+      tap(() => this.router.navigate(['/'])),
+      map(() => this.toastr.success('Cadastro realizado com sucesso')),
+      catchError((err: HttpErrorResponse) => of(this.toastr.warning(err.error))),
+    ).subscribe();
   }
 
-  showToast(position, message, title, status, icon, preventDuplicates = true) {
-    this.toastrService.show(
-      message,
-      title,
-      {position, preventDuplicates, status, icon});
+  private get value() {
+    return this.form.value;
   }
 
-  getConfigValue(key: string): any {
-    return getDeepFromObject(this.options, key, null);
+  get controls() {
+    return this.form.controls;
+  }
+
+  get name() {
+    return this.controls.name;
+  }
+
+  get userName() {
+    return this.controls.userName;
+  }
+
+  get email() {
+    return this.controls.email;
+  }
+
+  get password() {
+    return this.controls.password;
+  }
+
+  get isReviewer() {
+    return this.controls.isReviewer;
+  }
+
+  get confirmPassword() {
+    return this.controls.confirmPassword;
+  }
+
+  get isValid() {
+    return this.form.valid;
   }
 }
