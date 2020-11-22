@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {Assessment} from '../../../models/assessment';
-import {CreateAssessmentDTO} from '../../../models/dto/CreateAssessmentDTO';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AssessmentService} from '../../../@core/auth/services/assessment.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../store';
+import {selectUser} from '../../../store/modules/user/user.selectors';
 
 @Component({
   selector: 'ngx-create-assessment',
@@ -10,70 +11,60 @@ import {AssessmentService} from '../../../@core/auth/services/assessment.service
   templateUrl: './create-assessment.component.html',
 })
 export class CreateAssessmentComponent implements OnInit {
-
-  assessment: Assessment;
-  newAssessment: CreateAssessmentDTO;
-  email: string;
-  isVald = false;
-  hasCollaborator: boolean = false;
-  emails: any[] = [{
-    id: 1,
-    newEmail: '',
-  }];
-
-  constructor (private assessmentService: AssessmentService) {
+  form: FormGroup;
+  uid: string;
+  constructor (private formBuilder: FormBuilder, private assessmentService: AssessmentService,
+               private store: Store<AppState>) {
+    this.store.select(selectUser).subscribe(({ uid }) => this.uid = uid);
   }
 
   ngOnInit() {
-    this.newAssessment = new CreateAssessmentDTO();
-    this.assessment = new Assessment();
+    this.form = this.formBuilder.group({
+      userUid: [this.uid, Validators.required],
+      projectName: [null, [Validators.required]],
+      projectDescription: [null, Validators.required],
+      emails: this.formBuilder.array([]),
+    });
+  }
+
+  private newEmail(): FormGroup {
+    return this.formBuilder.group({ email: ['', [ Validators.required, Validators.email ]] });
   }
 
   addEmail() {
-    if (!this.hasCollaborator) {
-      this.hasCollaborator = !this.hasCollaborator;
-    } else {
-      this.emails.push({
-        id: this.emails.length + 1,
-        newEmail: '',
-      });
-    }
+    this.emails.push(this.newEmail());
   }
 
   removeEmail(i: number) {
-    this.emails.splice(i, 1);
-    if (!this.emails.length) {
-      this.hasCollaborator = !this.hasCollaborator;
-    }
+    this.emails.removeAt(i);
   }
 
   addCollaboratorFlag() {
-    this.hasCollaborator = !this.hasCollaborator;
-  }
-
-  verifyAssessment(): boolean {
-    if (this.newAssessment.projectName && this.newAssessment.projectDescription) {
-      return true;
-    }
-    return false;
   }
 
   async create() {
-    console.log(this.newAssessment);
-    console.log(this.verifyAssessment());
-    this.newAssessment.collaboratorsEmail = [];
-    const user = JSON.parse(localStorage.getItem('user'));
-    this.newAssessment.userUid = user.userUid;
+    console.log(this.serializedValues);
+  }
 
-    this.emails.forEach(value => {
-      if (value.newEmail !== "")
-        this.newAssessment.collaboratorsEmail.push(value.newEmail);
-    });
-    console.log(this.newAssessment);
-    (await this.assessmentService.createNewAssessment(this.newAssessment))
-      .subscribe(data => {
-        this.assessment = data;
-        console.log(this.assessment);
-      });
+  get isValid() {
+    return this.form.valid;
+  }
+
+  get emails() {
+    return this.form.controls.emails as FormArray;
+  }
+
+  get hasCollaborator() {
+    return this.form.controls.emails.value?.length !== 0;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = { ...this.values, collaboratorsEmail: this.values.emails.map(email => email.email) };
+    delete serialized.emails;
+    return serialized;
   }
 }

@@ -2,18 +2,21 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalDataSource} from 'ng2-smart-table';
 import {AssessmentService} from '../../../@core/auth/services/assessment.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../store';
+import {selectUser} from '../../../store/modules/user/user.selectors';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-list-assessment',
   styleUrls: ['./list-assessment.component.scss'],
   templateUrl: './list-assessment.component.html',
 })
-export class ListAssessmentComponent implements OnInit {
+export class ListAssessmentComponent {
 
   data: any;
   source: LocalDataSource = new LocalDataSource();
   show: boolean = true;
-  router: Router;
 
   settings = {
     mode: 'external',
@@ -46,22 +49,15 @@ export class ListAssessmentComponent implements OnInit {
     },
   };
 
-  ngOnInit(): void {
-  }
-
-  constructor(private assessmentService: AssessmentService,
-              router: Router) {
-    this.router = router;
-    const user = JSON.parse(localStorage.getItem('user'));
-    this.assessmentService.getUserAssessments(user.userUid)
-      .subscribe(data => {
-        this.source.load(data);
-      });
+  constructor(private assessmentService: AssessmentService, private store: Store<AppState>) {
+    this.store.select(selectUser).pipe(
+      switchMap(user => this.assessmentService.getAssessmentByUid(user.uid)),
+      map(data => this.source.load(data)),
+    ).subscribe();
     this.show = false;
   }
 
   onEdit($event: any) {
     console.log($event.data);
-    this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: $event.data});
   }
 }
