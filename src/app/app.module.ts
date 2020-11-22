@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -29,6 +29,7 @@ import {AuthEffects} from './store/modules/auth/auth.effects';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import {UserReducer} from './store/modules/user/user.reducer';
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +52,8 @@ import {UserReducer} from './store/modules/user/user.reducer';
     StoreModule.forRoot({
       auth: AuthReducer,
       user: UserReducer,
+    }, {
+      metaReducers: [storageSyncMetaReducer],
     }),
     StoreDevtoolsModule.instrument({maxAge: 50}),
     InterceptorsModule,
