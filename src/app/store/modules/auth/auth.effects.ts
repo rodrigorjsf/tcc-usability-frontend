@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthActionsType, AuthSignInFailure, AuthSignInRequest, AuthSignInSuccess} from './auth.actions';
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {UserSignedInformation} from '../user/user.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -21,9 +22,10 @@ export class AuthEffects {
     )),
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   authSignInSuccess = this.actions$.pipe(
-    ofType(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
+    ofType<AuthSignInSuccess>(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
+    map(({ payload }) => new UserSignedInformation(payload)),
     tap(() => this.router.navigate(['/pages/home'])),
   );
 

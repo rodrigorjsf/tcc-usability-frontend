@@ -1,10 +1,14 @@
 export interface UserState {
+  uid: string;
   username: string;
-  email: string;
   name: string;
   isReviewer: boolean;
+  roles: Authority[];
 }
 
+export interface Authority {
+  authority: string;
+}
 
 export interface RegisterUserRequestModel {
   name: string;
