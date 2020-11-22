@@ -1,8 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { of as observableOf,  Observable,  BehaviorSubject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import {Injectable, OnDestroy} from '@angular/core';
+import {BehaviorSubject, Observable, of as observableOf} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
 
-import { NbLayoutDirectionService, NbLayoutDirection } from '@nebular/theme';
+import {NbLayoutDirection, NbLayoutDirectionService} from '@nebular/theme';
 
 @Injectable()
 export class StateService implements OnDestroy {

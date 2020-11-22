@@ -44,7 +44,10 @@ import {
   NbCardModule,
   NbCheckboxModule,
   NbIconModule,
-  NbInputModule, NbLayoutModule, NbSelectModule, NbThemeModule,
+  NbInputModule,
+  NbLayoutModule,
+  NbSelectModule,
+  NbThemeModule,
 } from '@nebular/theme';
 
 export function strategiesFactory(options: AuthOptions, injector: Injector): AuthStrategy[] {

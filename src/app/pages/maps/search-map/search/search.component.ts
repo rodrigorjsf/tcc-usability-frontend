@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { PositionModel } from '../entity/position.model';
+import {Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import {PositionModel} from '../entity/position.model';
 
 @Component({
   selector: 'ngx-search',

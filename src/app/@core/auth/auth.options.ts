@@ -1,8 +1,8 @@
-import { InjectionToken } from '@angular/core';
-import { HttpRequest } from '@angular/common/http';
-import { AuthStrategy } from './strategies/auth-strategy';
-import { AuthStrategyOptions } from './strategies/auth-strategy-options';
-import { AuthToken, AuthTokenClass } from './services/token/token';
+import {InjectionToken} from '@angular/core';
+import {HttpRequest} from '@angular/common/http';
+import {AuthStrategy} from './strategies/auth-strategy';
+import {AuthStrategyOptions} from './strategies/auth-strategy-options';
+import {AuthToken, AuthTokenClass} from './services/token/token';
 
 export type AuthStrategyClass = new (...params: any[]) => AuthStrategy;
 

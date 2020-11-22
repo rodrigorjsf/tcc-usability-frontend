@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of as observableOf } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {Observable, of as observableOf} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
-import { AuthResult } from '../../services/auth-result';
-import { AuthStrategy } from '../auth-strategy';
-import { AuthStrategyClass } from '../../auth.options';
-import { PasswordAuthStrategyOptions, passwordStrategyOptions } from './password-strategy-options';
-import { AuthIllegalTokenError } from '../../services/token/token';
+import {AuthResult} from '../../services/auth-result';
+import {AuthStrategy} from '../auth-strategy';
+import {AuthStrategyClass} from '../../auth.options';
+import {PasswordAuthStrategyOptions, passwordStrategyOptions} from './password-strategy-options';
+import {AuthIllegalTokenError} from '../../services/token/token';
 
 @Injectable()
 export class PasswordAuthStrategy extends AuthStrategy {

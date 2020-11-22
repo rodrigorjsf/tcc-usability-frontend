@@ -4,6 +4,9 @@
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
     <a class="logo" routerLink="/">Valid<span>UsabilityAssessment</span></a>
+    <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+      <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+    </nb-select>
   </div>
 </div>
 
@@ -13,6 +16,7 @@
 <!--    <nb-action class="control-item" icon="bell-outline"></nb-action>-->
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
+               [onlyPicture]="userPictureOnly"
                [name]="user?.name"
                nbContextMenuTag="my-context-menu">
       </nb-user>

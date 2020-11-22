@@ -5,7 +5,7 @@ import {NbRoleProvider, NbSecurityModule} from '@nebular/security';
 import {of as observableOf} from 'rxjs';
 
 import {throwIfAlreadyLoaded} from './module-import-guard';
-import {AnalyticsService, LayoutService, PlayerService, SeoService, StateService} from './utils';
+import {AnalyticsService, LayoutService, PlayerService, SeoService, StateService,} from './utils';
 import {UserData} from './data/users';
 import {ElectricityData} from './data/electricity';
 import {SmartTableData} from './data/smart-table';

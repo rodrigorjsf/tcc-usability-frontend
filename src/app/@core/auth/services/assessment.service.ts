@@ -26,4 +26,22 @@ export class AssessmentService {
       responseType: 'json',
     });
   }
+
+  getUserAssessments(userUid: string) {
+    return this.http.get<any>(`${this.baseUrl}/assessment/list/by-user-uid/` + userUid,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  getAssessmentByUid(userUid: string) {
+    return this.http.get<any>(`${this.baseUrl}/assessment/by-uid/` + userUid,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
 }

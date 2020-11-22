@@ -31,7 +31,10 @@ export class AuthEffects {
   authSignInSuccess = this.actions$.pipe(
     ofType<AuthSignInSuccess>(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
     map(({ payload }) => new UserSignedInformation(payload)),
-    tap(() => this.router.navigate(['/pages/home'])),
+    tap(() => {
+      this.toastr.success('User successfully logged in!'),
+        this.router.navigate(['/pages/home']);
+    }),
   );
 
   @Effect({ dispatch: false })
