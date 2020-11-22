@@ -21,7 +21,7 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import {StoreModule} from '@ngrx/store';
-import {AuthReducer} from './store/modules/auth/auth.reduce';
+import {AuthReducer} from './store/modules/auth/auth.reducer';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {InterceptorsModule} from './interceptors/interceptors.module';
 import {EffectsModule} from '@ngrx/effects';
