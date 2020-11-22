@@ -1,13 +1,20 @@
 import {Observable, of as observableOf} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Contacts, RecentUsers, UserData} from '../data/users';
+import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store";
+import {selectUser} from "../../store/modules/user/user.selectors";
 
 @Injectable()
 export class UserService extends UserData {
 
   private time: Date = new Date;
-
-  private user = JSON.parse(localStorage.getItem('user'));
+  private user: any;
+  constructor(private store: Store<AppState>) {
+    super();
+    this.store.select(selectUser).subscribe(signed => this.user = signed.name);
+  }
 
   private users = {
     nick: {name: 'Rodrigo Jorge de Santana França', picture: 'assets/images/nick.png'},

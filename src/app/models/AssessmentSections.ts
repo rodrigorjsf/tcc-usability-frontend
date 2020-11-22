@@ -50,25 +50,42 @@ export class SystemUser {
 }
 
 export class UsabilityGoal {
-  assessmentId: number;
   attribute: string;
   goal: string;
+  done: boolean;
 
-  constructor() {
+  constructor(attribute: string) {
+    this.attribute = attribute;
+    this.done = false;
   }
 }
 
 export class SmartCityQuestionnaire {
-  public hasDataManagement: boolean;
-  public hasAppExecution: boolean;
-  public hasSensorNetwork: boolean;
-  public hasDataProcessing: boolean;
-  public hasDataAccess: boolean;
-  public hasServiceManagement: boolean;
-  public hasSoftwareTools: boolean;
-  public defineCityModel: boolean;
+  hasDataManagement: boolean;
+  hasAppExecution: boolean;
+  hasSensorNetwork: boolean;
+  hasDataProcessing: boolean;
+  hasDataAccess: boolean;
+  hasServiceManagement: boolean;
+  hasSoftwareTools: boolean;
+  defineCityModel: boolean;
 
-  constructor() {
+  constructor(hasDataManagement: boolean,
+              hasAppExecution: boolean,
+              hasSensorNetwork: boolean,
+              hasDataProcessing: boolean,
+              hasDataAccess: boolean,
+              hasServiceManagement: boolean,
+              hasSoftwareTools: boolean,
+              defineCityModel: boolean) {
+    this.hasDataManagement = hasDataManagement;
+    this.hasAppExecution = hasAppExecution;
+    this.hasSensorNetwork = hasSensorNetwork;
+    this.hasDataProcessing = hasDataProcessing;
+    this.hasDataAccess = hasDataAccess;
+    this.hasServiceManagement = hasServiceManagement;
+    this.hasSoftwareTools = hasSoftwareTools;
+    this.defineCityModel = defineCityModel;
   }
 
   getValueList(): boolean[] {

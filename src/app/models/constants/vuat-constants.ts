@@ -78,7 +78,7 @@ export class VuatConstants {
       "parentQuestions": [
         {
           "title": "3. What are the assessment goals?",
-          "instruction": "A. To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project.\n\nB. To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
+          "instruction": "A - To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project.\n\nB - To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
           "questions": [
             {
               "objectKey": "LRN",
@@ -155,30 +155,12 @@ export class VuatConstants {
       ]
     },
     {
-      "section": "Tasks and Materials",
-      "key": "TM",
-      "parentQuestions": [
-        {
-          "title": "14. What instruments, materials, technology, and tools will be used and how?"
-        },
-        {
-          "title": "15. What tasks will the participants need to perform?"
-        },
-        {
-          "title": "16. How much time should each of the tasks take?"
-        },
-        {
-          "title": "17. What criteria will be used to determine when users have completed each task correctly?"
-        }
-      ]
-    },
-    {
       "section": "Variables and Measurement",
       "key": "VM",
       "parentQuestions": [
         {
           "title": "4. Which variables will be measured during the assessment?",
-          "hint": "Note that the variables are associated with the attributes of usability. The ones that have not been filled with the goals descriptions should not have variables associated.",
+          "instruction": "Note that the variables are associated with the attributes of usability. The ones that have not been filled with the goals descriptions should not have variables associated.",
           "questions": [
             {
               "objectKey": "LRN",
@@ -240,6 +222,28 @@ export class VuatConstants {
         {
           "title": "13. Which questions will be asked to the participants?",
           "instruction": "Note that your questions should be aligned to the described goals above in order to maintain coherence"
+        }
+      ]
+    },
+    {
+      "section": "Tasks and Materials",
+      "key": "TM",
+      "parentQuestions": [
+        {
+          "title": "14. What instruments, materials, technology, and tools will be used and how?",
+          "placeHolder": "Describe the tools here"
+        },
+        {
+          "title": "15. What tasks will the participants need to perform?"
+          ,"placeHolder": "Describe the tasks here"
+        },
+        {
+          "title": "16. How much time should each of the tasks take?"
+          ,"placeHolder": "Describe here"
+        },
+        {
+          "title": "17. What criteria will be used to determine when users have completed each task correctly?",
+          "placeHolder": "Describe the criteria here"
         }
       ]
     },
