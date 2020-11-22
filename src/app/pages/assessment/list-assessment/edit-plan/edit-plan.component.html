@@ -1,25 +1,9 @@
-<div *ngIf="dataloaded | async" class="container" [nbSpinner]="show" nbSpinnerSize="giant" nbSpinnerStatus="primary">
+<div *ngIf="dataloaded | async" class="container">
   <div class="col-lg-12">
     <h3>
       Edit Assessment Plan
     </h3>
     <nb-card>
-      <div class="container">
-        <nb-card>
-          <nb-card-header>
-            Application
-          </nb-card-header>
-          <nb-card-body class="example-items-col">
-            <div class="container">
-              <nb-progress-bar class="container bottom-margin" [value]="40" status="primary"
-                               [displayValue]="true"></nb-progress-bar>
-              <button size="medium" nbButton ghost status="danger">
-                <nb-icon icon="edit-2-outline"></nb-icon>
-              </button>
-            </div>
-          </nb-card-body>
-        </nb-card>
-      </div>
       <nb-card-body class="example-items-col">
         <nb-accordion multi>
           <nb-accordion-item (click)="onClickApplication(categories.application.acronym)">
@@ -46,8 +30,8 @@
                   </nb-card-body>
                 </nb-card>
                 <div class="col-lg-12 bottom-margin">
-                  <div [nbSpinner]="show" nbSpinnerSize="giant" nbSpinnerStatus="primary"
-                       *ngFor="let parentQuestion of getCharacterizationQuestionsObject(getApplicationAcronym()).parentQuestions; let i = index;">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(getApplicationAcronym()).parentQuestions; let i = index;">
                     <h4 class="col-lg-12 bottom-margin"><b>{{parentQuestion.title}}</b></h4>
 
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
@@ -77,53 +61,54 @@
                       <ng-template #applicationSectionRadioButtons>
                         <div class="container" style="padding-left: 10px">
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="isDataManagement(question.objKey)"
+                                     *ngIf="isDataManagement(question.objKey);"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataManagement">
                             <nb-option *ngFor="let option of radionOptions.dataManagement" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasAppExecution">
                             <nb-option *ngFor="let option of radionOptions.applicationExecutionEnvironment"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasSensorNetwork">
                             <nb-option *ngFor="let option of radionOptions.sensorNetworkManagement"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataProcessing">
                             <nb-option *ngFor="let option of radionOptions.dataProcessing" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.dataAccess.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataAccess">
                             <nb-option *ngFor="let option of radionOptions.dataAccess" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasServiceManagement">
                             <nb-option *ngFor="let option of radionOptions.serviceManagement" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasSoftwareTools">
                             <nb-option *ngFor="let option of radionOptions.toolsforSoftwareDevelopment"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                                     *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym"
+                                     *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.defineCityModel">
+                            <nb-option [value]="null" disabled="true">Not Selected</nb-option>
                             <nb-option *ngFor="let option of radionOptions.definingACityModel" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
@@ -159,41 +144,85 @@
                   </nb-card-body>
                 </nb-card>
                 <div class="col-lg-12 bottom-margin">
-                  <div [nbSpinner]="show" nbSpinnerSize="giant" nbSpinnerStatus="primary"
-                       *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.goals.acronym).parentQuestions; let i = index;">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.goals.acronym).parentQuestions; let i = index;">
                     <div class="col-lg-12 row">
                       <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></h4>
                       <nb-icon icon="info-outline" class="button-space"
                                [nbTooltip]="parentQuestion.instruction"
-                               nbTooltipPlacement="bottom"
+                               nbTooltipPlacement="right"
                                nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
                     </div>
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
                          class="container col-lg-12 bottom-margin">
-                      <label class="col-lg-10"><b>{{question.title}}</b>{{question.subTitle}}</label>
-                      <div *ngIf="isFirstQuestion(question.objKey); else applicationSectionRadioButtons;"
-                           class="container">
-                        <div class="col-lg-12 bottom-margin">
-                          <textarea *ngIf="isFirstQuestion(question.objKey)" style="padding-left: 10px" [(ngModel)]="assessment.usabilityGoal" rows="5"
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
+
+                      <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                    style="padding-left: 10px"
+                                    [(ngModel)]="usabilityGoal.goal" rows="5"
                                     nbInput fullWidth shape="round"
                                     required="true"
-                                    placeholder="Describe your project" disabled></textarea>
-                          <textarea *ngIf="isFirstQuestion(question.objKey)" style="padding-left: 10px" [(ngModel)]="assessment.projectDescription" rows="5"
+                                    placeholder="Describe the goals here" disabled></textarea>
+                        <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                     [(value)]="usabilityGoal.done" style="padding-left: 20px; padding-top: 10px"
+                                     status="primary" disabled="true">Done
+                        </nb-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.variables.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              Variables and Measurement
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <nb-card>
+                  <nb-card-header style="background-color: #206ea1">
+                    <label><b>Section Progress</b></label>
+                  </nb-card-header>
+                  <nb-card-body class="example-items-col">
+                    <div class="row col-lg-12 bottom-margin">
+                      <nb-progress-bar class="col-lg-8 vertical-center" fullWidth [value]="questionsPercentage"
+                                       [status]="getPercentageColor()"
+                                       [displayValue]="true"></nb-progress-bar>
+                      <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
+                              status="success">
+                        <nb-icon icon="edit-2-outline"></nb-icon>
+                        EDIT SECTION
+                      </button>
+                    </div>
+                  </nb-card-body>
+                </nb-card>
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></label>
+                      <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline" class="button-space"
+                               [nbTooltip]="parentQuestion.instruction" style="padding-left: 5px"
+                               nbTooltipPlacement="right"
+                               nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                    </div>
+                    <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
+                         class="container col-lg-12 bottom-margin">
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
+                      <div>
+                        <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                    style="padding-left: 10px"
+                                    [(ngModel)]="usabilityGoal.goal" rows="2"
                                     nbInput fullWidth shape="round"
                                     required="true"
-                                    placeholder="Describe your project" disabled></textarea>
-                          <textarea *ngIf="isFirstQuestion(question.objKey)" style="padding-left: 10px" [(ngModel)]="assessment.projectDescription" rows="5"
-                                    nbInput fullWidth shape="round"
-                                    required="true"
-                                    placeholder="Describe your project" disabled></textarea>
-                          <textarea *ngIf="isFirstQuestion(question.objKey)" style="padding-left: 10px" [(ngModel)]="assessment.projectDescription" rows="5"
-                                    nbInput fullWidth shape="round"
-                                    required="true"
-                                    placeholder="Describe your project" disabled></textarea>
-                          <textarea *ngIf="isFirstQuestion(question.objKey)" style="padding-left: 10px" [(ngModel)]="assessment.projectDescription" rows="5"
-                                    nbInput fullWidth shape="round"
-                                    required="true"
-                                    placeholder="Describe your project" disabled></textarea>
+                                    placeholder="Describe the goals here" disabled></textarea>
+                          <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                       [(value)]="usabilityGoal.done" style="padding-left: 20px; padding-top: 10px"
+                                       status="primary" disabled="true">Done
+                          </nb-checkbox>
                         </div>
                       </div>
                     </div>
@@ -202,84 +231,12 @@
               </div>
             </nb-accordion-item-body>
           </nb-accordion-item>
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Application
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Application
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Application
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Application
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Application
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-
-          <nb-accordion-item>
-            <nb-accordion-item-header>
-              Reviews
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-
-          <nb-accordion-item disabled="true">
-            <nb-accordion-item-header>
-              Edit
-            </nb-accordion-item-header>
-            <nb-accordion-item-body>
-              A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
-              Originally, nebula was a name for any diffuse astronomical object,
-              including galaxies beyond the Milky Way.
-            </nb-accordion-item-body>
-          </nb-accordion-item>
         </nb-accordion>
       </nb-card-body>
       <nb-card-footer>
         <div>
           <button nbButton status="success" class="padding-right">
-            <b>CREATE</b>
+            <b>SUBMIT</b>
           </button>
         </div>
       </nb-card-footer>
