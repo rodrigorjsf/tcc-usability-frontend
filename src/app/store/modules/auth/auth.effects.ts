@@ -21,9 +21,10 @@ export class AuthEffects {
     )),
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   authSignInSuccess = this.actions$.pipe(
-    ofType(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
+    ofType<AuthSignInSuccess>(AuthActionsType.AUTH_SIGN_IN_SUCCESS),
+    map(({ payload }) => new UserSignedInformation(payload)),
     tap(() => {
       this.toastr.success('User successfully logged in!'),
         this.router.navigate(['/pages/home']);
@@ -34,5 +35,11 @@ export class AuthEffects {
   authSignInFailure = this.actions$.pipe(
     ofType<AuthSignInFailure>(AuthActionsType.AUTH_SIGN_IN_FAILURE),
     tap(({ error }) => this.toastr.warning('User and / or password not found!')),
+  );
+
+  @Effect({ dispatch: false })
+  authSignOut = this.actions$.pipe(
+    ofType(AuthActionsType.AUTH_SIGN_OUT),
+    tap(() => this.router.navigate(['/auth/login'])),
   );
 }

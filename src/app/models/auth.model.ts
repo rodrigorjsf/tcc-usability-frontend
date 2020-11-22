@@ -1,3 +1,5 @@
+import {Authority} from './user.model';
+
 export interface AuthState {
   token: string;
   signed: boolean;
@@ -9,8 +11,10 @@ export interface AuthSignInRequestModel {
 }
 
 export interface AuthSignInResponseModel {
+  name: string;
   username: string;
   userUid: string;
   accessToken: string;
-  roles: string[];
+  date: number;
+  roles: Authority[];
 }
