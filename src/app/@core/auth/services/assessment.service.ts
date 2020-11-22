@@ -14,7 +14,6 @@ export class AssessmentService {
   private get headers(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
     });
   }
 
