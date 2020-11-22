@@ -32,4 +32,10 @@ export class AuthEffects {
     ofType<AuthSignInFailure>(AuthActionsType.AUTH_SIGN_IN_FAILURE),
     tap(({ error }) => this.toastr.warning('Houve um erro')),
   );
+
+  @Effect({ dispatch: false })
+  authSignOut = this.actions$.pipe(
+    ofType(AuthActionsType.AUTH_SIGN_OUT),
+    tap(() => this.router.navigate(['/auth/login'])),
+  );
 }

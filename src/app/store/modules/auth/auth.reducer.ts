@@ -14,6 +14,8 @@ export const AuthReducer = (state: AuthState = authInitialState, action: AuthAct
         draft.token = action.payload.accessToken;
         draft.signed = true;
         break;
+      case AuthActionsType.AUTH_SIGN_OUT:
+        return authInitialState;
     }
   });
 };
