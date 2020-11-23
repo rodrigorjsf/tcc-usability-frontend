@@ -3,7 +3,7 @@
     <h3>
       My Assessment Plans
     </h3>
-    <nb-card  accent="sucess" [nbSpinner]="show" nbSpinnerSize="giant" nbSpinnerStatus="primary">
+    <nb-card  accent="sucess">
       <nb-card-body class="col-12">
       </nb-card-body>
       <nb-card-body>
@@ -11,7 +11,7 @@
                          [settings]="settings"
                          [source]="source"
                          (edit)="onEdit($event)"
-                         (delete)="open(deleteQuestionDialog)">
+                         (delete)="open(deleteQuestionDialog, $event)">
           <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
             <nb-card accent="warning">
               <nb-card-header class="text-center">Warning</nb-card-header>
@@ -23,9 +23,9 @@
               </nb-card-body>
               <nb-card-footer class="text-center">
                 <button nbButton status="success"
-                        (click)="onDelete(data);ref.close();">YES
+                        (click)="onDelete();ref.close();">YES
                 </button>
-                <button nbButton status="danger" class="button-space" (click)="ref.close()">NO</button>
+                <button nbButton status="danger" class="button-space" (click)="cancelDelete();ref.close()">NO</button>
               </nb-card-footer>
             </nb-card>
           </ng-template>

@@ -1,4 +1,4 @@
-import {Component, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalDataSource} from 'ng2-smart-table';
 import {AssessmentService} from '../../../@core/auth/services/assessment.service';
@@ -14,12 +14,12 @@ import {ToastService} from "../../../services/toastService";
   styleUrls: ['./list-assessment.component.scss'],
   templateUrl: './list-assessment.component.html',
 })
-export class ListAssessmentComponent {
+export class ListAssessmentComponent implements OnInit {
 
   data: any;
   source: LocalDataSource = new LocalDataSource();
-  show: boolean = true;
   toast: ToastService;
+  assessmentDelete: any;
 
   settings = {
     mode: 'external',
@@ -58,6 +58,13 @@ export class ListAssessmentComponent {
               private dialogService: NbDialogService,
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
+  }
+
+  ngOnInit() {
+    this.getDataTable();
+  }
+
+  getDataTable() {
     this.store.select(selectUser).pipe(
       switchMap(user => this.assessmentService.getUserAssessments(user.uid)),
       map(data => {
@@ -65,31 +72,30 @@ export class ListAssessmentComponent {
           this.source.load(data);
       }),
     ).subscribe();
-    this.show = false;
   }
 
   onEdit($event: any) {
-    console.log($event.data);
     this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: $event.data});
   }
 
   async onDelete($event: any) {
-    console.log($event.data);
-    (await this.assessmentService.deleteAssessment($event.data.uid))
+    (await this.assessmentService.deleteAssessment(this.assessmentDelete.assessmentUid))
       .subscribe(response => {
-          if (response.status === 200) {
-            this.toast.showToast('delete', 'top-right', 'success', 'Assessment');
-          } else {
-            this.toast.showToast('delete', 'top-right', 'danger', 'Assessment');
-          }
-          this.router.navigate(['/pages/assessment/my-assessments']);
+          this.toast.showToast('delete', 'top-right', 'success', 'Assessment');
+          this.getDataTable();
+          this.source.refresh();
         },
         () => {
           this.toast.showToast('delete', 'top-right', 'danger', 'Assessment');
         });
   }
 
-  open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {context: 'this is some additional data passed to dialog'});
+  open(dialog: TemplateRef<any>, $event: any) {
+    this.assessmentDelete = $event.data;
+    this.dialogService.open(dialog);
+  }
+
+  cancelDelete() {
+    this.assessmentDelete = null;
   }
 }
