@@ -2,6 +2,10 @@
   margin-bottom: 30px;
 }
 
+.top-margin-checkbox {
+  margin-top: 5px;
+}
+
 .top-margin {
   margin-top: 30px;
 }
@@ -22,4 +26,12 @@
 
 nb-checkbox:not(:only-child) {
   margin-right: 1.5rem;
+}
+
+.my-tooltip {
+  white-space: pre-line;
+}
+
+hr.solid {
+  border-top: 3px solid #bbb;
 }

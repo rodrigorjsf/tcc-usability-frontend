@@ -43,4 +43,13 @@ export class AssessmentService {
         responseType: 'json',
       });
   }
+
+  getScaleList() {
+    return this.http.get<any>(`${this.baseUrl}/assessment/scales`,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
 }

@@ -1,5 +1,10 @@
 export class VuatConstants {
 
+  static readonly PLAN_ANSWER: any = {
+    answered: {name: 'ANSWERED', type: true},
+    pending: {name: 'PENDING', type: false},
+  };
+
   static readonly PLAN_QUESTIONS: Array<any> = [
     {
       "section": "Application",
@@ -78,7 +83,7 @@ export class VuatConstants {
       "parentQuestions": [
         {
           "title": "3. What are the assessment goals?",
-          "instruction": "A - To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project.\n\nB - To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
+          "instruction": "A - To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project. B - To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
           "questions": [
             {
               "objectKey": "LRN",
@@ -159,6 +164,7 @@ export class VuatConstants {
       "key": "VM",
       "parentQuestions": [
         {
+          "key": "VM-4",
           "title": "4. Which variables will be measured during the assessment?",
           "instruction": "Note that the variables are associated with the attributes of usability. The ones that have not been filled with the goals descriptions should not have variables associated.",
           "questions": [
@@ -185,10 +191,34 @@ export class VuatConstants {
           ]
         },
         {
+          "key": "VM-5",
           "title": "5. How will the listed variables be obtained?",
-          "instruction": "Describe the methods and criteria for measuring each of the variables listed above."
+          "instruction": "Describe the methods and criteria for measuring each of the variables listed above.",
+          "questions": [
+            {
+              "objectKey": "LRN",
+              "title": "Learnability: "
+            },
+            {
+              "objectKey": "EFF",
+              "title": "Efficiency: "
+            },
+            {
+              "objectKey": "USR",
+              "title": "User retention over time: "
+            },
+            {
+              "objectKey": "ERR",
+              "title": "Error rate: "
+            },
+            {
+              "objectKey": "STF",
+              "title": "Satisfaction: "
+            }
+          ]
         },
         {
+          "key": "VM-6",
           "title": "6. Which of the suggested scales will be used?",
           "hint": "Note that it is possible to choose multiple scales."
         }
@@ -235,11 +265,11 @@ export class VuatConstants {
         },
         {
           "title": "15. What tasks will the participants need to perform?"
-          ,"placeHolder": "Describe the tasks here"
+          , "placeHolder": "Describe the tasks here"
         },
         {
           "title": "16. How much time should each of the tasks take?"
-          ,"placeHolder": "Describe here"
+          , "placeHolder": "Describe here"
         },
         {
           "title": "17. What criteria will be used to determine when users have completed each task correctly?",
