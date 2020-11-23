@@ -312,7 +312,6 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Assessment',
     icon: 'file-text-outline',
-    expanded: true,
     children: [
       {
         title: 'Create',
@@ -322,7 +321,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'My Assessments',
         icon: 'list-outline',
-        link: '/pages/assessment/review',
+        link: '/pages/assessment/my-assessments',
       },
       {
         title: 'In Review Phase',

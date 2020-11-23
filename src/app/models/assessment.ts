@@ -9,6 +9,7 @@ import {
   SystemUser,
   UsabilityGoal,
 } from './AssessmentSections';
+import {PlanAnswers} from "./assessment-answers";
 
 export class Assessment {
   uid: string;
@@ -25,6 +26,7 @@ export class Assessment {
   assessmentProcedure: AssessmentProcedure;
   assessmentData: AssessmentData;
   assessmentThreat: AssessmentThreat;
+  answers: PlanAnswers;
 
   constructor() {
   }

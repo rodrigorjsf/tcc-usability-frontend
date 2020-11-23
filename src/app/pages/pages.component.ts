@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { USER_MENU_ITEMS } from './pages-menu';
+import {REVIEWER_MENU_ITEMS, USER_MENU_ITEMS} from './pages-menu';
+import {Store} from "@ngrx/store";
+import {AppState} from "../store";
+import {selectUser} from "../store/modules/user/user.selectors";
 
 @Component({
   selector: 'ngx-pages',
@@ -14,5 +17,18 @@ import { USER_MENU_ITEMS } from './pages-menu';
 })
 export class PagesComponent {
 
-  menu = USER_MENU_ITEMS;
+  menu: any;
+  isReviewer: any;
+
+  constructor(private store: Store<AppState>) {
+    this.store.select(selectUser).subscribe(user => this.isReviewer = user.reviewer);
+    console.log(this.isReviewer);
+    if (this.isReviewer === true) {
+      this.menu = REVIEWER_MENU_ITEMS;
+    } else {
+      this.menu = USER_MENU_ITEMS;
+    }
+  }
+
+
 }

@@ -16,5 +16,6 @@ export interface AuthSignInResponseModel {
   userUid: string;
   accessToken: string;
   date: number;
+  reviewer: boolean;
   roles: Authority[];
 }

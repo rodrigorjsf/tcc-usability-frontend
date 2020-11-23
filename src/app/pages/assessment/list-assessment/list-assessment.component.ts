@@ -49,15 +49,21 @@ export class ListAssessmentComponent {
     },
   };
 
-  constructor(private assessmentService: AssessmentService, private store: Store<AppState>) {
+  constructor(private assessmentService: AssessmentService,
+              private router: Router,
+              private store: Store<AppState>) {
     this.store.select(selectUser).pipe(
-      switchMap(user => this.assessmentService.getAssessmentByUid(user.uid)),
-      map(data => this.source.load(data)),
+      switchMap(user => this.assessmentService.getUserAssessments(user.uid)),
+      map(data => {
+        if (data !== null)
+          this.source.load(data);
+      }),
     ).subscribe();
     this.show = false;
   }
 
   onEdit($event: any) {
     console.log($event.data);
+    this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: $event.data});
   }
 }

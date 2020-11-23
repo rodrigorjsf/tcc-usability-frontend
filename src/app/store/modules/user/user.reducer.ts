@@ -3,7 +3,7 @@ import {UserActions, UserActionsType} from './user.actions';
 import produce from 'immer';
 
 const userInitialState: UserState = {
-  username: null, name: null, isReviewer: false, roles: [], uid: null,
+  username: null, name: null, reviewer: false, roles: [], uid: null,
 };
 
 export const UserReducer = (state: UserState = userInitialState, action: UserActions) => {
@@ -15,6 +15,7 @@ export const UserReducer = (state: UserState = userInitialState, action: UserAct
         draft.uid = user.userUid;
         draft.name = user.name;
         draft.roles = user.roles;
+        draft.reviewer = user.reviewer;
         break;
       default:
         return draft;

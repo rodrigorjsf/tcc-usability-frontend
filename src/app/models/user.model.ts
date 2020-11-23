@@ -2,7 +2,7 @@ export interface UserState {
   uid: string;
   username: string;
   name: string;
-  isReviewer: boolean;
+  reviewer: boolean;
   roles: Authority[];
 }
 
@@ -15,6 +15,6 @@ export interface RegisterUserRequestModel {
   userName: string;
   password: string;
   email: string;
-  isReviewer: boolean;
+  reviewer: boolean;
   admin: boolean;
 }

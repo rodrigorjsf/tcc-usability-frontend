@@ -3,7 +3,30 @@
     <h3>
       Edit Assessment Plan
     </h3>
+    <nb-card accent="warning" >
+      <nb-card-header><b>READ BEFORE FILLING OUT THE PLAN</b></nb-card-header>
+      <nb-card-body>
+        For reasons of integrity control and progress of the planning result, after
+        filling each question with the final answer, it is necessary to check the <b>"Done" checkbox</b>.<br><br>
+        Each question has its own corresponding <b>"Done" checkbox</b>. Usually located below or to the right of the
+        answer.<br><br>
+        <label style="padding-left: 10px">What it looks like: <br>
+          <nb-checkbox status="primary">Done</nb-checkbox>
+        </label><br>
+        <hr class="solid">
+        To start filling out the evaluation plan, it is necessary to click on the <b>"Edit Section"</b>
+        button located at the top right of each section.<br><br>
+        <label style="padding-left: 10px">What it looks like: <br><br>
+          <button class="fa-pull-right padding-right" size="medium" nbButton ghost
+                  status="success">
+            <nb-icon icon="edit-2-outline"></nb-icon>
+            EDIT SECTION
+          </button>
+        </label><br>
+      </nb-card-body>
+    </nb-card>
     <nb-card>
+      <nb-card-header><b>PLAN SECTIONS</b></nb-card-header>
       <nb-card-body class="example-items-col">
         <nb-accordion multi>
           <nb-accordion-item (click)="onClickApplication(categories.application.acronym)">
@@ -42,14 +65,25 @@
                            class="container">
                         <div *ngIf="question.objKey == 'AP-PN'" class="col-lg-12 bottom-margin">
                           <input style="padding-left: 10px" [(ngModel)]="assessment.projectName" type="text" nbInput
-                                 fullWidth required="true" disabled>
+                                 fullWidth required="true" readonly>
+                          <nb-checkbox
+                            [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.projectName)"
+                            (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.projectName)"
+                            status="primary" disabled>Done
+                          </nb-checkbox>
                         </div>
 
                         <div *ngIf="question.objKey === 'AP-PD'" class="col-lg-12 bottom-margin">
                           <textarea style="padding-left: 10px" [(ngModel)]="assessment.projectDescription" rows="5"
                                     nbInput fullWidth shape="round"
                                     required="true"
-                                    placeholder="Describe your project" disabled></textarea>
+                                    placeholder="Describe your project" readonly></textarea>
+                          <nb-checkbox
+                            [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.projectDescription)"
+                            (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.projectDescription)"
+                            style="padding-left: 20px; padding-top: 10px"
+                            status="primary" disabled="true">Done
+                          </nb-checkbox>
                         </div>
                       </div>
                       <ng-template #percentage>
@@ -63,55 +97,98 @@
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="isDataManagement(question.objKey);"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataManagement">
-                            <nb-option *ngFor="let option of radionOptions.dataManagement" [value]="option.value"
+                            <nb-option *ngFor="let option of selectOptions.dataManagement" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="isDataManagement(question.objKey);"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataManagement)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataManagement)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasAppExecution">
-                            <nb-option *ngFor="let option of radionOptions.applicationExecutionEnvironment"
+                            <nb-option *ngFor="let option of selectOptions.applicationExecutionEnvironment"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox
+                            *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
+                            [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.applicationExecution)"
+                            (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.applicationExecution)"
+                            status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasSensorNetwork">
-                            <nb-option *ngFor="let option of radionOptions.sensorNetworkManagement"
+                            <nb-option *ngFor="let option of selectOptions.sensorNetworkManagement"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.sensorNetwork)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.sensorNetwork)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataProcessing">
-                            <nb-option *ngFor="let option of radionOptions.dataProcessing" [value]="option.value"
+                            <nb-option *ngFor="let option of selectOptions.dataProcessing" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataProcessing)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataProcessing)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasDataAccess">
-                            <nb-option *ngFor="let option of radionOptions.dataAccess" [value]="option.value"
+                            <nb-option *ngFor="let option of selectOptions.dataAccess" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataAccess)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataAccess)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasServiceManagement">
-                            <nb-option *ngFor="let option of radionOptions.serviceManagement" [value]="option.value"
+                            <nb-option *ngFor="let option of selectOptions.serviceManagement" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.serviceManagement)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.serviceManagement)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.hasSoftwareTools">
-                            <nb-option *ngFor="let option of radionOptions.toolsforSoftwareDevelopment"
+                            <nb-option *ngFor="let option of selectOptions.toolsforSoftwareDevelopment"
                                        [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox
+                            *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
+                            [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.tools)"
+                            (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.tools)"
+                            status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
                           <nb-select placeholder="Not Selected" style="padding-left: 10px"
                                      *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
                                      [(selected)]="assessment.smartCityQuestionnaire.defineCityModel">
                             <nb-option [value]="null" disabled="true">Not Selected</nb-option>
-                            <nb-option *ngFor="let option of radionOptions.definingACityModel" [value]="option.value"
+                            <nb-option *ngFor="let option of selectOptions.definingACityModel" [value]="option.value"
                                        disabled="true">{{ option.label }}</nb-option>
                           </nb-select>
+                          <nb-checkbox *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
+                                       [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.definingCityModel)"
+                                       (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.definingCityModel)"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
+                          <hr class="solid">
                         </div>
                       </ng-template>
                     </div>
@@ -154,7 +231,7 @@
                                nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
                     </div>
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
-                         class="container col-lg-12 bottom-margin">
+                         class="container col-lg-12">
                       <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
 
                       <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
@@ -163,12 +240,16 @@
                                     [(ngModel)]="usabilityGoal.goal" rows="5"
                                     nbInput fullWidth shape="round"
                                     required="true"
-                                    placeholder="Describe the goals here" disabled></textarea>
+                                    placeholder="Describe the goals here" readonly></textarea>
                         <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
-                                     [(value)]="usabilityGoal.done" style="padding-left: 20px; padding-top: 10px"
-                                     status="primary" disabled="true">Done
+                                     [checked]="verifyGoalsCheckState(usabilityGoal)"
+                                     (checkedChange)="checkUsabilityGoal($event, usabilityGoal)"
+                                     style="padding-left: 20px; padding-top: 10px"
+                                     status="primary" disabled="true" class="padding-right">Done
                         </nb-checkbox>
                       </div>
+                      <br>
+                      <hr class="solid">
                     </div>
                   </div>
                 </div>
@@ -202,8 +283,9 @@
                   <div
                     *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
                     <div class="col-lg-12 row">
-                      <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></label>
-                      <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline" class="button-space"
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></h4>
+                      <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+                               class="button-space"
                                [nbTooltip]="parentQuestion.instruction" style="padding-left: 5px"
                                nbTooltipPlacement="right"
                                nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
@@ -211,20 +293,64 @@
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
                          class="container col-lg-12 bottom-margin">
                       <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
-                      <div>
+                      <div *ngIf="parentQuestion.key === 'VM-4'" class="container">
                         <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
                           <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
                                     style="padding-left: 10px"
                                     [(ngModel)]="usabilityGoal.goal" rows="2"
                                     nbInput fullWidth shape="round"
-                                    required="true"
-                                    placeholder="Describe the goals here" disabled></textarea>
+                                    placeholder="Describe the attribule variables here" readonly></textarea>
                           <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
-                                       [(value)]="usabilityGoal.done" style="padding-left: 20px; padding-top: 10px"
-                                       status="primary" disabled="true">Done
+                                       [checked]="verifyUsabilityVariableCheck(usabilityGoal.attribute, parentQuestion.key)"
+                                       (checkedChange)="checkUsabilityVariable($event, usabilityGoal.attribute, parentQuestion.key)"
+                                       style="padding-left: 20px; padding-top: 10px"
+                                       status="primary" disabled="true" class="padding-right">Done
                           </nb-checkbox>
                         </div>
                       </div>
+                      <div class="container" *ngIf="parentQuestion.key === 'VM-5'">
+                        <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
+                        <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                  style="padding-left: 10px"
+                                  [(ngModel)]="usabilityGoal.goal" rows="2"
+                                  nbInput fullWidth shape="round"
+                                  placeholder="Describe the methods and criteria here" readonly></textarea>
+                          <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                       [checked]="verifyUsabilityVariableCheck(usabilityGoal.attribute, parentQuestion.key)"
+                                       (checkedChange)="checkUsabilityVariable($event, usabilityGoal.attribute, parentQuestion.key)"
+                                       style="padding-left: 20px; padding-top: 10px"
+                                       status="primary" disabled="true" class="padding-right">Done
+                          </nb-checkbox>
+                        </div>
+                      </div>
+                      <br>
+                      <hr class="solid">
+                    </div>
+                    <div class="container" *ngIf="parentQuestion.key === 'VM-6'">
+                      <nb-card>
+                        <nb-card-body class="form-group">
+                          <form *ngFor="let scale of usabilityScales;" class="row">
+                            <nb-checkbox [checked]="verifyScaleStatus(scale)"
+                                         (checkedChange)="scaleSelectionCheckbox($event, scale)"
+                                         style="padding-left: 20px"
+                                         status="primary" disabled="true">
+                              <nb-action class="button-space"
+                                         [nbTooltip]="scale.description"
+                                         nbTooltipPlacement="right"
+                                         nbTooltipStatus="info" nbButton status="info">{{scale.name}} ({{scale.acronym}})</nb-action>
+                              </nb-checkbox>
+                          </form>
+                          <nb-checkbox [checked]="verifyScalesCheckbox()"
+                                       (checkedChange)="checkScalesCheckbox($event)"
+                                       style="padding-left: 20px; padding-top: 10px"
+                                       status="primary" [disabled]="checkClickable()" class="padding-right"
+                                       nbTooltip="It is necessary to choose at least one option."
+                                       nbTooltipPlacement="top"
+                                       [nbTooltipTrigger]="tooltipTrigger"
+                                       nbTooltipStatus="danger" nbButton status="danger">Done
+                          </nb-checkbox>
+                        </nb-card-body>
+                      </nb-card>
                     </div>
                   </div>
                 </div>
@@ -235,7 +361,7 @@
       </nb-card-body>
       <nb-card-footer>
         <div>
-          <button nbButton status="success" class="padding-right">
+          <button nbButton status="success" class="padding-right" disabled>
             <b>SUBMIT</b>
           </button>
         </div>

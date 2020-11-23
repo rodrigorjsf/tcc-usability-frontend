@@ -118,34 +118,9 @@ export class Scale {
 }
 
 export class Variable {
-  assessmentVariableId: number;
   usabilityAttribute: string;
   variableList: string[];
   obtainedBy: string;
-  scale: Scale[];
-
-  constructor() {
-  }
-}
-
-export class ScaleQuestion2 {
-  scaleId: number;
-  key: string;
-  question: string;
-  lowerScoreLabel: string;
-  higherScoreLabel: string;
-
-  constructor() {
-  }
-}
-
-export class Scale2 {
-  uid: string;
-  acronym: string;
-  name: string;
-  description: string;
-  measures: string[];
-  scaleQuestions: ScaleQuestion2[];
 
   constructor() {
   }
@@ -153,7 +128,7 @@ export class Scale2 {
 
 export class AttributeAssessmentVariables {
   variables: Variable[];
-  scale: Scale2[];
+  scale: Scale[];
 
   constructor() {
   }
