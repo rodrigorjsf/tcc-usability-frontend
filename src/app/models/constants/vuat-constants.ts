@@ -229,27 +229,34 @@ export class VuatConstants {
       "key": "PA",
       "parentQuestions": [
         {
-          "title": "7. How many participants will be needed for the assessment?"
+          "key": "PA-7",
+          "title": "7. How many participants will be needed for the assessment?",
         },
         {
+          "key": "PA-8",
           "title": "8. Will it be an in-person or a remote participation?"
         },
         {
+          "key": "PA-9",
           "title": "9. What form of compensation, if any, will the participants receive?",
           "instruction": "A. If the participants will be compensated, describe the form of compensation they will receive.\n\ne.g. money, grade, credit, gift, etc.\n\nB. If otherwise, specify it will be a volunteer participation."
         },
         {
+          "key": "PA-10",
           "title": "10. What are the eligibility criteria for the participants?",
           "instruction": "Describe the characteristics that must be shared by all participants involved in the assessment."
         },
         {
+          "key": "PA-11",
           "title": "11. Will a demographic questionnaire be used to collect information from the participants?",
           "instruction": "If the answer is 'YES', describe how the data obtained will be used."
         },
         {
+          "key": "PA-12",
           "title": "12. How will the participants be instructed?"
         },
         {
+          "key": "PA-13",
           "title": "13. Which questions will be asked to the participants?",
           "instruction": "Note that your questions should be aligned to the described goals above in order to maintain coherence"
         }

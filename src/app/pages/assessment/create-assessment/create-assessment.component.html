@@ -19,7 +19,7 @@
         <label *ngIf='hasCollaborator'><b>Collaborator(s) email(s):</b></label>
         <form *ngIf='hasCollaborator == true' class='container mt-3' formArrayName="emails">
           <section *ngFor='let email of emails.controls; let i = index;' [formGroupName]="i">
-            <div class='row col-lg-8'>
+            <div class='row col-lg-8 bottom-margin-light'>
               <input nbInput class='display-next'
                      id='input-email'
                      name='email'
@@ -30,13 +30,14 @@
                      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
                      [required]="true"
                      [attr.aria-invalid]="email.invalid && email.touched ? true : null">
-              <button nbButton ghost status="danger" class="display-next">
-                <nb-icon icon="minus-circle-outline" (click)="removeEmail(i)"></nb-icon>
-              </button>
+              <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
+                       (click)="removeEmail(i)"></nb-icon>
             </div>
           </section>
         </form>
-        <button nbButton outline shape='round' size='small' status='success' class='top-margin' (click)='addEmail()'>
+        <button nbButton ghost shape='round' size='tiny' status='success' class='top-margin'
+                (click)='addEmail()'>
+          <nb-icon icon="plus-circle-outline"></nb-icon>
           Add
           Collaborator
         </button>

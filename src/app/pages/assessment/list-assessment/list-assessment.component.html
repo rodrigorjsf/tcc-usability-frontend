@@ -10,9 +10,29 @@
         <ng2-smart-table #table
                          [settings]="settings"
                          [source]="source"
-                         (edit)="onEdit($event)">
+                         (edit)="onEdit($event)"
+                         (delete)="open(deleteQuestionDialog)">
+          <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
+            <nb-card accent="warning">
+              <nb-card-header class="text-center">Warning</nb-card-header>
+              <nb-card-body class="text-center">
+                <span class="col-lg-6">
+                  You will no longer have access to this assessment.<br>
+                Do you really want to delete it?
+                </span>
+              </nb-card-body>
+              <nb-card-footer class="text-center">
+                <button nbButton status="success"
+                        (click)="onDelete(data);ref.close();">YES
+                </button>
+                <button nbButton status="danger" class="button-space" (click)="ref.close()">NO</button>
+              </nb-card-footer>
+            </nb-card>
+          </ng-template>
         </ng2-smart-table>
       </nb-card-body>
     </nb-card>
   </div>
 </div>
+
+

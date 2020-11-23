@@ -3,7 +3,7 @@
     <h3>
       Edit Assessment Plan
     </h3>
-    <nb-card accent="warning" >
+    <nb-card accent="warning">
       <nb-card-header><b>READ BEFORE FILLING OUT THE PLAN</b></nb-card-header>
       <nb-card-body>
         For reasons of integrity control and progress of the planning result, after
@@ -224,11 +224,12 @@
                   <div
                     *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.goals.acronym).parentQuestions; let i = index;">
                     <div class="col-lg-12 row">
-                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></h4>
-                      <nb-icon icon="info-outline" class="button-space"
-                               [nbTooltip]="parentQuestion.instruction"
-                               nbTooltipPlacement="right"
-                               nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon icon="info-outline" class="button-space"
+                                 [nbTooltip]="parentQuestion.instruction"
+                                 nbTooltipPlacement="right"
+                                 nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                      </h4>
                     </div>
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
                          class="container col-lg-12">
@@ -283,12 +284,13 @@
                   <div
                     *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
                     <div class="col-lg-12 row">
-                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b></h4>
-                      <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
-                               class="button-space"
-                               [nbTooltip]="parentQuestion.instruction" style="padding-left: 5px"
-                               nbTooltipPlacement="right"
-                               nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                      <h4 class="col-lg-12 bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+                                 class="button-space"
+                                 [nbTooltip]="parentQuestion.instruction" style="padding-left: 5px"
+                                 nbTooltipPlacement="right"
+                                 nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                      </h4>
                     </div>
                     <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
                          class="container col-lg-12 bottom-margin">
@@ -329,16 +331,18 @@
                     <div class="container" *ngIf="parentQuestion.key === 'VM-6'">
                       <nb-card>
                         <nb-card-body class="form-group">
-                          <form *ngFor="let scale of usabilityScales;" class="row">
+                          <form *ngFor="let scale of usabilityScales;let i = index;" class="row">
                             <nb-checkbox [checked]="verifyScaleStatus(scale)"
-                                         (checkedChange)="scaleSelectionCheckbox($event, scale)"
+                                         (checkedChange)="scaleSelectionCheckbox($event,scale,i)"
                                          style="padding-left: 20px"
                                          status="primary" disabled="true">
                               <nb-action class="button-space"
                                          [nbTooltip]="scale.description"
                                          nbTooltipPlacement="right"
-                                         nbTooltipStatus="info" nbButton status="info">{{scale.name}} ({{scale.acronym}})</nb-action>
-                              </nb-checkbox>
+                                         nbTooltipStatus="info" nbButton status="info">{{scale.name}} ({{scale.acronym}}
+                                )
+                              </nb-action>
+                            </nb-checkbox>
                           </form>
                           <nb-checkbox [checked]="verifyScalesCheckbox()"
                                        (checkedChange)="checkScalesCheckbox($event)"
@@ -357,6 +361,152 @@
               </div>
             </nb-accordion-item-body>
           </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.participants.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              Participants
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <nb-card>
+                  <nb-card-header style="background-color: #206ea1">
+                    <label><b>Section Progress</b></label>
+                  </nb-card-header>
+                  <nb-card-body class="example-items-col">
+                    <div class="row col-lg-12 bottom-margin">
+                      <nb-progress-bar class="col-lg-8 vertical-center" fullWidth [value]="questionsPercentage"
+                                       [status]="getPercentageColor()"
+                                       [displayValue]="true"></nb-progress-bar>
+                      <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
+                              status="success">
+                        <nb-icon icon="edit-2-outline"></nb-icon>
+                        EDIT SECTION
+                      </button>
+                    </div>
+                  </nb-card-body>
+                </nb-card>
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.participants.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+                                 class="button-space"
+                                 [nbTooltip]="parentQuestion.instruction"
+                                 nbTooltipPlacement="right"
+                                 nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                      </label>
+                    </div>
+                    <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-7'">
+                      <input style="padding-left: 10px" [ngModel]="assessment.participant.participantsQuantity"
+                             type="number" nbInput
+                             fullWidth required="true" placeholder="Enter the number of participants" readonly>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-8'">
+                      <nb-select placeholder="Not Selected" style="padding-left: 10px"
+                                 [(selected)]="assessment.participant.participationLocalType">
+                        <nb-option value="P" disabled="true">IN PERSON</nb-option>
+                        <nb-option value="R" disabled="true">REMOTE</nb-option>
+                      </nb-select>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-9'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                placeholder="Describe the compesations here" readonly></textarea>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-10'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                placeholder="Describe the eligibility criteria here" readonly></textarea>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-11'">
+                      <nb-select class="bottom-margin-light" placeholder="Not Selected" style="padding-left: 10px"
+                                 [(selected)]="assessment.participant.hasCompensation">
+                        <nb-option value="true" disabled="true">YES</nb-option>
+                        <nb-option value="false" disabled="true">NO</nb-option>
+                      </nb-select>
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                placeholder="Describes data usage here"
+                                [disabled]="!assessment.participant.hasCompensation" readonly></textarea>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-12'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                placeholder="Describes instructions here" readonly></textarea>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <div [formGroup]='form' class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-13'">
+                      <form class='container mt-3' formArrayName="questions">
+                        <section *ngFor='let question of questions.controls; let i = index;' [formGroupName]="i">
+                          <div class='row col-lg-8'>
+                            <textarea nbInput class='display-next'
+                                      id='input-question'
+                                      name='question'
+                                      placeholder='New question'
+                                      fullWidth
+                                      shape="round"
+                                      formControlName="question"></textarea>
+                            <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
+                                     (click)="open(deleteQuestionDialog)"></nb-icon>
+                            <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
+                              <nb-card accent="warning">
+                                <nb-card-body>Do you really want to remove the question?</nb-card-body>
+                                <nb-card-footer class="text-center">
+                                  <button nbButton status="success"
+                                          (click)="removeQuestion(i);ref.close();">YES
+                                  </button>
+                                  <button nbButton status="danger" class="button-space" (click)="ref.close()">NO</button>
+                                </nb-card-footer>
+                              </nb-card>
+                            </ng-template>
+                          </div>
+                        </section>
+                      </form>
+                      <button nbButton ghost shape='round' size='tiny' status='success' class='top-margin'
+                              (click)='addQuestion()'>
+                        <nb-icon icon="plus-circle-outline"></nb-icon>
+                        Add Question
+                      </button>
+                      <button nbButton ghost shape='round' size='tiny' status='warning' class='top-margin'
+                              (click)='showQuestions()'>
+                        <nb-icon icon="plus-circle-outline"></nb-icon>
+                        Show Questions
+                      </button>
+                      <nb-checkbox checked="false"
+                                   style="padding-left: 20px; padding-top: 10px"
+                                   status="primary" disabled="true" class="padding-right">Done
+                      </nb-checkbox>
+                    </div>
+                    <br>
+                    <hr class="solid">
+                  </div>
+                </div>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
         </nb-accordion>
       </nb-card-body>
       <nb-card-footer>
@@ -369,3 +519,5 @@
     </nb-card>
   </div>
 </div>
+
+

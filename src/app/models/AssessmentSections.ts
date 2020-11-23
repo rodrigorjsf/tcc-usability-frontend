@@ -139,13 +139,22 @@ export class Participant {
   participationLocalType: string;
   hasCompensation: boolean;
   compensationDescription: string;
-  criteriaList: string[];
+  criteria: string;
   hasCollectedInformation: boolean;
   collectedInformationUse: string;
   instructions: string;
   questions: string[];
 
   constructor() {
+    this.participantsQuantity = null;
+    this.participationLocalType = null;
+    this.hasCompensation = null;
+    this.compensationDescription = null;
+    this.criteria = null;
+    this.hasCollectedInformation = null;
+    this.collectedInformationUse = null;
+    this.instructions = null;
+    this.questions = [];
   }
 }
 

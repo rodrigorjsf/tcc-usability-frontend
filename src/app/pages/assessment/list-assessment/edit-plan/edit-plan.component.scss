@@ -2,6 +2,10 @@
   margin-bottom: 30px;
 }
 
+.bottom-margin-light {
+  margin-bottom: 15px;
+}
+
 .top-margin-checkbox {
   margin-top: 5px;
 }
@@ -34,4 +38,8 @@ nb-checkbox:not(:only-child) {
 
 hr.solid {
   border-top: 3px solid #bbb;
+}
+
+.button-space {
+  margin-left: 15px;
 }

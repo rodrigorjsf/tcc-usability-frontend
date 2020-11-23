@@ -4,6 +4,8 @@ import {AssessmentService} from '../../../@core/auth/services/assessment.service
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
 import {selectUser} from '../../../store/modules/user/user.selectors';
+import {Assessment} from "../../../models/assessment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'ngx-create-assessment',
@@ -13,8 +15,10 @@ import {selectUser} from '../../../store/modules/user/user.selectors';
 export class CreateAssessmentComponent implements OnInit {
   form: FormGroup;
   uid: string;
+  assessment: Assessment;
   constructor (private formBuilder: FormBuilder, private assessmentService: AssessmentService,
-               private store: Store<AppState>) {
+               private store: Store<AppState>,
+               private router: Router) {
     this.store.select(selectUser).subscribe(({ uid }) => this.uid = uid);
   }
 
@@ -44,6 +48,12 @@ export class CreateAssessmentComponent implements OnInit {
 
   async create() {
     console.log(this.serializedValues);
+    (await this.assessmentService.createNewAssessment(this.serializedValues))
+      .subscribe(data => {
+        this.assessment = data;
+        console.log(this.assessment);
+        this.router.navigate(['/pages/assessment/my-assessments']);
+      });
   }
 
   get isValid() {

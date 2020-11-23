@@ -26,6 +26,15 @@ export class AssessmentService {
     });
   }
 
+  async deleteAssessment(uid: string) {
+    return this.http.put<any>(`${this.baseUrl}/assessment/delete/` + uid,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
+  }
+
   getUserAssessments(userUid: string) {
     return this.http.get<any>(`${this.baseUrl}/assessment/list/by-user-uid/` + userUid,
       {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Assessment} from '../../../../models/assessment';
 import {AssessmentService} from '../../../../@core/auth/services/assessment.service';
 import {Router} from '@angular/router';
@@ -6,11 +6,15 @@ import {QuestionService} from '../../../../@core/auth/services/question.service'
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
 import {
   AttributeAssessmentVariables,
+  Participant,
   Scale,
   SmartCityQuestionnaire,
   UsabilityGoal
 } from "../../../../models/AssessmentSections";
 import {PlanAnswers} from "../../../../models/assessment-answers";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ShowcaseDialogComponent} from "../../../modal-overlays/dialog/showcase-dialog/showcase-dialog.component";
+import {NbDialogService} from "@nebular/theme";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -19,6 +23,7 @@ import {PlanAnswers} from "../../../../models/assessment-answers";
 })
 export class EditPlanComponent implements OnInit {
 
+  form: FormGroup;
   formEditable = false;
   assessment: Assessment;
   router: Router;
@@ -91,7 +96,9 @@ export class EditPlanComponent implements OnInit {
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
-              router: Router) {
+              router: Router,
+              private formBuilder: FormBuilder,
+              private dialogService: NbDialogService) {
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
   }
@@ -106,9 +113,13 @@ export class EditPlanComponent implements OnInit {
         this.initGoals();
         this.initAnswers();
         this.initAssessmentAttribute();
+        this.initParticipants();
         console.log(this.assessment);
         this.dataloaded = Promise.resolve(true);
       });
+    this.form = this.formBuilder.group({
+      questions: this.formBuilder.array([]),
+    });
   }
 
   getApplicationAcronym() {
@@ -125,6 +136,12 @@ export class EditPlanComponent implements OnInit {
     if (this.isNullOrUndefined(this.assessment.usabilityGoals) || this.assessment.usabilityGoals.length === 0)
       this.assessment.usabilityGoals = [new UsabilityGoal('LRN'), new UsabilityGoal('EFF'),
         new UsabilityGoal('USR'), new UsabilityGoal('ERR'), new UsabilityGoal('STF')];
+  }
+
+  initParticipants() {
+    if (this.isNullOrUndefined(this.assessment.participant)) {
+      this.assessment.participant = new Participant();
+    }
   }
 
   initAssessmentAttribute() {
@@ -530,13 +547,15 @@ export class EditPlanComponent implements OnInit {
     return false;
   }
 
-  scaleSelectionCheckbox($event: boolean, scale: Scale) {
+  scaleSelectionCheckbox($event: boolean, scale: Scale, i: number) {
     if ($event === true) {
       this.assessment.attributeAssessmentVariables.scale.push(scale);
     } else {
-      this.assessment.attributeAssessmentVariables.scale.forEach((item, index) => {
-        if (item === scale) this.assessment.attributeAssessmentVariables.scale.splice(index, 1);
-      });
+      const removeIndex = this.assessment.attributeAssessmentVariables.scale.map(
+        function (item) {
+          return item.uid;
+        }).indexOf(scale.uid);
+      this.assessment.attributeAssessmentVariables.scale.splice(removeIndex, 1);
     }
   }
 
@@ -559,4 +578,51 @@ export class EditPlanComponent implements OnInit {
     this.tooltipTrigger = 'noop';
     return this.formEditable !== true;
   }
+
+  showValue(object: any): any {
+    if (this.isNullOrUndefined(object))
+      return '';
+    return object;
+  }
+
+  private newQuestion(): FormGroup {
+    return this.formBuilder.group({ question: [''] });
+  }
+
+  addQuestion() {
+    if (this.newQuestion().getRawValue() !== '')
+      this.questions.push(this.newQuestion());
+    console.log(this.serializedValues);
+  }
+
+  showQuestions() {
+    this.questions.getRawValue().forEach(value => console.log(value.question));
+    console.log(this.values.questions);
+    const arrayTest = this.questions.getRawValue().map(value => value.question);
+    console.log(arrayTest);
+  }
+
+  removeQuestion(i: number) {
+    this.questions.removeAt(i);
+  }
+
+  get questions() {
+    return this.form.controls.questions as FormArray;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = { ...this.values, planQuestions: this.values.questions.map(question => question.question) };
+    console.log(serialized);
+    delete serialized.questions;
+    return serialized;
+  }
+
+  open(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog, { context: 'this is some additional data passed to dialog' });
+  }
+
 }
