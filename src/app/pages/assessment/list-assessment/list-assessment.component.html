@@ -10,8 +10,7 @@
         <ng2-smart-table #table
                          [settings]="settings"
                          [source]="source"
-                         (edit)="onEdit($event)"
-                         (delete)="open(deleteQuestionDialog, $event)">
+                         (custom)="onCustom($event, deleteQuestionDialog)">
           <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
             <nb-card accent="warning">
               <nb-card-header class="text-center">Warning</nb-card-header>

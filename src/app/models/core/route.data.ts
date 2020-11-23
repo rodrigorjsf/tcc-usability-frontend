@@ -1,4 +1,4 @@
-import { MenuOption } from "./menu.option";
+import {MenuOption} from "./menu.option";
 
 export type RouteData<T> = {
   title: string,

@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
+import {Component, Input, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-traffic-back-card',

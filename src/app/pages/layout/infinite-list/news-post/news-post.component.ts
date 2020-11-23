@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
-import { NewsPost } from '../../news.service';
+import {NewsPost} from '../../news.service';
 
 @Component({
   selector: 'ngx-news-post',

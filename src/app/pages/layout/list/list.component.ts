@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { fruits } from './fruits-list';
+import {Component} from '@angular/core';
+import {fruits} from './fruits-list';
 
 @Component({
   selector: 'ngx-list',

@@ -3,11 +3,12 @@ import {
   AssessmentProcedure,
   AssessmentThreat,
   AssessmentTools,
-  AttributeAssessmentVariables,
   Participant,
+  Scale,
   SmartCityQuestionnaire,
   SystemUser,
   UsabilityGoal,
+  Variable,
 } from './AssessmentSections';
 import {PlanAnswers} from "./assessment-answers";
 
@@ -20,13 +21,14 @@ export class Assessment {
   isSmartCity: boolean;
   smartCityPercentage: number;
   smartCityQuestionnaire: SmartCityQuestionnaire;
-  attributeAssessmentVariables: AttributeAssessmentVariables;
   participant: Participant;
   assessmentTools: AssessmentTools;
   assessmentProcedure: AssessmentProcedure;
   assessmentData: AssessmentData;
   assessmentThreat: AssessmentThreat;
   answers: PlanAnswers;
+  variables: Variable[];
+  scale: Scale[];
 
   constructor() {
   }

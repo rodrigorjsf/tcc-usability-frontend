@@ -5,6 +5,8 @@ export class VuatConstants {
     pending: {name: 'PENDING', type: false},
   };
 
+  static readonly USABILITY_ATRIBUTES: Array<any> = ['LRN', 'EFF', 'USR', 'ERR', 'STF'];
+
   static readonly PLAN_QUESTIONS: Array<any> = [
     {
       "section": "Application",
@@ -267,18 +269,24 @@ export class VuatConstants {
       "key": "TM",
       "parentQuestions": [
         {
+          "key": "TM-14",
           "title": "14. What instruments, materials, technology, and tools will be used and how?",
+          "instruction": "Example: Computer specifications, operating system, frameworks, etc.",
           "placeHolder": "Describe the tools here"
         },
         {
-          "title": "15. What tasks will the participants need to perform?"
-          , "placeHolder": "Describe the tasks here"
+          "key": "TM-15",
+          "title": "15. What tasks will the participants need to perform?",
+          "placeHolder": "Describe the tasks here"
         },
         {
-          "title": "16. How much time should each of the tasks take?"
-          , "placeHolder": "Describe here"
+          "key": "TM-16",
+          "title": "16. How much time should each of the tasks take?",
+          "instruction": "Feel free to describe the duration of each task, in minutes in case of a number.",
+          "placeHolder": "Describe here"
         },
         {
+          "key": "TM-17",
           "title": "17. What criteria will be used to determine when users have completed each task correctly?",
           "placeHolder": "Describe the criteria here"
         }
@@ -289,31 +297,39 @@ export class VuatConstants {
       "key": "PR",
       "parentQuestions": [
         {
+          "key": "PR-18",
           "title": "18. How will the application be assessed?",
           "instruction": "A. To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project.\nB. To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
           "questions": [
             {
+              "key": "PR-18-1",
               "title": "18.1 When will it occur?"
             },
             {
+              "key": "PR-18-2",
               "title": "18.2 Where will it occur?"
             },
             {
+              "key": "PR-18-3",
               "title": "18.3 How will it occur?"
             },
             {
+              "key": "PR-18-4",
               "title": "18.4 How much time will it require?"
             }
           ]
         },
         {
+          "key": "PR-19",
           "title": "19. How will the design of the assessment be?",
           "instruction": "A. Name the possible steps.\nB. Detail the steps."
         },
         {
+          "key": "PR-20",
           "title": "20. Will the participants be able to ask questions during the assessment?"
         },
         {
+          "key": "PR-21",
           "title": "21. Will there be a pilot assessment?",
           "instruction": "If the answer is 'YES', describe how the pilot will be conducted.",
           "placeHolder": "Describe the pilot here"
@@ -321,18 +337,21 @@ export class VuatConstants {
       ]
     },
     {
-      "section": "Data collection and data analysis",
+      "section": "Data collection and Data analysis",
       "key": "DT",
       "parentQuestions": [
         {
+          "key": "DT-22",
           "title": "22. What will be the data collection procedure?",
           "placeHolder": "Describe the data collection procedure here"
         },
         {
+          "key": "DT-23",
           "title": "23. How will the data collected be analyzed?",
           "placeHolder": "Describe the procedure here"
         },
         {
+          "key": "DT-24",
           "title": "24. Will statistical methods be used?",
           "instruction": "If the answer is 'YES', describe the methods.",
           "placeHolder": "Describe the methods here"
@@ -344,27 +363,34 @@ export class VuatConstants {
       "key": "TH",
       "parentQuestions": [
         {
+          "key": "TH-25",
           "title": "25. Are there any threats to the validity of the assessment?",
           "questions": [
             {
+              "key": "TH-25-1",
               "title": "25.1 What are the threats to the validity of the assessment?",
-              "placeHolder": "Describe the threats here"
+              "placeholder": "Describe the threats here"
             },
             {
+              "key": "TH-25-2",
               "title": "25.2 How will the threats to validity be controlled?",
-              "placeHolder": "Describe how the threats wil be controlled here"
+              "placeholder": "Describe how the threats wil be controlled here"
             },
             {
+              "key": "TH-25-3",
               "title": "25.3 Are there any limitations for the assessment?",
-              "placeHolder": "Describe the limitations here"
+              "placeholder": "Describe the limitations here"
             },
             {
+              "key": "TH-25-4",
               "title": "25.4 Are the ethical aspects of the assessment well defined for the participants?",
-              "placeHolder": "Describe how the ethical aspects are defined here"
+              "instruction": "If the answer is 'YES', describe how the ethical aspects are defined.",
+              "placeholder": "Describe how the ethical aspects are defined here"
             },
             {
+              "key": "TH-25-5",
               "title": "25.5 What are the biases of the assessment, if any?",
-              "placeHolder": "Describe the bias here"
+              "placeholder": "Describe the bias here"
             }
           ]
         }

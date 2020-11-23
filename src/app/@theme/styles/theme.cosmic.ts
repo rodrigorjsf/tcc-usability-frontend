@@ -1,4 +1,4 @@
-import { NbJSThemeOptions, COSMIC_THEME as baseTheme } from '@nebular/theme';
+import {COSMIC_THEME as baseTheme, NbJSThemeOptions} from '@nebular/theme';
 
 const baseThemeVariables = baseTheme.variables;
 

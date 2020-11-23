@@ -1,11 +1,11 @@
-import { Component, EventEmitter } from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {
   NbCalendarCell,
   NbCalendarDayPickerComponent,
   NbCalendarMonthModelService,
   NbDateService,
 } from '@nebular/theme';
-import { TranslationWidth } from '@angular/common';
+import {TranslationWidth} from '@angular/common';
 
 @Component({
   selector: 'ngx-calendar-kit-month-cell',

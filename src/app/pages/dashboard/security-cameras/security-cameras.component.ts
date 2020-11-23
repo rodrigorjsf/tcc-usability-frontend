@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { NbComponentSize, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {map, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {NbComponentSize, NbMediaBreakpointsService, NbThemeService} from '@nebular/theme';
 
-import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
+import {Camera, SecurityCamerasData} from '../../../@core/data/security-cameras';
 
 @Component({
   selector: 'ngx-security-cameras',

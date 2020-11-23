@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 import {REVIEWER_MENU_ITEMS, USER_MENU_ITEMS} from './pages-menu';
 import {Store} from "@ngrx/store";

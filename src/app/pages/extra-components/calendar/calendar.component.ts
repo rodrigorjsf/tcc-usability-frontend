@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { NbCalendarRange, NbDateService } from '@nebular/theme';
-import { DayCellComponent } from './day-cell/day-cell.component';
+import {Component} from '@angular/core';
+import {NbCalendarRange, NbDateService} from '@nebular/theme';
+import {DayCellComponent} from './day-cell/day-cell.component';
 
 @Component({
   selector: 'ngx-calendar',

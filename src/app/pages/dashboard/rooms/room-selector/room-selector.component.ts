@@ -1,8 +1,8 @@
-import { Component, EventEmitter, HostBinding, OnDestroy, OnInit, Output } from '@angular/core';
-import { Location, LocationStrategy } from '@angular/common';
-import { NbThemeService } from '@nebular/theme';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {Component, EventEmitter, HostBinding, OnDestroy, OnInit, Output} from '@angular/core';
+import {Location, LocationStrategy} from '@angular/common';
+import {NbThemeService} from '@nebular/theme';
+import {map, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'ngx-room-selector',

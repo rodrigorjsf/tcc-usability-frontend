@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { messages } from './messages';
-import { botReplies, gifsLinks, imageLinks } from './bot-replies';
+import {messages} from './messages';
+import {botReplies, gifsLinks, imageLinks} from './bot-replies';
 
 @Injectable()
 export class ChatService {

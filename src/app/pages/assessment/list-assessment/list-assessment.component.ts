@@ -25,16 +25,23 @@ export class ListAssessmentComponent implements OnInit {
     mode: 'external',
     actions: {
       add: false,
+      edit: false,
+      delete: false,
       position: 'right',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
+      custom: [
+        {
+          name: 'edit',
+          title: '<i class="nb-edit"></i>',
+        },
+        {
+          name: 'export',
+          title: '<i class="nb-arrow-thin-down"></i>',
+        },
+        {
+          name: 'delete',
+          title: '<i class="nb-trash"></i>',
+        },
+      ],
     },
     columns: {
       projectName: {
@@ -74,11 +81,11 @@ export class ListAssessmentComponent implements OnInit {
     ).subscribe();
   }
 
-  onEdit($event: any) {
-    this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: $event.data});
+  onEdit(data: any) {
+    this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: data});
   }
 
-  async onDelete($event: any) {
+  async onDelete() {
     (await this.assessmentService.deleteAssessment(this.assessmentDelete.assessmentUid))
       .subscribe(response => {
           this.toast.showToast('delete', 'top-right', 'success', 'Assessment');
@@ -97,5 +104,14 @@ export class ListAssessmentComponent implements OnInit {
 
   cancelDelete() {
     this.assessmentDelete = null;
+  }
+
+  onCustom($event: any, deleteQuestionDialog: TemplateRef<any>) {
+    if ($event.action === 'edit') {
+      this.onEdit($event.data);
+    } else if ($event.action === 'export') {
+    } else {
+      this.open(deleteQuestionDialog, $event);
+    }
   }
 }
