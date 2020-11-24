@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { PieChart, EarningData } from '../../../../@core/data/earning';
-import { takeWhile } from 'rxjs/operators';
+import {Component, OnDestroy} from '@angular/core';
+import {EarningData, PieChart} from '../../../../@core/data/earning';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-earning-card-back',

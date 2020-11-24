@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {AuthInterceptor} from './auth-interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-
 
 
 @NgModule({

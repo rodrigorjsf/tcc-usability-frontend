@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { ExtraComponentsComponent } from './extra-components.component';
-import { AlertComponent } from './alert/alert.component';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { SpinnerComponent } from './spinner/spinner.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { ChatComponent } from './chat/chat.component';
-import { CalendarKitFullCalendarShowcaseComponent } from './calendar-kit/calendar-kit.component';
+import {ExtraComponentsComponent} from './extra-components.component';
+import {AlertComponent} from './alert/alert.component';
+import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {SpinnerComponent} from './spinner/spinner.component';
+import {CalendarComponent} from './calendar/calendar.component';
+import {ChatComponent} from './chat/chat.component';
+import {CalendarKitFullCalendarShowcaseComponent} from './calendar-kit/calendar-kit.component';
 
 const routes: Routes = [{
   path: '',

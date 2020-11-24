@@ -1,15 +1,15 @@
 import {
-  Component,
-  HostListener,
-  ViewChild,
-  ElementRef,
-  Input,
-  Output,
-  EventEmitter,
   AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
   OnChanges,
+  Output,
+  ViewChild,
 } from '@angular/core';
-import { Location, LocationStrategy } from '@angular/common';
+import {Location, LocationStrategy} from '@angular/common';
 
 let uniqueId = 0;
 const VIEW_BOX_SIZE = 300;

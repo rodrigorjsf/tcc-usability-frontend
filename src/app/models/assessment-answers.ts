@@ -103,12 +103,18 @@ export class PlanProcedureAnswers {
   whereOccur: string;
   howOccur: string;
   howMuchTime: string;
+assessmentProcedureSteps: string;
+isPilotAssessment: string;
+questionsAllowed: string;
 
   constructor() {
     this.whenOccur = VuatConstants.PLAN_ANSWER.pending.name;
     this.whereOccur = VuatConstants.PLAN_ANSWER.pending.name;
     this.howOccur = VuatConstants.PLAN_ANSWER.pending.name;
     this.howMuchTime = VuatConstants.PLAN_ANSWER.pending.name;
+    this.assessmentProcedureSteps = VuatConstants.PLAN_ANSWER.pending.name;
+    this.isPilotAssessment = VuatConstants.PLAN_ANSWER.pending.name;
+    this.questionsAllowed = VuatConstants.PLAN_ANSWER.pending.name;
   }
 }
 

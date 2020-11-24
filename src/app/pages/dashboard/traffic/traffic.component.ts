@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
+import {Component, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {takeWhile} from 'rxjs/operators';
 
-import { TrafficChartData } from '../../../@core/data/traffic-chart';
+import {TrafficChartData} from '../../../@core/data/traffic-chart';
 
 @Component({
   selector: 'ngx-traffic',

@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { Temperature, TemperatureHumidityData } from '../../../@core/data/temperature-humidity';
-import { takeWhile } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {Temperature, TemperatureHumidityData} from '../../../@core/data/temperature-humidity';
+import {takeWhile} from 'rxjs/operators';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'ngx-temperature',

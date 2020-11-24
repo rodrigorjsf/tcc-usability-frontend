@@ -1,7 +1,6 @@
 import {Observable, of as observableOf} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Contacts, RecentUsers, UserData} from '../data/users';
-import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store";
 import {selectUser} from "../../store/modules/user/user.selectors";

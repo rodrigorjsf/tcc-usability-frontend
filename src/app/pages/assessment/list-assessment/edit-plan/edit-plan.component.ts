@@ -1,16 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Assessment} from '../../../../models/assessment';
 import {AssessmentService} from '../../../../@core/auth/services/assessment.service';
 import {Router} from '@angular/router';
 import {QuestionService} from '../../../../@core/auth/services/question.service';
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
 import {
-  AttributeAssessmentVariables,
+  AssessmentData,
+  AssessmentProcedure,
+  AssessmentThreat,
+  AssessmentTools,
+  Participant,
   Scale,
   SmartCityQuestionnaire,
-  UsabilityGoal
+  UsabilityGoal,
+  Variable
 } from "../../../../models/AssessmentSections";
 import {PlanAnswers} from "../../../../models/assessment-answers";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {NbDialogService, NbToastrService} from "@nebular/theme";
+import {ToastService} from "../../../../services/toastService";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -19,6 +27,7 @@ import {PlanAnswers} from "../../../../models/assessment-answers";
 })
 export class EditPlanComponent implements OnInit {
 
+  form: FormGroup;
   formEditable = false;
   assessment: Assessment;
   router: Router;
@@ -27,71 +36,28 @@ export class EditPlanComponent implements OnInit {
   dataloaded: Promise<boolean>;
   questionsAnswered = 0;
   questionsPercentage: number;
+  planPercentage: number;
   data: any;
   usabilityScales: Scale[];
   tooltipTrigger: string;
+  submitTooltip: string;
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
+  private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
+  private categories = VuatConstants.CATEGORIES;
+  private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
+  private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
+  private selectOptions = VuatConstants.SELECT_OPTIONS;
   smartCityQuestionnaire: SmartCityQuestionnaire;
-  categories: any = {
-    application: {acronym: 'AP'},
-    goals: {acronym: 'GO'},
-    variables: {acronym: 'VM'},
-    participants: {acronym: 'PA'},
-    tasks: {acronym: 'TM'},
-    procedure: {acronym: 'PR'},
-    data: {acronym: 'DT'},
-    threats: {acronym: 'TH'},
-  };
-
-  smartCityCategories: any = {
-    dataManagement: {acronym: 'DMN'},
-    applicationExecutionEnvironment: {acronym: 'AEE'},
-    sensorNetworkManagement: {acronym: 'SNM'},
-    dataProcessing: {acronym: 'DPR'},
-    dataAccess: {acronym: 'DTA'},
-    serviceManagement: {acronym: 'SMN'},
-    toolsforSoftwareDevelopment: {acronym: 'TSD'},
-    definingACityModel: {acronym: 'DCM'},
-  };
-  selectOptions: any = {
-    dataManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    applicationExecutionEnvironment: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    sensorNetworkManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    dataProcessing: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    dataAccess: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    serviceManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    toolsforSoftwareDevelopment: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    definingACityModel: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-  };
+  toast: ToastService;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
-              router: Router) {
+              router: Router,
+              private formBuilder: FormBuilder,
+              private dialogService: NbDialogService,
+              private toastrService: NbToastrService) {
+    this.toast = new ToastService(toastrService);
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
   }
@@ -100,15 +66,28 @@ export class EditPlanComponent implements OnInit {
     this.assessment = new Assessment();
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
-        this.data = data;
         this.assessment = data;
+        this.calculatePlanPercentage();
         this.initQuestionnaire();
         this.initGoals();
         this.initAnswers();
         this.initAssessmentAttribute();
+        this.initParticipants();
+        this.initAssessmentTools();
+        this.initProcedure();
+        this.initDataCollection();
+        this.initThreats();
         console.log(this.assessment);
         this.dataloaded = Promise.resolve(true);
       });
+    this.form = this.formBuilder.group({
+      questions: this.formBuilder.array([]),
+      tools: this.formBuilder.array([]),
+      tasks: this.formBuilder.array([]),
+      steps: this.formBuilder.array([]),
+      threats: this.formBuilder.array([]),
+      limitations: this.formBuilder.array([]),
+    });
   }
 
   getApplicationAcronym() {
@@ -127,16 +106,58 @@ export class EditPlanComponent implements OnInit {
         new UsabilityGoal('USR'), new UsabilityGoal('ERR'), new UsabilityGoal('STF')];
   }
 
+  initParticipants() {
+    if (this.isNullOrUndefined(this.assessment.participant)) {
+      this.assessment.participant = new Participant();
+    }
+    if (this.assessment.participant.questions.length !== 0)
+      this.assessment.participant.questions.map(value => this.formBuilder.group({question: [value]}));
+  }
+
   initAssessmentAttribute() {
-    if (this.isNullOrUndefined(this.assessment.attributeAssessmentVariables)) {
-      this.assessment.attributeAssessmentVariables = new AttributeAssessmentVariables();
-      this.assessment.attributeAssessmentVariables.scale = [];
+    if (this.isNullOrUndefined(this.assessment.variables) || this.assessment.variables.length === 0) {
+      this.usabilityAtributes.forEach(value => this.assessment.variables.push(new Variable(value)));
+    }
+    if (this.isNullOrUndefined(this.assessment.scale) || this.assessment.scale.length === 0) {
+      this.assessment.scale = [];
+    }
+  }
+
+  initAssessmentTools() {
+    if (this.isNullOrUndefined(this.assessment.assessmentTools)) {
+      this.assessment.assessmentTools = new AssessmentTools();
+    }
+    if (this.assessment.assessmentTools.tools.length !== 0)
+      this.assessment.assessmentTools.tools.map(value => this.formBuilder.group({tool: [value]}));
+
+    if (this.assessment.assessmentTools.tasks.length !== 0) {
+      this.assessment.assessmentTools.tasks.map(value =>
+        this.formBuilder.group({
+          description: [value.description],
+          taskExecutionTime: [value.taskExecutionTime],
+          acceptanceCriteria: [value.acceptanceCriteria]
+        }));
     }
   }
 
   initAnswers() {
     if (this.isNullOrUndefined(this.assessment.answers))
       this.assessment.answers = new PlanAnswers();
+  }
+
+  initProcedure() {
+    if (this.isNullOrUndefined(this.assessment.assessmentProcedure))
+      this.assessment.assessmentProcedure = new AssessmentProcedure();
+  }
+
+  initDataCollection() {
+    if (this.isNullOrUndefined(this.assessment.assessmentData))
+      this.assessment.assessmentData = new AssessmentData();
+  }
+
+  initThreats() {
+    if (this.isNullOrUndefined(this.assessment.assessmentThreat))
+      this.assessment.assessmentThreat = new AssessmentThreat();
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -166,6 +187,14 @@ export class EditPlanComponent implements OnInit {
     return object === null || object === undefined;
   }
 
+  isNullOrUndefinedOrFalse(object: any): boolean {
+    return object === false || object === null || object === undefined;
+  }
+
+  isNullOrUndefinedOrTrue(object: any): boolean {
+    return object === true || object === null || object === undefined;
+  }
+
   isNull(object: any): boolean {
     return object === null;
   }
@@ -179,6 +208,10 @@ export class EditPlanComponent implements OnInit {
       return 'YES';
     }
     return 'NO';
+  }
+
+  isDataManagement(obj: string): boolean {
+    return obj === this.smartCityCategories.dataManagement.acronym;
   }
 
   setSmartCityAnswerField(option: boolean, objKey: string) {
@@ -205,113 +238,8 @@ export class EditPlanComponent implements OnInit {
     return obj === 'AP-PN' || obj === 'AP-PD';
   }
 
-  isDataManagement(obj: string): boolean {
-    return obj === this.smartCityCategories.dataManagement.acronym;
-  }
-
-  getPercentageColor(): string {
-    if (this.questionsPercentage <= 25)
-      return 'danger';
-    else if (this.questionsPercentage > 40 && this.questionsPercentage <= 70)
-      return 'warning';
-    else if (this.questionsPercentage > 70 && this.questionsPercentage <= 99)
-      return 'primary';
-    else
-      return 'success';
-  }
-
-
-  calculateProgressPercentage(section: string) {
-    this.questionsPercentage = 0;
-    this.questionsAnswered = 0;
-    let questionQuantity;
-    if (this.categories.application.acronym === section) {
-      questionQuantity = 11;
-      if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.applicationExecution ===
-        this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.dataAccess === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.dataManagement === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.dataProcessing === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.definingCityModel === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
-        this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-    } else if (this.categories.goals.acronym === section) {
-      questionQuantity = 5;
-      if (this.assessment.answers.planGoalsAnswers.learnability === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planGoalsAnswers.satisfaction === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planGoalsAnswers.errorRate === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planGoalsAnswers.userRetentionOverTime === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planGoalsAnswers.efficiency === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-    } else if (this.categories.variables.acronym === section) {
-      questionQuantity = 11;
-      if (this.assessment.answers.planVariableAnswers.learnabilityAtt === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.satisfactionAtt === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.errorRateAtt === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeAtt === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.efficiencyAtt === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.satisfactionMeth === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.errorRateMeth === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeMeth === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.efficiencyMeth === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.learnabilityMeth === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planVariableAnswers.suggestedScales === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-    }
-    const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
-    this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
-  }
-
-  calculateGoalsPercentage() {
-    this.questionsPercentage = 0;
-    this.questionsAnswered = 0;
-    const questionQuantity = 11;
-    if (!this.isNullOrUndefined(this.assessment.projectName))
-      this.questionsAnswered = this.questionsAnswered + 1;
-    if (!this.isNullOrUndefined(this.assessment.projectDescription))
-      this.questionsAnswered = this.questionsAnswered + 1;
-    if (!this.isNull(this.assessment.smartCityPercentage))
-      this.questionsAnswered = this.questionsAnswered + 1;
-    for (const questionnaire in this.assessment.smartCityQuestionnaire) {
-      if (!this.isNullOrUndefined(questionnaire))
-        this.questionsAnswered = this.questionsAnswered + 1;
-    }
-    const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
-    this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
-  }
-
   checkUsabilityGoal($event: boolean, usabilityGoal: UsabilityGoal) {
-    if (usabilityGoal.attribute === 'LNR') {
+    if (usabilityGoal.attribute === 'LRN') {
       if ($event === true) {
         this.assessment.answers.planGoalsAnswers.learnability = this.planAnswersConstants.answered.name;
       } else {
@@ -410,7 +338,7 @@ export class EditPlanComponent implements OnInit {
 
   verifyUsabilityVariableCheck(attribute: string, parentQuestionKey: string): boolean {
     if (parentQuestionKey === 'VM-4') {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         return this.assessment.answers.planVariableAnswers.learnabilityAtt === this.planAnswersConstants.answered.name;
       } else if (attribute === 'EFF') {
         return this.assessment.answers.planVariableAnswers.efficiencyAtt === this.planAnswersConstants.answered.name;
@@ -422,7 +350,7 @@ export class EditPlanComponent implements OnInit {
         return this.assessment.answers.planVariableAnswers.satisfactionAtt === this.planAnswersConstants.answered.name;
       }
     } else {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         return this.assessment.answers.planVariableAnswers.learnabilityMeth === this.planAnswersConstants.answered.name;
       } else if (attribute === 'EFF') {
         return this.assessment.answers.planVariableAnswers.efficiencyMeth === this.planAnswersConstants.answered.name;
@@ -438,7 +366,7 @@ export class EditPlanComponent implements OnInit {
 
   checkUsabilityVariable($event: boolean, attribute: string, parentQuestionKey: string) {
     if (parentQuestionKey === 'VM-4') {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         if ($event === true) {
           this.assessment.answers.planVariableAnswers.learnabilityAtt = this.planAnswersConstants.answered.name;
         } else {
@@ -470,7 +398,7 @@ export class EditPlanComponent implements OnInit {
         }
       }
     } else {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         if ($event === true) {
           this.assessment.answers.planVariableAnswers.learnabilityMeth = this.planAnswersConstants.answered.name;
         } else {
@@ -509,7 +437,7 @@ export class EditPlanComponent implements OnInit {
   }
 
   verifyGoalsCheckState(usabilityGoal: UsabilityGoal): boolean {
-    if (usabilityGoal.attribute === 'LNR') {
+    if (usabilityGoal.attribute === 'LRN') {
       return this.assessment.answers.planGoalsAnswers.learnability === this.planAnswersConstants.answered.name;
     } else if (usabilityGoal.attribute === 'EFF') {
       return this.assessment.answers.planGoalsAnswers.efficiency === this.planAnswersConstants.answered.name;
@@ -523,20 +451,22 @@ export class EditPlanComponent implements OnInit {
   }
 
   verifyScaleStatus(scale: Scale): boolean {
-    for (const scaleObject of this.assessment.attributeAssessmentVariables.scale) {
+    for (const scaleObject of this.assessment.scale) {
       if (scaleObject.acronym === scale.acronym)
         return true;
     }
     return false;
   }
 
-  scaleSelectionCheckbox($event: boolean, scale: Scale) {
+  scaleSelectionCheckbox($event: boolean, scale: Scale, i: number) {
     if ($event === true) {
-      this.assessment.attributeAssessmentVariables.scale.push(scale);
+      this.assessment.scale.push(scale);
     } else {
-      this.assessment.attributeAssessmentVariables.scale.forEach((item, index) => {
-        if (item === scale) this.assessment.attributeAssessmentVariables.scale.splice(index, 1);
-      });
+      const removeIndex = this.assessment.scale.map(
+        function (item) {
+          return item.uid;
+        }).indexOf(scale.uid);
+      this.assessment.scale.splice(removeIndex, 1);
     }
   }
 
@@ -552,11 +482,627 @@ export class EditPlanComponent implements OnInit {
   }
 
   checkClickable(): boolean {
-    if (this.assessment.attributeAssessmentVariables.scale.length === 0) {
+    if (this.assessment.scale.length === 0) {
       this.tooltipTrigger = 'hint';
       return true;
     }
     this.tooltipTrigger = 'noop';
     return this.formEditable !== true;
+  }
+
+  showValue(object: any): any {
+    if (this.isNullOrUndefined(object))
+      return '';
+    return object;
+  }
+
+
+  // showQuestions() {
+  //   this.questions.getRawValue().forEach(value => console.log(value.question));
+  //   console.log(this.values.questions);
+  //   const arrayTest = this.questions.getRawValue().map(value => value.question);
+  //   console.log(arrayTest);
+  // }
+
+  private newQuestion(): FormGroup {
+    return this.formBuilder.group({question: ['']});
+  }
+
+  addQuestion() {
+    if (this.newQuestion().getRawValue() !== '')
+      this.questions.push(this.newQuestion());
+    console.log(this.serializedValues);
+  }
+
+  removeQuestion(i: number) {
+    this.questions.removeAt(i);
+  }
+
+  get questions() {
+    return this.form.controls.questions as FormArray;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
+    console.log(serialized);
+    delete serialized.questions;
+    return serialized;
+  }
+
+  // --------------------- TASKS SECTION -------------------------
+  private newTool(): FormGroup {
+    return this.formBuilder.group({tool: ['']});
+  }
+
+  addTools() {
+    if (this.newTool().getRawValue() !== '')
+      this.tools.push(this.newTool());
+    console.log(this.serializedValues);
+  }
+
+  removeTool(i: number) {
+    this.tools.removeAt(i);
+  }
+
+  get tools() {
+    return this.form.controls.tools as FormArray;
+  }
+
+  private newTask(): FormGroup {
+    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
+  }
+
+  addTasks() {
+    if (this.newTask().getRawValue() !== '')
+      this.tasks.push(this.newTask());
+    console.log(this.serializedValues);
+  }
+
+  removeTask(i: number) {
+    this.tasks.removeAt(i);
+  }
+
+  get tasks() {
+    return this.form.controls.tasks as FormArray;
+  }
+
+  open(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog, {context: 'this is some additional data passed to dialog'});
+  }
+
+  checkIfToolsIsNotEmpty(): boolean {
+    return this.tools.getRawValue().map(value => value.tools).length !== 0;
+  }
+
+  checkIfTasksIsNotEmpty(): boolean {
+    return this.tasks.getRawValue().map(value => value.tasks).length !== 0;
+  }
+
+  getTaskDescription(task: number) {
+    return this.tasks.getRawValue()[task].description;
+  }
+
+  verifyMaterialsCheckState(key: string) {
+    if (key === 'TM-14') {
+      return this.assessment.answers.planTasksAnswers.usedTools === this.planAnswersConstants.answered.name;
+    } else if (key === 'TM-15') {
+      return this.assessment.answers.planTasksAnswers.tasksToPerform === this.planAnswersConstants.answered.name;
+    } else if (key === 'TM-16') {
+      return this.assessment.answers.planTasksAnswers.tasksTime === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planTasksAnswers.criteria === this.planAnswersConstants.answered.name;
+    }
+  }
+
+  checkMaterial($event: boolean, key: string) {
+    if (key === 'TM-14') {
+      if ($event === true) {
+        this.assessment.answers.planTasksAnswers.usedTools = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planTasksAnswers.usedTools = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'TM-15') {
+      if ($event === true) {
+        this.assessment.answers.planTasksAnswers.tasksToPerform = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planTasksAnswers.tasksToPerform = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'TM-16') {
+      if ($event === true) {
+        this.assessment.answers.planTasksAnswers.tasksTime = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planTasksAnswers.tasksTime = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planTasksAnswers.criteria = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planTasksAnswers.criteria = this.planAnswersConstants.pending.name;
+      }
+    }
+  }
+
+  // --------------------- PROCEDURE SECTION -------------------------
+  verifyProcedureState(key: string) {
+    if (key === 'PR-18-1') {
+      return this.assessment.answers.planProcedureAnswers.whenOccur === this.planAnswersConstants.answered.name;
+    } else if (key === 'PR-18-2') {
+      return this.assessment.answers.planProcedureAnswers.whereOccur === this.planAnswersConstants.answered.name;
+    } else if (key === 'PR-18-3') {
+      return this.assessment.answers.planProcedureAnswers.howOccur === this.planAnswersConstants.answered.name;
+    } else if (key === 'PR-18-4') {
+      return this.assessment.answers.planProcedureAnswers.howMuchTime === this.planAnswersConstants.answered.name;
+    } else if (key === 'PR-19') {
+      return this.assessment.answers.planProcedureAnswers.assessmentProcedureSteps === this.planAnswersConstants.answered.name;
+    } else if (key === 'PR-20') {
+      return this.assessment.answers.planProcedureAnswers.questionsAllowed === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planProcedureAnswers.isPilotAssessment === this.planAnswersConstants.answered.name;
+    }
+  }
+
+  checkProcedureQuestion($event: boolean, key: string) {
+    if (key === 'PR-18-1') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.whenOccur = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.whenOccur = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PR-18-2') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.whereOccur = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.whereOccur = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PR-18-3') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.howOccur = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.howOccur = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PR-18-4') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.howMuchTime = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.howMuchTime = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PR-19') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.assessmentProcedureSteps = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.assessmentProcedureSteps = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PR-20') {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.questionsAllowed = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.questionsAllowed = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planProcedureAnswers.isPilotAssessment = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planProcedureAnswers.isPilotAssessment = this.planAnswersConstants.pending.name;
+      }
+    }
+  }
+
+  private newStep(): FormGroup {
+    return this.formBuilder.group({name: [''], description: ['']});
+  }
+
+  addSteps() {
+    if (this.newStep().getRawValue() !== '')
+      this.steps.push(this.newStep());
+    console.log(this.serializedValues);
+  }
+
+  removeSteps(i: number) {
+    this.steps.removeAt(i);
+  }
+
+  get steps() {
+    return this.form.controls.steps as FormArray;
+  }
+
+  // ----------------- DATA SECTION ---------------------
+
+  verifyDataState(key: string) {
+    if (key === 'DT-22') {
+      return this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name;
+    } else if (key === 'DT-23') {
+      return this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name;
+    }
+  }
+
+  checkDataQuestion($event: boolean, key: string) {
+    if (key === 'DT-22') {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'DT-23') {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.pending.name;
+      }
+    }
+  }
+
+  // ----------------- THREATS SECTION ---------------
+  private newThreat(): FormGroup {
+    return this.formBuilder.group({threat: ['']});
+  }
+
+  addThreats() {
+    if (this.newThreat().getRawValue() !== '')
+      this.threats.push(this.newThreat());
+  }
+
+  removeThreat(i: number) {
+    this.steps.removeAt(i);
+  }
+
+  get threats() {
+    return this.form.controls.threats as FormArray;
+  }
+
+  private newLimitation(): FormGroup {
+    return this.formBuilder.group({limitation: ['']});
+  }
+
+  addLimitation() {
+    if (this.newLimitation().getRawValue() !== '')
+      this.limitations.push(this.newLimitation());
+  }
+
+  removeLimitation(i: number) {
+    this.limitations.removeAt(i);
+  }
+
+  get limitations() {
+    return this.form.controls.limitations as FormArray;
+  }
+
+  verifyThreatState(key: string) {
+    if (key === 'DT-22') {
+      return this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name;
+    } else if (key === 'DT-23') {
+      return this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name;
+    }
+  }
+
+  checkThreatQuestion($event: boolean, key: string) {
+    if (key === 'DT-22') {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'DT-23') {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.pending.name;
+      }
+    }
+  }
+
+  getPercentageColor(): string {
+    if (this.questionsPercentage <= 25)
+      return 'danger';
+    else if (this.questionsPercentage > 40 && this.questionsPercentage <= 70)
+      return 'warning';
+    else if (this.questionsPercentage > 70 && this.questionsPercentage <= 99)
+      return 'primary';
+    else
+      return 'success';
+  }
+
+  getPlanPercentageColor(): string {
+    if (this.planPercentage <= 25)
+      return 'danger';
+    else if (this.planPercentage > 40 && this.planPercentage <= 70)
+      return 'warning';
+    else if (this.planPercentage > 70 && this.planPercentage <= 99)
+      return 'primary';
+    else
+      return 'success';
+  }
+
+  calculateProgressPercentage(section: string) {
+    this.questionsPercentage = 0;
+    this.questionsAnswered = 0;
+    let questionQuantity;
+    if (this.categories.application.acronym === section) {
+      questionQuantity = 11;
+      if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.applicationExecution ===
+        this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.dataAccess === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.dataManagement === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.dataProcessing === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.definingCityModel === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
+        this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.goals.acronym === section) {
+      questionQuantity = 5;
+      if (this.assessment.answers.planGoalsAnswers.learnability === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planGoalsAnswers.satisfaction === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planGoalsAnswers.errorRate === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planGoalsAnswers.userRetentionOverTime === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planGoalsAnswers.efficiency === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.variables.acronym === section) {
+      questionQuantity = 11;
+      if (this.assessment.answers.planVariableAnswers.learnabilityAtt === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.satisfactionAtt === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.errorRateAtt === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeAtt === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.efficiencyAtt === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.satisfactionMeth === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.errorRateMeth === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeMeth === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.efficiencyMeth === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.learnabilityMeth === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planVariableAnswers.suggestedScales === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.participants.acronym === section) {
+      questionQuantity = 7;
+      if (this.assessment.answers.planParticipantsAnswers.howManyParticipants === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.participationType === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.formCompensation === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.eligibilityCriteria === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.participantsInstruction === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planParticipantsAnswers.askedQuestions === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.tasks.acronym === section) {
+      questionQuantity = 4;
+      if (this.assessment.answers.planTasksAnswers.usedTools === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planTasksAnswers.tasksToPerform === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planTasksAnswers.tasksTime === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planTasksAnswers.criteria === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.procedure.acronym === section) {
+      questionQuantity = 7;
+      if (this.assessment.answers.planProcedureAnswers.whenOccur === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.whereOccur === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.howOccur === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.howMuchTime === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.assessmentProcedureSteps === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.questionsAllowed === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planProcedureAnswers.isPilotAssessment === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else if (this.categories.data.acronym === section) {
+      questionQuantity = 3;
+      if (this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    } else {
+      questionQuantity = 5;
+      if (this.assessment.answers.planThreatsAnswers.assessmentBiases === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planThreatsAnswers.assessmentLimitations === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planThreatsAnswers.ethicalAspects === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planThreatsAnswers.threatsValidityControlled === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+      if (this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name)
+        this.questionsAnswered = this.questionsAnswered + 1;
+    }
+    const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
+    this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
+  }
+
+  calculatePlanPercentage() {
+    this.planPercentage = 0;
+    this.questionsAnswered = 0;
+    const questionQuantity = 53;
+    if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.applicationExecution ===
+      this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.dataAccess === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.dataManagement === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.dataProcessing === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.definingCityModel === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
+      this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planGoalsAnswers.learnability === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planGoalsAnswers.satisfaction === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planGoalsAnswers.errorRate === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planGoalsAnswers.userRetentionOverTime === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planGoalsAnswers.efficiency === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.learnabilityAtt === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.satisfactionAtt === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.errorRateAtt === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeAtt
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.efficiencyAtt === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.satisfactionMeth === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.errorRateMeth === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.userRetentionOverTimeMeth
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.efficiencyMeth === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.learnabilityMeth === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planVariableAnswers.suggestedScales === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.howManyParticipants === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.participationType === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.formCompensation === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.eligibilityCriteria === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.participantsInstruction
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planParticipantsAnswers.askedQuestions === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planTasksAnswers.usedTools === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planTasksAnswers.tasksToPerform === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planTasksAnswers.tasksTime === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planTasksAnswers.criteria === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.whenOccur === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.whereOccur === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.howOccur === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.howMuchTime === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.assessmentProcedureSteps
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.questionsAllowed === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planProcedureAnswers.isPilotAssessment === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planThreatsAnswers.assessmentBiases === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planThreatsAnswers.assessmentLimitations === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planThreatsAnswers.ethicalAspects === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planThreatsAnswers.threatsValidityControlled
+      === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    if (this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name)
+      this.questionsAnswered = this.questionsAnswered + 1;
+    const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
+    this.planPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
+  }
+
+  setSubmitTooltipTrigger() {
+    if (this.planPercentage !== 100) {
+      this.submitTooltip = 'hint';
+    }
+    this.submitTooltip = 'noop';
+  }
+
+  isPlanNotDone(): boolean {
+    return this.planPercentage !== 100;
+  }
+
+  onEditApplication() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
+  }
+
+  onEditGoals() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/goal'], {state: this.assessment});
   }
 }

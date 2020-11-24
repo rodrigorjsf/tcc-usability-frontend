@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbIconLibraries } from '@nebular/theme';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {NbIconLibraries} from '@nebular/theme';
 
 @Component({
   selector: 'ngx-icons',

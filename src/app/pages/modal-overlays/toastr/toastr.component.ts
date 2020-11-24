@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   NbComponentStatus,
   NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
   NbGlobalPosition,
-  NbToastrService,
   NbToastrConfig,
+  NbToastrService,
 } from '@nebular/theme';
 
 @Component({

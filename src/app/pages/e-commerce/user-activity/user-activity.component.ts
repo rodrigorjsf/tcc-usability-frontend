@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
+import {Component, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {takeWhile} from 'rxjs/operators';
 
-import { UserActivityData, UserActive } from '../../../@core/data/user-activity';
+import {UserActive, UserActivityData} from '../../../@core/data/user-activity';
 
 @Component({
   selector: 'ngx-user-activity',

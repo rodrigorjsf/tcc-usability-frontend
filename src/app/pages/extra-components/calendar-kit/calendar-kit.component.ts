@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CalendarKitMonthCellComponent } from './month-cell/month-cell.component';
+import {Component} from '@angular/core';
+import {CalendarKitMonthCellComponent} from './month-cell/month-cell.component';
 
 @Component({
   selector: 'ngx-calendar-kit',

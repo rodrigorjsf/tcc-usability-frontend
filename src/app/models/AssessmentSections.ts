@@ -5,6 +5,10 @@ export class AssessmentData {
   statisticalMethodsDescription: string;
 
   constructor() {
+    this.dataCollectionProcedure = null;
+    this.analysisDescription = null;
+    this.statisticalMethods = null;
+    this.statisticalMethodsDescription = null;
   }
 }
 
@@ -19,6 +23,14 @@ export class AssessmentProcedure {
   questionsAllowed: boolean;
 
   constructor() {
+    this.occurDate = null;
+    this.occurLocal = null;
+    this.occurDetail = null;
+    this.occurTime = null;
+    this.assessmentProcedureSteps = [];
+    this.isPilotAssessment = null;
+    this.pilotDescription = null;
+    this.questionsAllowed = null;
   }
 }
 
@@ -32,6 +44,13 @@ export class AssessmentThreat {
   biasDescription: string;
 
   constructor() {
+    this.assessmentToolsId = null;
+    this.threats = [];
+    this.controlMeasure = null;
+    this.limitations = [];
+    this.ethicalAspectsDefined = null;
+    this.ethicalAspectsDescription = null;
+    this.biasDescription = null;
   }
 }
 
@@ -119,18 +138,13 @@ export class Scale {
 
 export class Variable {
   usabilityAttribute: string;
-  variableList: string[];
+  variables: string;
   obtainedBy: string;
 
-  constructor() {
-  }
-}
-
-export class AttributeAssessmentVariables {
-  variables: Variable[];
-  scale: Scale[];
-
-  constructor() {
+  constructor(usabilityAttribute: string) {
+    this.usabilityAttribute = usabilityAttribute;
+    this.variables = null;
+    this.obtainedBy = null;
   }
 }
 
@@ -139,18 +153,26 @@ export class Participant {
   participationLocalType: string;
   hasCompensation: boolean;
   compensationDescription: string;
-  criteriaList: string[];
+  criteria: string;
   hasCollectedInformation: boolean;
   collectedInformationUse: string;
   instructions: string;
   questions: string[];
 
   constructor() {
+    this.participantsQuantity = null;
+    this.participationLocalType = null;
+    this.hasCompensation = null;
+    this.compensationDescription = null;
+    this.criteria = null;
+    this.hasCollectedInformation = null;
+    this.collectedInformationUse = null;
+    this.instructions = null;
+    this.questions = [];
   }
 }
 
 export class Task {
-  assessmentToolsId: number;
   description: string;
   taskExecutionTime: number;
   acceptanceCriteria: string;
@@ -165,11 +187,13 @@ export class AssessmentTools {
   tasks: Task[];
 
   constructor() {
+    this.tools = [];
+    this.toolsUsageDescription = null;
+    this.tasks = [];
   }
 }
 
 export class AssessmentProcedureStep {
-  assessmentProcedureId: number;
   name: string;
   description: string;
 

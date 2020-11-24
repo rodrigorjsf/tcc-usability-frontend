@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { StatsBarData } from '../../../../@core/data/stats-bar';
-import { takeWhile } from 'rxjs/operators';
+import {Component, OnDestroy} from '@angular/core';
+import {StatsBarData} from '../../../../@core/data/stats-bar';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-stats-card-back',

@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../services/user/user.service';
 import {catchError, map, tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'ngx-register',

@@ -2,6 +2,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CreateAssessmentDTO} from '../../../models/dto/CreateAssessmentDTO';
 import {environment} from '../../../../environments/environment';
+import {SmartCityQuestionnaireDTO} from "../../../models/dto/SmartCityQuestionnaireDTO";
+import {UsabilityGoalDTO} from "../../../models/dto/UsabilityGoalDTO";
 
 @Injectable()
 export class AssessmentService {
@@ -24,6 +26,33 @@ export class AssessmentService {
       observe: 'body',
       responseType: 'json',
     });
+  }
+
+  async updateAssessmentApplicationSection(application: SmartCityQuestionnaireDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/add/smartcity-questionnaire`, application,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async updateAssessmentGoalsSection(application: UsabilityGoalDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/add/goals`, application,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async deleteAssessment(uid: string) {
+    return this.http.put<any>(`${this.baseUrl}/assessment/delete/` + uid,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
   }
 
   getUserAssessments(userUid: string) {
