@@ -286,7 +286,7 @@
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
                       <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
-                              status="success">
+                              status="success" (click)="onEditVariables()">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
                       </button>
