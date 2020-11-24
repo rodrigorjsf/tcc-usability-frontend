@@ -52,7 +52,7 @@ export class CreateAssessmentComponent implements OnInit {
       .subscribe(data => {
         this.assessment = data;
         console.log(this.assessment);
-        this.router.navigate(['/pages/assessment/my-assessments']);
+        this.router.navigate(['/pages/assessment/my-plans']);
       });
   }
 

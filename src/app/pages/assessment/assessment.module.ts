@@ -26,6 +26,7 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {EditPlanComponent} from './list-assessment/edit-plan/edit-plan.component';
 import {QuestionService} from '../../@core/auth/services/question.service';
 import { EditApplicationSectionComponent } from './list-assessment/edit-plan/edit-application-section/edit-application-section.component';
+import { EditGoalSectionComponent } from './list-assessment/edit-plan/edit-goal-section/edit-goal-section.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { EditApplicationSectionComponent } from './list-assessment/edit-plan/edi
     ReviewAssessmentComponent,
     EditPlanComponent,
     EditApplicationSectionComponent,
+    EditGoalSectionComponent,
   ],
   providers: [
     AssessmentService,

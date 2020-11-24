@@ -5,6 +5,70 @@ export class VuatConstants {
     pending: {name: 'PENDING', type: false},
   };
 
+  static readonly CATEGORIES: any = {
+    application: {acronym: 'AP'},
+    goals: {acronym: 'GO'},
+    variables: {acronym: 'VM'},
+    participants: {acronym: 'PA'},
+    tasks: {acronym: 'TM'},
+    procedure: {acronym: 'PR'},
+    data: {acronym: 'DT'},
+    threats: {acronym: 'TH'},
+  };
+
+  static readonly SMART_CITY_CATEGORY: any = {
+    dataManagement: {acronym: 'DMN'},
+    applicationExecutionEnvironment: {acronym: 'AEE'},
+    sensorNetworkManagement: {acronym: 'SNM'},
+    dataProcessing: {acronym: 'DPR'},
+    dataAccess: {acronym: 'DTA'},
+    serviceManagement: {acronym: 'SMN'},
+    toolsforSoftwareDevelopment: {acronym: 'TSD'},
+    definingACityModel: {acronym: 'DCM'},
+  };
+
+  static readonly GENERIC_SELECT_OPTIONS: any = {
+    options: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO'},
+    ],
+  };
+
+  static readonly SELECT_OPTIONS: any = {
+    dataManagement: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    applicationExecutionEnvironment: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    sensorNetworkManagement: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    dataProcessing: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    dataAccess: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    serviceManagement: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    toolsforSoftwareDevelopment: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+    definingACityModel: [
+      {value: true, label: 'YES'},
+      {value: false, label: 'NO', checked: true},
+    ],
+  };
+
   static readonly USABILITY_ATRIBUTES: Array<any> = ['LRN', 'EFF', 'USR', 'ERR', 'STF'];
 
   static readonly PLAN_QUESTIONS: Array<any> = [
@@ -91,71 +155,26 @@ export class VuatConstants {
               "objectKey": "LRN",
               "title": "3.1 Learnability: ",
               "subTitle": "How easy it is to learn the main system functionality and gain pro- ficiency to complete the job. We usually assess this by measuring the time a user spends working with the system before that user can complete certain tasks in the time it would take an expert to com- plete the same tasks. This attribute is very important for novice users. [REF001]",
-              "hint": "",
-              "considerations": {
-                "state": "Consider whether the experiment’s goals describe:",
-                "items": [
-                  "A clear purpose.",
-                  "Specific Objectives.",
-                  "The reasons for undertaking the experiment, clearly and explicitly stated."
-                ]
-              }
             },
             {
               "objectKey": "EFF",
               "title": "3.2 Efficiency: ",
               "subTitle": "The number of tasks per unit of time that the user can perform using the system. We look for the maximum speed of user task performance. The higher system usability is, the faster the user can perform the task and complete the job. [REF001]",
-              "hint": "",
-              "considerations": {
-                "state": "Consider whether the experiment’s goals describe:",
-                "items": [
-                  "A clear purpose.",
-                  "Specific Objectives.",
-                  "The reasons for undertaking the experiment, clearly and explicitly stated."
-                ]
-              }
             },
             {
               "objectKey": "USR",
               "title": "3.3 User retention over time: ",
               "subTitle": "It is critical for intermittent users to be able to use the system without having to climb the learn- ing curve again. This attribute reflects how well the user remembers how the system works after a period of nonusage. [REF001]",
-              "hint": "",
-              "considerations": {
-                "state": "Consider whether the experiment’s goals describe:",
-                "items": [
-                  "A clear purpose.",
-                  "Specific Objectives.",
-                  "The reasons for undertaking the experiment, clearly and explicitly stated."
-                ]
-              }
             },
             {
               "objectKey": "ERR",
               "title": "3.4 Error rate: ",
               "subTitle": "This attribute contributes negatively to usability. It does not refer to system errors. On the contrary, it addresses the number of errors the user makes while performing a task. Good usability implies a low error rate. Errors reduce efficiency and user satisfaction, and they can be seen as a failure to communicate to the user the right way of doing things. [REF001]",
-              "hint": "",
-              "considerations": {
-                "state": "Consider whether the experiment’s goals describe:",
-                "items": [
-                  "A clear purpose.",
-                  "Specific Objectives.",
-                  "The reasons for undertaking the experiment, clearly and explicitly stated."
-                ]
-              }
             },
             {
               "objectKey": "STF",
               "title": "3.5 Satisfaction: ",
               "subTitle": "This shows a user’s subjective impression of the system. [REF001]",
-              "hint": "",
-              "considerations": {
-                "state": "Consider whether the experiment’s goals describe:",
-                "items": [
-                  "A clear purpose.",
-                  "Specific Objectives.",
-                  "The reasons for undertaking the experiment, clearly and explicitly stated."
-                ]
-              }
             }
           ]
         }

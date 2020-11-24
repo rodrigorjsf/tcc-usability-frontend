@@ -82,7 +82,7 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   onEdit(data: any) {
-    this.router.navigate(['/pages/assessment/my-assessments/edit'], {state: data});
+    this.router.navigate(['/pages/assessment/my-plans/edit'], {state: data});
   }
 
   async onDelete() {

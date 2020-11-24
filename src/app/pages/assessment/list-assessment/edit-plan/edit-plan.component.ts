@@ -17,7 +17,8 @@ import {
 } from "../../../../models/AssessmentSections";
 import {PlanAnswers} from "../../../../models/assessment-answers";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {NbDialogService} from "@nebular/theme";
+import {NbDialogService, NbToastrService} from "@nebular/theme";
+import {ToastService} from "../../../../services/toastService";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -43,76 +44,20 @@ export class EditPlanComponent implements OnInit {
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
   private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
+  private categories = VuatConstants.CATEGORIES;
+  private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
+  private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
+  private selectOptions = VuatConstants.SELECT_OPTIONS;
   smartCityQuestionnaire: SmartCityQuestionnaire;
-  categories: any = {
-    application: {acronym: 'AP'},
-    goals: {acronym: 'GO'},
-    variables: {acronym: 'VM'},
-    participants: {acronym: 'PA'},
-    tasks: {acronym: 'TM'},
-    procedure: {acronym: 'PR'},
-    data: {acronym: 'DT'},
-    threats: {acronym: 'TH'},
-  };
-
-  smartCityCategories: any = {
-    dataManagement: {acronym: 'DMN'},
-    applicationExecutionEnvironment: {acronym: 'AEE'},
-    sensorNetworkManagement: {acronym: 'SNM'},
-    dataProcessing: {acronym: 'DPR'},
-    dataAccess: {acronym: 'DTA'},
-    serviceManagement: {acronym: 'SMN'},
-    toolsforSoftwareDevelopment: {acronym: 'TSD'},
-    definingACityModel: {acronym: 'DCM'},
-  };
-
-  genericSelectOptions: any = {
-    options: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO'},
-    ],
-  };
-
-  selectOptions: any = {
-    dataManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    applicationExecutionEnvironment: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    sensorNetworkManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    dataProcessing: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    dataAccess: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    serviceManagement: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    toolsforSoftwareDevelopment: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-    definingACityModel: [
-      {value: true, label: 'YES'},
-      {value: false, label: 'NO', checked: true},
-    ],
-  };
+  toast: ToastService;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
               router: Router,
               private formBuilder: FormBuilder,
-              private dialogService: NbDialogService) {
+              private dialogService: NbDialogService,
+              private toastrService: NbToastrService) {
+    this.toast = new ToastService(toastrService);
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
   }
@@ -121,8 +66,8 @@ export class EditPlanComponent implements OnInit {
     this.assessment = new Assessment();
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
-        this.data = data;
         this.assessment = data;
+        this.calculatePlanPercentage();
         this.initQuestionnaire();
         this.initGoals();
         this.initAnswers();
@@ -132,7 +77,6 @@ export class EditPlanComponent implements OnInit {
         this.initProcedure();
         this.initDataCollection();
         this.initThreats();
-        this.calculatePlanPercentage();
         console.log(this.assessment);
         this.dataloaded = Promise.resolve(true);
       });
@@ -266,6 +210,10 @@ export class EditPlanComponent implements OnInit {
     return 'NO';
   }
 
+  isDataManagement(obj: string): boolean {
+    return obj === this.smartCityCategories.dataManagement.acronym;
+  }
+
   setSmartCityAnswerField(option: boolean, objKey: string) {
     if (this.smartCityCategories.dataManagement.acronym === objKey) {
       this.assessment.smartCityQuestionnaire.hasDataManagement = option;
@@ -290,14 +238,8 @@ export class EditPlanComponent implements OnInit {
     return obj === 'AP-PN' || obj === 'AP-PD';
   }
 
-  isDataManagement(obj: string): boolean {
-    return obj === this.smartCityCategories.dataManagement.acronym;
-  }
-
-
-
   checkUsabilityGoal($event: boolean, usabilityGoal: UsabilityGoal) {
-    if (usabilityGoal.attribute === 'LNR') {
+    if (usabilityGoal.attribute === 'LRN') {
       if ($event === true) {
         this.assessment.answers.planGoalsAnswers.learnability = this.planAnswersConstants.answered.name;
       } else {
@@ -396,7 +338,7 @@ export class EditPlanComponent implements OnInit {
 
   verifyUsabilityVariableCheck(attribute: string, parentQuestionKey: string): boolean {
     if (parentQuestionKey === 'VM-4') {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         return this.assessment.answers.planVariableAnswers.learnabilityAtt === this.planAnswersConstants.answered.name;
       } else if (attribute === 'EFF') {
         return this.assessment.answers.planVariableAnswers.efficiencyAtt === this.planAnswersConstants.answered.name;
@@ -408,7 +350,7 @@ export class EditPlanComponent implements OnInit {
         return this.assessment.answers.planVariableAnswers.satisfactionAtt === this.planAnswersConstants.answered.name;
       }
     } else {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         return this.assessment.answers.planVariableAnswers.learnabilityMeth === this.planAnswersConstants.answered.name;
       } else if (attribute === 'EFF') {
         return this.assessment.answers.planVariableAnswers.efficiencyMeth === this.planAnswersConstants.answered.name;
@@ -424,7 +366,7 @@ export class EditPlanComponent implements OnInit {
 
   checkUsabilityVariable($event: boolean, attribute: string, parentQuestionKey: string) {
     if (parentQuestionKey === 'VM-4') {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         if ($event === true) {
           this.assessment.answers.planVariableAnswers.learnabilityAtt = this.planAnswersConstants.answered.name;
         } else {
@@ -456,7 +398,7 @@ export class EditPlanComponent implements OnInit {
         }
       }
     } else {
-      if (attribute === 'LNR') {
+      if (attribute === 'LRN') {
         if ($event === true) {
           this.assessment.answers.planVariableAnswers.learnabilityMeth = this.planAnswersConstants.answered.name;
         } else {
@@ -495,7 +437,7 @@ export class EditPlanComponent implements OnInit {
   }
 
   verifyGoalsCheckState(usabilityGoal: UsabilityGoal): boolean {
-    if (usabilityGoal.attribute === 'LNR') {
+    if (usabilityGoal.attribute === 'LRN') {
       return this.assessment.answers.planGoalsAnswers.learnability === this.planAnswersConstants.answered.name;
     } else if (usabilityGoal.attribute === 'EFF') {
       return this.assessment.answers.planGoalsAnswers.efficiency === this.planAnswersConstants.answered.name;
@@ -1142,7 +1084,7 @@ export class EditPlanComponent implements OnInit {
     if (this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     const calculatedPercentage = +((this.questionsAnswered * 100) / questionQuantity).toFixed(1);
-    this.questionsPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
+    this.planPercentage = calculatedPercentage > 100 ? 100 : calculatedPercentage;
   }
 
   setSubmitTooltipTrigger() {
@@ -1154,5 +1096,13 @@ export class EditPlanComponent implements OnInit {
 
   isPlanNotDone(): boolean {
     return this.planPercentage !== 100;
+  }
+
+  onEditApplication() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
+  }
+
+  onEditGoals() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/goal'], {state: this.assessment});
   }
 }
