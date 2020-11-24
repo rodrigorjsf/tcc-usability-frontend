@@ -1,0 +1,94 @@
+<nb-card *ngIf="dataloaded | async">
+  <nb-card-header>
+    <h4>Variables and Measurements of the Plan</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="col-lg-12 bottom-margin">
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+            <h4 class="col-lg-12 bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+                       class="button-space"
+                       [nbTooltip]="parentQuestion.instruction" style="padding-left: 5px"
+                       nbTooltipPlacement="right"
+                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+            </h4>
+          </div>
+          <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
+               class="container col-lg-12 bottom-margin">
+            <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
+            <div *ngIf="parentQuestion.key === 'VM-4'" class="container">
+              <div *ngFor="let variable of assessment.variables" class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
+                                    style="padding-left: 10px"
+                                    [(ngModel)]="variable.variables" rows="2"
+                                    nbInput fullWidth shape="round"
+                                    placeholder="Describe the attribule variables here" ></textarea>
+                <nb-checkbox *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
+                             [checked]="verifyUsabilityVariableCheck(variable.usabilityAttribute, parentQuestion.key)"
+                             (checkedChange)="checkUsabilityVariable($event, variable.usabilityAttribute, parentQuestion.key)"
+                             style="padding-left: 20px; padding-top: 10px"
+                             status="primary"  class="padding-right">Done
+                </nb-checkbox>
+              </div>
+            </div>
+            <div class="container" *ngIf="parentQuestion.key === 'VM-5'">
+              <div *ngFor="let variable of assessment.variables" class="col-lg-12 bottom-margin">
+                        <textarea *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
+                                  style="padding-left: 10px"
+                                  [(ngModel)]="variable.obtainedBy" rows="2"
+                                  nbInput fullWidth shape="round"
+                                  placeholder="Describe the methods and criteria here" ></textarea>
+                <nb-checkbox *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
+                             [checked]="verifyUsabilityVariableCheck(variable.usabilityAttribute, parentQuestion.key)"
+                             (checkedChange)="checkUsabilityVariable($event, variable.usabilityAttribute, parentQuestion.key)"
+                             style="padding-left: 20px; padding-top: 10px"
+                             status="primary"  class="padding-right">Done
+                </nb-checkbox>
+              </div>
+            </div>
+            <br>
+            <hr class="solid">
+          </div>
+          <div class="container" *ngIf="parentQuestion.key === 'VM-6'">
+            <nb-card>
+              <nb-card-body class="form-group">
+                <div *ngFor="let scale of usabilityScales;let i = index;" class="row">
+                  <nb-checkbox [checked]="verifyScaleStatus(scale)"
+                               (checkedChange)="scaleSelectionCheckbox($event,scale,i)"
+                               style="padding-left: 20px"
+                               status="primary" >
+                    <nb-action class="button-space"
+                               [nbTooltip]="scale.description"
+                               nbTooltipPlacement="right"
+                               nbTooltipStatus="info" nbButton status="info">{{scale.name}} ({{scale.acronym}}
+                      )
+                    </nb-action>
+                  </nb-checkbox>
+                </div>
+                <nb-checkbox [checked]="verifyScalesCheckbox()"
+                             (checkedChange)="checkScalesCheckbox($event)"
+                             style="padding-left: 20px; padding-top: 10px"
+                             status="primary" [disabled]="checkClickable()" class="padding-right"
+                             nbTooltip="It is necessary to choose at least one option."
+                             nbTooltipPlacement="top"
+                             [nbTooltipTrigger]="tooltipTrigger"
+                             nbTooltipStatus="danger" nbButton>Done
+                </nb-checkbox>
+              </nb-card-body>
+            </nb-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+        <b>SUBMIT</b>
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

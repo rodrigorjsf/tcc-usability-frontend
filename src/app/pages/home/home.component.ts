@@ -1,7 +1,8 @@
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {NbThemeService} from '@nebular/theme';
 import {takeWhile} from 'rxjs/operators';
 import {SolarData} from '../../@core/data/solar';
+import {Router} from '@angular/router';
 
 interface CardSettings {
   title: string;
@@ -12,6 +13,7 @@ interface CardSettings {
 @Component({
   selector: 'ngx-home',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnDestroy {
@@ -79,7 +81,8 @@ export class HomeComponent implements OnDestroy {
   };
 
   constructor(private themeService: NbThemeService,
-              private solarService: SolarData) {
+              private solarService: SolarData,
+              private router: Router) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
@@ -95,5 +98,13 @@ export class HomeComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.alive = false;
+  }
+
+  goToCreate() {
+    this.router.navigate(['/pages/assessment/create']);
+  }
+
+  goToPlans() {
+    this.router.navigate(['/pages/assessment/my-plans']);
   }
 }

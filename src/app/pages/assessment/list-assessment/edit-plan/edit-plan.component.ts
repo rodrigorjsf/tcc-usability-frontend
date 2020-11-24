@@ -1105,4 +1105,8 @@ export class EditPlanComponent implements OnInit {
   onEditGoals() {
     this.router.navigate(['/pages/assessment/my-plans/edit/goal'], {state: this.assessment});
   }
+
+  onEditVariables() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
+  }
 }

@@ -155,26 +155,71 @@ export class VuatConstants {
               "objectKey": "LRN",
               "title": "3.1 Learnability: ",
               "subTitle": "How easy it is to learn the main system functionality and gain pro- ficiency to complete the job. We usually assess this by measuring the time a user spends working with the system before that user can complete certain tasks in the time it would take an expert to com- plete the same tasks. This attribute is very important for novice users. [REF001]",
+              "hint": "",
+              "considerations": {
+                "state": "Consider whether the experiment’s goals describe:",
+                "items": [
+                  "A clear purpose.",
+                  "Specific Objectives.",
+                  "The reasons for undertaking the experiment, clearly and explicitly stated."
+                ]
+              }
             },
             {
               "objectKey": "EFF",
               "title": "3.2 Efficiency: ",
               "subTitle": "The number of tasks per unit of time that the user can perform using the system. We look for the maximum speed of user task performance. The higher system usability is, the faster the user can perform the task and complete the job. [REF001]",
+              "hint": "",
+              "considerations": {
+                "state": "Consider whether the experiment’s goals describe:",
+                "items": [
+                  "A clear purpose.",
+                  "Specific Objectives.",
+                  "The reasons for undertaking the experiment, clearly and explicitly stated."
+                ]
+              }
             },
             {
               "objectKey": "USR",
               "title": "3.3 User retention over time: ",
               "subTitle": "It is critical for intermittent users to be able to use the system without having to climb the learn- ing curve again. This attribute reflects how well the user remembers how the system works after a period of nonusage. [REF001]",
+              "hint": "",
+              "considerations": {
+                "state": "Consider whether the experiment’s goals describe:",
+                "items": [
+                  "A clear purpose.",
+                  "Specific Objectives.",
+                  "The reasons for undertaking the experiment, clearly and explicitly stated."
+                ]
+              }
             },
             {
               "objectKey": "ERR",
               "title": "3.4 Error rate: ",
               "subTitle": "This attribute contributes negatively to usability. It does not refer to system errors. On the contrary, it addresses the number of errors the user makes while performing a task. Good usability implies a low error rate. Errors reduce efficiency and user satisfaction, and they can be seen as a failure to communicate to the user the right way of doing things. [REF001]",
+              "hint": "",
+              "considerations": {
+                "state": "Consider whether the experiment’s goals describe:",
+                "items": [
+                  "A clear purpose.",
+                  "Specific Objectives.",
+                  "The reasons for undertaking the experiment, clearly and explicitly stated."
+                ]
+              }
             },
             {
               "objectKey": "STF",
               "title": "3.5 Satisfaction: ",
               "subTitle": "This shows a user’s subjective impression of the system. [REF001]",
+              "hint": "",
+              "considerations": {
+                "state": "Consider whether the experiment’s goals describe:",
+                "items": [
+                  "A clear purpose.",
+                  "Specific Objectives.",
+                  "The reasons for undertaking the experiment, clearly and explicitly stated."
+                ]
+              }
             }
           ]
         }
@@ -250,34 +295,27 @@ export class VuatConstants {
       "key": "PA",
       "parentQuestions": [
         {
-          "key": "PA-7",
-          "title": "7. How many participants will be needed for the assessment?",
+          "title": "7. How many participants will be needed for the assessment?"
         },
         {
-          "key": "PA-8",
           "title": "8. Will it be an in-person or a remote participation?"
         },
         {
-          "key": "PA-9",
           "title": "9. What form of compensation, if any, will the participants receive?",
           "instruction": "A. If the participants will be compensated, describe the form of compensation they will receive.\n\ne.g. money, grade, credit, gift, etc.\n\nB. If otherwise, specify it will be a volunteer participation."
         },
         {
-          "key": "PA-10",
           "title": "10. What are the eligibility criteria for the participants?",
           "instruction": "Describe the characteristics that must be shared by all participants involved in the assessment."
         },
         {
-          "key": "PA-11",
           "title": "11. Will a demographic questionnaire be used to collect information from the participants?",
           "instruction": "If the answer is 'YES', describe how the data obtained will be used."
         },
         {
-          "key": "PA-12",
           "title": "12. How will the participants be instructed?"
         },
         {
-          "key": "PA-13",
           "title": "13. Which questions will be asked to the participants?",
           "instruction": "Note that your questions should be aligned to the described goals above in order to maintain coherence"
         }
@@ -288,24 +326,18 @@ export class VuatConstants {
       "key": "TM",
       "parentQuestions": [
         {
-          "key": "TM-14",
           "title": "14. What instruments, materials, technology, and tools will be used and how?",
-          "instruction": "Example: Computer specifications, operating system, frameworks, etc.",
           "placeHolder": "Describe the tools here"
         },
         {
-          "key": "TM-15",
-          "title": "15. What tasks will the participants need to perform?",
-          "placeHolder": "Describe the tasks here"
+          "title": "15. What tasks will the participants need to perform?"
+          , "placeHolder": "Describe the tasks here"
         },
         {
-          "key": "TM-16",
-          "title": "16. How much time should each of the tasks take?",
-          "instruction": "Feel free to describe the duration of each task, in minutes in case of a number.",
-          "placeHolder": "Describe here"
+          "title": "16. How much time should each of the tasks take?"
+          , "placeHolder": "Describe here"
         },
         {
-          "key": "TM-17",
           "title": "17. What criteria will be used to determine when users have completed each task correctly?",
           "placeHolder": "Describe the criteria here"
         }
@@ -316,39 +348,31 @@ export class VuatConstants {
       "key": "PR",
       "parentQuestions": [
         {
-          "key": "PR-18",
           "title": "18. How will the application be assessed?",
           "instruction": "A. To correctly fill in the assessment goals, it is not necessary to describe the goals pertaining to every usability attribute, but only to those that are relevant to the project.\nB. To assure the clarity and precision of the assessment goals descriptions, please consider whether they have been clearly stated with specific objectives.",
           "questions": [
             {
-              "key": "PR-18-1",
               "title": "18.1 When will it occur?"
             },
             {
-              "key": "PR-18-2",
               "title": "18.2 Where will it occur?"
             },
             {
-              "key": "PR-18-3",
               "title": "18.3 How will it occur?"
             },
             {
-              "key": "PR-18-4",
               "title": "18.4 How much time will it require?"
             }
           ]
         },
         {
-          "key": "PR-19",
           "title": "19. How will the design of the assessment be?",
           "instruction": "A. Name the possible steps.\nB. Detail the steps."
         },
         {
-          "key": "PR-20",
           "title": "20. Will the participants be able to ask questions during the assessment?"
         },
         {
-          "key": "PR-21",
           "title": "21. Will there be a pilot assessment?",
           "instruction": "If the answer is 'YES', describe how the pilot will be conducted.",
           "placeHolder": "Describe the pilot here"
@@ -356,21 +380,18 @@ export class VuatConstants {
       ]
     },
     {
-      "section": "Data collection and Data analysis",
+      "section": "Data collection and data analysis",
       "key": "DT",
       "parentQuestions": [
         {
-          "key": "DT-22",
           "title": "22. What will be the data collection procedure?",
           "placeHolder": "Describe the data collection procedure here"
         },
         {
-          "key": "DT-23",
           "title": "23. How will the data collected be analyzed?",
           "placeHolder": "Describe the procedure here"
         },
         {
-          "key": "DT-24",
           "title": "24. Will statistical methods be used?",
           "instruction": "If the answer is 'YES', describe the methods.",
           "placeHolder": "Describe the methods here"
@@ -382,34 +403,27 @@ export class VuatConstants {
       "key": "TH",
       "parentQuestions": [
         {
-          "key": "TH-25",
           "title": "25. Are there any threats to the validity of the assessment?",
           "questions": [
             {
-              "key": "TH-25-1",
               "title": "25.1 What are the threats to the validity of the assessment?",
-              "placeholder": "Describe the threats here"
+              "placeHolder": "Describe the threats here"
             },
             {
-              "key": "TH-25-2",
               "title": "25.2 How will the threats to validity be controlled?",
-              "placeholder": "Describe how the threats wil be controlled here"
+              "placeHolder": "Describe how the threats wil be controlled here"
             },
             {
-              "key": "TH-25-3",
               "title": "25.3 Are there any limitations for the assessment?",
-              "placeholder": "Describe the limitations here"
+              "placeHolder": "Describe the limitations here"
             },
             {
-              "key": "TH-25-4",
               "title": "25.4 Are the ethical aspects of the assessment well defined for the participants?",
-              "instruction": "If the answer is 'YES', describe how the ethical aspects are defined.",
-              "placeholder": "Describe how the ethical aspects are defined here"
+              "placeHolder": "Describe how the ethical aspects are defined here"
             },
             {
-              "key": "TH-25-5",
               "title": "25.5 What are the biases of the assessment, if any?",
-              "placeholder": "Describe the bias here"
+              "placeHolder": "Describe the bias here"
             }
           ]
         }

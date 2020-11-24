@@ -47,7 +47,6 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   async create() {
-    console.log(this.serializedValues);
     (await this.assessmentService.createNewAssessment(this.serializedValues))
       .subscribe(data => {
         this.assessment = data;

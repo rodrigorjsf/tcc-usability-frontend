@@ -21,7 +21,7 @@
                 <nb-checkbox
                   [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.projectName)"
                   (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.projectName)"
-                  status="primary" >Done
+                  status="primary">Done
                 </nb-checkbox>
               </div>
 
@@ -34,7 +34,7 @@
                   [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.projectDescription)"
                   (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.projectDescription)"
                   style="padding-left: 20px; padding-top: 10px"
-                  status="primary" >Done
+                  status="primary">Done
                 </nb-checkbox>
               </div>
             </div>
@@ -55,7 +55,8 @@
                 <nb-checkbox *ngIf="isDataManagement(question.objKey);"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataManagement)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataManagement)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasDataManagement)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
@@ -68,7 +69,8 @@
                   *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
                   [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.applicationExecution)"
                   (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.applicationExecution)"
-                  status="primary"  class="padding-right">Done
+                  status="primary" class="padding-right"
+                  [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasAppExecution)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
@@ -80,7 +82,8 @@
                 <nb-checkbox *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.sensorNetwork)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.sensorNetwork)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasSensorNetwork)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
@@ -91,7 +94,8 @@
                 <nb-checkbox *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataProcessing)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataProcessing)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasDataProcessing)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
@@ -102,7 +106,8 @@
                 <nb-checkbox *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.dataAccess)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.dataAccess)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasDataAccess)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
@@ -113,7 +118,8 @@
                 <nb-checkbox *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.serviceManagement)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.serviceManagement)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasServiceManagement)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
@@ -126,19 +132,21 @@
                   *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
                   [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.tools)"
                   (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.tools)"
-                  status="primary"  class="padding-right">Done
+                  status="primary" class="padding-right"
+                  [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.hasSoftwareTools)">Done
                 </nb-checkbox>
                 <nb-select placeholder="Not Selected" style="padding-left: 10px"
                            *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
                            [(selected)]="assessment.smartCityQuestionnaire.defineCityModel">
-                  <nb-option [value]="null" >Not Selected</nb-option>
                   <nb-option *ngFor="let option of selectOptions.definingACityModel" [value]="option.value"
                   >{{ option.label }}</nb-option>
                 </nb-select>
-                <nb-checkbox *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
+                <nb-checkbox *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym
+                ;"
                              [checked]="ApplicationSectionCheckboxStatus(assessment.answers.planApplicationAnswers.definingCityModel)"
                              (checkedChange)="checkApplicationSection($event, question.objKey, assessment.answers.planApplicationAnswers.definingCityModel)"
-                             status="primary"  class="padding-right">Done
+                             status="primary" class="padding-right"
+                             [disabled]="isNullOrUndefined(assessment.smartCityQuestionnaire.defineCityModel)">Done
                 </nb-checkbox>
                 <hr class="solid">
               </div>

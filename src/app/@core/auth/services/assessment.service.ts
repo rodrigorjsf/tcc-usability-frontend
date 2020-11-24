@@ -4,6 +4,7 @@ import {CreateAssessmentDTO} from '../../../models/dto/CreateAssessmentDTO';
 import {environment} from '../../../../environments/environment';
 import {SmartCityQuestionnaireDTO} from "../../../models/dto/SmartCityQuestionnaireDTO";
 import {UsabilityGoalDTO} from "../../../models/dto/UsabilityGoalDTO";
+import {AssessmentVariablesDTO} from "../../../models/dto/AssessmentVariablesDTO";
 
 @Injectable()
 export class AssessmentService {
@@ -37,8 +38,17 @@ export class AssessmentService {
       });
   }
 
-  async updateAssessmentGoalsSection(application: UsabilityGoalDTO) {
-    return this.http.post<any>(`${this.baseUrl}/assessment/add/goals`, application,
+  async updateAssessmentGoalsSection(goals: UsabilityGoalDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/add/goals`, goals,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async updateAssessmentVariableSection(variables: AssessmentVariablesDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/add/variables`, variables,
       {
         headers: this.headers,
         observe: 'body',
