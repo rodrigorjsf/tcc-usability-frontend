@@ -8,6 +8,7 @@ import {
   NbButtonModule,
   NbCardModule,
   NbCheckboxModule,
+  NbDatepickerModule,
   NbIconModule,
   NbInputModule,
   NbProgressBarModule,
@@ -25,14 +26,15 @@ import {AssessmentService} from '../../@core/auth/services/assessment.service';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {EditPlanComponent} from './list-assessment/edit-plan/edit-plan.component';
 import {QuestionService} from '../../@core/auth/services/question.service';
-import { EditApplicationSectionComponent } from './list-assessment/edit-plan/edit-application-section/edit-application-section.component';
-import { EditGoalSectionComponent } from './list-assessment/edit-plan/edit-goal-section/edit-goal-section.component';
-import { EditVariableSectionComponent } from './list-assessment/edit-plan/edit-variable-section/edit-variable-section.component';
-import { EditParticipantSectionComponent } from './list-assessment/edit-plan/edit-participant-section/edit-participant-section.component';
-import { EditTaskSectionComponent } from './list-assessment/edit-plan/edit-task-section/edit-task-section.component';
-import { EditProcedureSectionComponent } from './list-assessment/edit-plan/edit-procedure-section/edit-procedure-section.component';
-import { EditDataSectionComponent } from './list-assessment/edit-plan/edit-data-section/edit-data-section.component';
-import { EditThreatSectionComponent } from './list-assessment/edit-plan/edit-threat-section/edit-threat-section.component';
+import {EditApplicationSectionComponent} from './list-assessment/edit-plan/edit-application-section/edit-application-section.component';
+import {EditGoalSectionComponent} from './list-assessment/edit-plan/edit-goal-section/edit-goal-section.component';
+import {EditVariableSectionComponent} from './list-assessment/edit-plan/edit-variable-section/edit-variable-section.component';
+import {EditParticipantSectionComponent} from './list-assessment/edit-plan/edit-participant-section/edit-participant-section.component';
+import {EditTaskSectionComponent} from './list-assessment/edit-plan/edit-task-section/edit-task-section.component';
+import {EditProcedureSectionComponent} from './list-assessment/edit-plan/edit-procedure-section/edit-procedure-section.component';
+import {EditDataSectionComponent} from './list-assessment/edit-plan/edit-data-section/edit-data-section.component';
+import {EditThreatSectionComponent} from './list-assessment/edit-plan/edit-threat-section/edit-threat-section.component';
+import {NbDateFnsDateModule} from "@nebular/date-fns";
 
 @NgModule({
   imports: [
@@ -54,6 +56,8 @@ import { EditThreatSectionComponent } from './list-assessment/edit-plan/edit-thr
     NbSelectModule,
     NbTooltipModule,
     NbCheckboxModule,
+    NbDateFnsDateModule,
+    NbDatepickerModule,
   ],
   declarations: [
     AssessmentComponent,

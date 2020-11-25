@@ -4,6 +4,7 @@ import {AssessmentService} from '../../../../@core/auth/services/assessment.serv
 import {Router} from '@angular/router';
 import {QuestionService} from '../../../../@core/auth/services/question.service';
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
+import { format } from 'date-fns';
 import {
   AssessmentData,
   AssessmentProcedure,
@@ -104,6 +105,7 @@ export class EditPlanComponent implements OnInit {
     if (this.isNullOrUndefined(this.assessment.usabilityGoals) || this.assessment.usabilityGoals.length === 0)
       this.assessment.usabilityGoals = [new UsabilityGoal('LRN'), new UsabilityGoal('EFF'),
         new UsabilityGoal('USR'), new UsabilityGoal('ERR'), new UsabilityGoal('STF')];
+    this.fillGoalsArray();
   }
 
   initParticipants() {
@@ -112,6 +114,13 @@ export class EditPlanComponent implements OnInit {
     }
     if (this.assessment.participant.questions.length !== 0)
       this.assessment.participant.questions.map(value => this.formBuilder.group({question: [value]}));
+
+    if (this.assessment.participant.questions.length !== 0) {
+      this.assessment.participant.questions.map(value =>
+        this.questions.push(this.formBuilder.group({
+          question: [value],
+        })));
+    }
   }
 
   initAssessmentAttribute() {
@@ -120,6 +129,39 @@ export class EditPlanComponent implements OnInit {
     }
     if (this.isNullOrUndefined(this.assessment.scale) || this.assessment.scale.length === 0) {
       this.assessment.scale = [];
+    }
+    this.fillVariableArray();
+  }
+
+  fillVariableArray() {
+    if (this.assessment.variables.length !== 5) {
+      let exist = false;
+      this.usabilityAtributes.forEach(value => {
+        this.assessment.variables.forEach(variable => {
+          if (value === variable.usabilityAttribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+        }
+        exist = false;
+      });
+    }
+  }
+
+  private fillGoalsArray() {
+    if (this.assessment.usabilityGoals.length !== 5) {
+      let exist = false;
+      this.usabilityAtributes.forEach(value => {
+        this.assessment.usabilityGoals.forEach(goal => {
+          if (value === goal.attribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.usabilityGoals.push({attribute: value, goal: null, done: false});
+        }
+        exist = false;
+      });
     }
   }
 
@@ -138,6 +180,21 @@ export class EditPlanComponent implements OnInit {
           acceptanceCriteria: [value.acceptanceCriteria]
         }));
     }
+    if (this.assessment.assessmentTools.tools.length !== 0) {
+      this.assessment.assessmentTools.tools.map(value =>
+        this.tools.push(this.formBuilder.group({
+          tool: [value],
+        })));
+    }
+    if (this.assessment.assessmentTools.tasks.length!== 0) {
+      this.assessment.assessmentTools.tasks.map(value =>
+        this.tasks.push(this.formBuilder.group(
+          {
+            description: [value.description],
+            taskExecutionTime: [value.taskExecutionTime],
+            acceptanceCriteria: [value.acceptanceCriteria],
+          })));
+    }
   }
 
   initAnswers() {
@@ -148,6 +205,10 @@ export class EditPlanComponent implements OnInit {
   initProcedure() {
     if (this.isNullOrUndefined(this.assessment.assessmentProcedure))
       this.assessment.assessmentProcedure = new AssessmentProcedure();
+    if (this.assessment.assessmentProcedure.assessmentProcedureSteps.length !== 0) {
+      this.assessment.assessmentProcedure.assessmentProcedureSteps.map(value =>
+        this.steps.push(this.formBuilder.group({name: [value.name], description: [value.description]})));
+    }
   }
 
   initDataCollection() {
@@ -158,6 +219,15 @@ export class EditPlanComponent implements OnInit {
   initThreats() {
     if (this.isNullOrUndefined(this.assessment.assessmentThreat))
       this.assessment.assessmentThreat = new AssessmentThreat();
+    if (this.assessment.assessmentThreat.threats.length !== 0) {
+      this.assessment.assessmentThreat.threats.map(value =>
+        this.threats.push(this.formBuilder.group({threat: [value]})));
+    }
+    if (this.assessment.assessmentThreat.limitations.length !== 0) {
+      this.assessment.assessmentThreat.limitations.map(value =>
+        this.limitations.push(this.formBuilder.group(
+          {limitation: [value]})));
+    }
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -496,6 +566,12 @@ export class EditPlanComponent implements OnInit {
     return object;
   }
 
+  printValue(obj: any) {
+    console.log(obj);
+    console.log(obj.type);
+    console.log(new Date(obj));
+    console.log(format(new Date(obj), 'yyyy-MM-dd'));
+  }
 
   // showQuestions() {
   //   this.questions.getRawValue().forEach(value => console.log(value.question));
@@ -503,6 +579,70 @@ export class EditPlanComponent implements OnInit {
   //   const arrayTest = this.questions.getRawValue().map(value => value.question);
   //   console.log(arrayTest);
   // }
+
+  verifyParticipantState(key: string) {
+    if (key === 'PA-7') {
+      return this.assessment.answers.planParticipantsAnswers.howManyParticipants === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-8') {
+      return this.assessment.answers.planParticipantsAnswers.participationType === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-9') {
+      return this.assessment.answers.planParticipantsAnswers.formCompensation === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-10') {
+      return this.assessment.answers.planParticipantsAnswers.eligibilityCriteria === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-11') {
+      return this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-12') {
+      return this.assessment.answers.planParticipantsAnswers.participantsInstruction === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planParticipantsAnswers.askedQuestions === this.planAnswersConstants.answered.name;
+    }
+  }
+
+  checkParticipantQuestion($event: boolean, key: string) {
+    if (key === 'PA-7') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.howManyParticipants = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.howManyParticipants = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-8') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.participationType = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.participationType = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-9') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.formCompensation = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.formCompensation = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-10') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.eligibilityCriteria = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.eligibilityCriteria = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-11') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-12') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.participantsInstruction = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.participantsInstruction = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.askedQuestions = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.askedQuestions = this.planAnswersConstants.pending.name;
+      }
+    }
+  }
 
   private newQuestion(): FormGroup {
     return this.formBuilder.group({question: ['']});
@@ -754,7 +894,7 @@ export class EditPlanComponent implements OnInit {
   }
 
   removeThreat(i: number) {
-    this.steps.removeAt(i);
+    this.threats.removeAt(i);
   }
 
   get threats() {
@@ -779,33 +919,49 @@ export class EditPlanComponent implements OnInit {
   }
 
   verifyThreatState(key: string) {
-    if (key === 'DT-22') {
-      return this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name;
-    } else if (key === 'DT-23') {
-      return this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name;
+    if (key === 'TH-25-1') {
+      return this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name;
+    } else if (key === 'TH-25-2') {
+      return this.assessment.answers.planThreatsAnswers.threatsValidityControlled === this.planAnswersConstants.answered.name;
+    }else if (key === 'TH-25-3') {
+      return this.assessment.answers.planThreatsAnswers.assessmentLimitations === this.planAnswersConstants.answered.name;
+    }else if (key === 'TH-25-4') {
+      return this.assessment.answers.planThreatsAnswers.ethicalAspects === this.planAnswersConstants.answered.name;
     } else {
-      return this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name;
+      return this.assessment.answers.planThreatsAnswers.assessmentBiases === this.planAnswersConstants.answered.name;
     }
   }
 
   checkThreatQuestion($event: boolean, key: string) {
-    if (key === 'DT-22') {
+    if (key === 'TH-25-1') {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.whatThreats = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.whatThreats = this.planAnswersConstants.pending.name;
       }
-    } else if (key === 'DT-23') {
+    } else if (key === 'TH-25-2') {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.threatsValidityControlled = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.threatsValidityControlled = this.planAnswersConstants.pending.name;
+      }
+    }else if (key === 'TH-25-3') {
+      if ($event === true) {
+        this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.pending.name;
+      }
+    }else if (key === 'TH-25-4') {
+      if ($event === true) {
+        this.assessment.answers.planThreatsAnswers.ethicalAspects = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planThreatsAnswers.ethicalAspects = this.planAnswersConstants.pending.name;
       }
     } else {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.assessmentBiases = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.assessmentBiases = this.planAnswersConstants.pending.name;
       }
     }
   }
@@ -837,7 +993,7 @@ export class EditPlanComponent implements OnInit {
     this.questionsAnswered = 0;
     let questionQuantity;
     if (this.categories.application.acronym === section) {
-      questionQuantity = 11;
+      questionQuantity = 10;
       if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
@@ -856,9 +1012,6 @@ export class EditPlanComponent implements OnInit {
       if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
-        this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
@@ -968,7 +1121,7 @@ export class EditPlanComponent implements OnInit {
   calculatePlanPercentage() {
     this.planPercentage = 0;
     this.questionsAnswered = 0;
-    const questionQuantity = 53;
+    const questionQuantity = 52;
     if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
@@ -987,9 +1140,6 @@ export class EditPlanComponent implements OnInit {
     if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
-      this.questionsAnswered = this.questionsAnswered + 1;
-    if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
-      this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
@@ -1097,7 +1247,7 @@ export class EditPlanComponent implements OnInit {
   isPlanNotDone(): boolean {
     return this.planPercentage !== 100;
   }
-
+ // --------------------------- ROUTES ----------------------------
   onEditApplication() {
     this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
   }
@@ -1108,5 +1258,25 @@ export class EditPlanComponent implements OnInit {
 
   onEditVariables() {
     this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
+  }
+
+  onEditParticipant() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/participant'], {state: this.assessment});
+  }
+
+  onEditTools() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/tools'], {state: this.assessment});
+  }
+
+  onEditProcedure() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/procedure'], {state: this.assessment});
+  }
+
+  onEditData() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/data'], {state: this.assessment});
+  }
+
+  onEditThreat() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/threats'], {state: this.assessment});
   }
 }

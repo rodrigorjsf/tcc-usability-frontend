@@ -9,6 +9,11 @@ import {AdminGuard} from '../../guards/admin.guard';
 import {EditApplicationSectionComponent} from './list-assessment/edit-plan/edit-application-section/edit-application-section.component';
 import {EditGoalSectionComponent} from "./list-assessment/edit-plan/edit-goal-section/edit-goal-section.component";
 import {EditVariableSectionComponent} from "./list-assessment/edit-plan/edit-variable-section/edit-variable-section.component";
+import {EditParticipantSectionComponent} from "./list-assessment/edit-plan/edit-participant-section/edit-participant-section.component";
+import {EditTaskSectionComponent} from "./list-assessment/edit-plan/edit-task-section/edit-task-section.component";
+import {EditProcedureSectionComponent} from "./list-assessment/edit-plan/edit-procedure-section/edit-procedure-section.component";
+import {EditDataSectionComponent} from "./list-assessment/edit-plan/edit-data-section/edit-data-section.component";
+import {EditThreatSectionComponent} from "./list-assessment/edit-plan/edit-threat-section/edit-threat-section.component";
 
 const routes: Routes = [
   {
@@ -43,6 +48,31 @@ const routes: Routes = [
       {
         path: 'my-plans/edit/variable',
         component: EditVariableSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/participant',
+        component: EditParticipantSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/tools',
+        component: EditTaskSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/procedure',
+        component: EditProcedureSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/data',
+        component: EditDataSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/threats',
+        component: EditThreatSectionComponent,
         canActivate: [AdminGuard],
       },
       {

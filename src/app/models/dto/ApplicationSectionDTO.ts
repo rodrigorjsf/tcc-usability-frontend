@@ -1,7 +1,9 @@
 import {PlanAnswers, PlanApplicationAnswers} from "../assessment-answers";
 
-export class SmartCityQuestionnaireDTO {
+export class ApplicationSectionDTO {
   assessmentUid: string;
+  projectName: string;
+  projectDescription: string;
   hasDataManagement: boolean;
   hasAppExecution: boolean;
   hasSensorNetwork: boolean;
@@ -23,5 +25,7 @@ export class SmartCityQuestionnaireDTO {
     this.hasSoftwareTools = null;
     this.defineCityModel = null;
     this.planApplicationAnswers = new PlanApplicationAnswers();
+    this.projectName = null;
+    this.projectDescription = null;
   }
 }

@@ -7,7 +7,7 @@ import {QuestionService} from "../../../../../@core/auth/services/question.servi
 import {NbToastrService} from "@nebular/theme";
 import {AssessmentTransferDTO} from "../../../../../models/dto/AssessmentTransferDTO";
 import {Assessment} from "../../../../../models/assessment";
-import {Scale} from "../../../../../models/AssessmentSections";
+import {Scale, Variable} from "../../../../../models/AssessmentSections";
 import {AssessmentVariablesDTO, VariableDTO} from "../../../../../models/dto/AssessmentVariablesDTO";
 
 @Component({
@@ -28,6 +28,7 @@ export class EditVariableSectionComponent implements OnInit {
   tooltipTrigger: string;
   instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   planAnswersConstants = VuatConstants.PLAN_ANSWER;
+  usabilityAttributes = VuatConstants.USABILITY_ATRIBUTES;
   categories = VuatConstants.CATEGORIES;
   assessmentVariablesDTO: AssessmentVariablesDTO;
   toast: ToastService;
@@ -39,11 +40,30 @@ export class EditVariableSectionComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.assessment = this.router.getCurrentNavigation().extras.state;
+    console.log(this.assessment.variables.length);
+    this.fillVariableArray();
   }
 
   ngOnInit() {
     this.assessmentVariablesDTO = new AssessmentVariablesDTO(this.assessment.uid);
     this.getUsabilityScales();
+
+  }
+
+  private fillVariableArray() {
+    if (this.assessment.variables.length !== 5) {
+      let exist = false;
+      this.usabilityAttributes.forEach(value => {
+        this.assessment.variables.forEach(variable => {
+          if (value === variable.usabilityAttribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+        }
+        exist = false;
+      });
+    }
   }
 
   getUsabilityScales() {
@@ -160,6 +180,7 @@ export class EditVariableSectionComponent implements OnInit {
         }
       }
     }
+    console.log(this.assessment)
   }
 
   verifyScaleStatus(scale: Scale): boolean {

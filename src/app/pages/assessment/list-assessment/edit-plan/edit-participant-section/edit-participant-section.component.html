@@ -1,1 +1,147 @@
-<p>edit-participant-section works!</p>
+<nb-card>
+  <nb-card-header>
+    <h4>Participant Section</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="col-lg-12 bottom-margin">
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.participants.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+            <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+                       class="button-space"
+                       [nbTooltip]="parentQuestion.instruction"
+                       nbTooltipPlacement="right"
+                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+            </label>
+          </div>
+          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-7'">
+            <input class="col-lg-3" style="padding-left: 10px" [(ngModel)]="assessment.participant.participantsQuantity"
+                   type="number" nbInput
+                   fullWidth required="true" placeholder="Enter the quantity" >
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right">Done
+            </nb-checkbox>
+          </div>
+          <div *ngIf="parentQuestion.key === 'PA-8'">
+            <nb-select placeholder="Not Selected" style="padding-left: 10px"
+                       [(selected)]="assessment.participant.participationLocalType">
+              <nb-option value="P" >IN PERSON</nb-option>
+              <nb-option value="R" >REMOTE</nb-option>
+            </nb-select>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right"
+                         [disabled]="isNullOrUndefined(assessment.participant.participationLocalType)">Done
+            </nb-checkbox>
+          </div>
+          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-9'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                [(ngModel)]="assessment.participant.compensationDescription"
+                                placeholder="Describe the compesations here" ></textarea>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right">Done
+            </nb-checkbox>
+          </div>
+          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-10'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                [(ngModel)]="assessment.participant.criteria"
+                                placeholder="Describe the eligibility criteria here" ></textarea>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right">Done
+            </nb-checkbox>
+          </div>
+          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-11'">
+            <nb-select class="bottom-margin-light" placeholder="Not Selected" style="padding-left: 10px"
+                       [(selected)]="assessment.participant.hasCollectedInformation">
+              <nb-option *ngFor="let option of genericSelectOptions.options"
+                         [value]="option.value">{{option.label}}</nb-option>
+            </nb-select>
+            <textarea style="padding-left: 10px"
+                      nbInput fullWidth shape="round"
+                      placeholder="Describes data usage here"
+                      [(ngModel)]="assessment.participant.collectedInformationUse"
+                      [disabled]="!assessment.participant.hasCollectedInformation"></textarea>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right"
+                         [disabled]="isNullOrUndefined(assessment.participant.hasCollectedInformation)">Done
+            </nb-checkbox>
+          </div>
+          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-12'">
+                      <textarea style="padding-left: 10px"
+                                nbInput fullWidth shape="round"
+                                [(ngModel)]="assessment.participant.instructions"
+                                placeholder="Describes instructions here" ></textarea>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right">Done
+            </nb-checkbox>
+          </div>
+          <div [formGroup]='form' class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-13'">
+            <label *ngIf="hasNoQuestion()">N/A</label>
+            <form class='container mt-3' formArrayName="questions">
+              <section *ngFor='let question of questions.controls; let i = index;' [formGroupName]="i">
+                <div class='row col-lg-8'>
+                            <textarea nbInput class='display-next'
+                                      id='input-edit-question'
+                                      name='question'
+                                      placeholder='New question'
+                                      fullWidth
+                                      shape="round"
+                                      formControlName="question"></textarea>
+                  <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
+                           (click)="open(deleteQuestionDialog)"></nb-icon>
+                  <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
+                    <nb-card accent="warning">
+                      <nb-card-body>Do you really want to remove the question?</nb-card-body>
+                      <nb-card-footer class="text-center">
+                        <button nbButton status="success"
+                                (click)="removeQuestion(i);ref.close();">YES
+                        </button>
+                        <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                        </button>
+                      </nb-card-footer>
+                    </nb-card>
+                  </ng-template>
+                </div>
+              </section>
+            </form>
+            <button nbButton ghost shape='round' size='tiny' status='success' class='top-margin'
+                    (click)='addQuestion()'>
+              <nb-icon icon="plus-circle-outline"></nb-icon>
+              Add Question
+            </button>
+            <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                         (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
+                         style="padding-left: 20px; padding-top: 10px"
+                         status="primary"  class="padding-right"
+                         [disabled]="hasNoQuestion()">Done
+            </nb-checkbox>
+          </div>
+          <br>
+          <hr class="solid">
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+        <b>SUBMIT</b>
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

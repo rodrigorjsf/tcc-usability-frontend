@@ -1,1 +1,79 @@
-<p>edit-data-section works!</p>
+<nb-card>
+  <nb-card-header>
+    <h4>Data collection and Data analysis Section</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="col-lg-12 bottom-margin">
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.data.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+            <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                       icon="info-outline" class="button-space"
+                       [nbTooltip]="parentQuestion.instruction"
+                       nbTooltipPlacement="right"
+                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+            </h4>
+          </div>
+          <div class="container col-lg-12">
+            <div *ngIf="parentQuestion.key === 'DT-22'">
+                        <textarea style="padding-left: 10px"
+                                  [(ngModel)]="assessment.assessmentData.dataCollectionProcedure" rows="5"
+                                  nbInput fullWidth shape="round"
+                                  placeholder="Describe the data collection procedure here" ></textarea>
+              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
+                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary"  class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div *ngIf="parentQuestion.key === 'DT-23'">
+              <label>Description:</label>
+              <textarea style="padding-left: 10px"
+                        [(ngModel)]="assessment.assessmentData.analysisDescription" rows="5"
+                        nbInput fullWidth shape="round"
+                        placeholder="Describe how it will be analyzed here" ></textarea>
+              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
+                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary"  class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div class="col-lg-12 bottom-margin" *ngIf="parentQuestion.key === 'DT-24'">
+              <nb-radio-group  class="row bottom-margin"
+                              [(ngModel)]="assessment.assessmentData.statisticalMethods">
+                <nb-radio
+                  *ngFor="let option of genericSelectOptions.options"
+                  [value]="option.value">
+                  {{ option.label }}
+                </nb-radio>
+              </nb-radio-group>
+              <div *ngIf="!isNullOrUndefinedOrFalse(assessment.assessmentData.statisticalMethods)">
+                <label>Description:</label>
+                <textarea style="padding-left: 10px"
+                          [(ngModel)]="assessment.assessmentData.statisticalMethodsDescription" rows="5"
+                          nbInput fullWidth shape="round"
+                          required="true"
+                          placeholder="Describe how will be conducted here"
+                          [hidden]="!assessment.assessmentData.statisticalMethods"></textarea>
+              </div>
+              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
+                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary"  class="padding-right">Done
+              </nb-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+        <b>SUBMIT</b>
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

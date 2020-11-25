@@ -1,1 +1,170 @@
-<p>edit-threat-section works!</p>
+<nb-card>
+  <nb-card-header>
+    <h4>Threats to validity Section</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="col-lg-12 bottom-margin">
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.threats.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+            <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                       icon="info-outline" class="button-space"
+                       [nbTooltip]="parentQuestion.instruction"
+                       nbTooltipPlacement="right"
+                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+            </h4>
+          </div>
+          <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
+               class="container col-lg-12">
+            <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}
+              <nb-icon *ngIf="!isNullOrUndefined(question.instruction)"
+                       icon="info-outline" class="button-space"
+                       [nbTooltip]="question.instruction"
+                       nbTooltipPlacement="right"
+                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+            </label>
+            <div [formGroup]="form" class="col-lg-12 bottom-margin" *ngIf="question.key === 'TH-25-1'">
+              <form class='container mt-3' formArrayName="threats">
+                <section *ngFor='let threat of threats.controls; let i = index;' [formGroupName]="i">
+                  <div class='row col-lg-12'>
+                              <textarea nbInput class='display-next' style="margin-bottom: 10px"
+                                        id='input-threat'
+                                        name='threat'
+                                        [placeholder]="question.placeholder"
+                                        fullWidth
+                                        shape="round"
+                                        formControlName="threat"></textarea>
+                    <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
+                             (click)="open(deleteTreatDialog)"></nb-icon>
+                    <ng-template #deleteTreatDialog let-data let-ref="dialogRef">
+                      <nb-card accent="warning">
+                        <nb-card-body>Do you really want to remove the threat?</nb-card-body>
+                        <nb-card-footer class="text-center">
+                          <button nbButton status="success"
+                                  (click)="removeThreat(i);ref.close();">YES
+                          </button>
+                          <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                          </button>
+                        </nb-card-footer>
+                      </nb-card>
+                    </ng-template>
+                  </div>
+                  <hr class="solid">
+                </section>
+              </form>
+              <button nbButton ghost shape='round' size='tiny' status='success' style="margin-bottom: 10px"
+                      (click)='addThreats()'>
+                <nb-icon icon="plus-circle-outline"></nb-icon>
+                Add Threat
+              </button>
+              <nb-checkbox [checked]="verifyThreatState(question.key)"
+                           (checkedChange)="checkThreatQuestion($event, question.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary" class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div *ngIf="question.key === 'TH-25-2'">
+                        <textarea style="padding-left: 10px"
+                                  [(ngModel)]="assessment.assessmentThreat.controlMeasure" rows="5"
+                                  nbInput fullWidth shape="round"
+                                  [placeholder]="question.placeholder"></textarea>
+              <nb-checkbox [checked]="verifyThreatState(question.key)"
+                           (checkedChange)="checkThreatQuestion($event, question.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary" class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div [formGroup]="form" class="col-lg-12 bottom-margin" *ngIf="question.key === 'TH-25-3'">
+              <form class='container mt-3' formArrayName="limitations">
+                <section *ngFor='let limitation of limitations.controls; let i = index;' [formGroupName]="i">
+                  <div class='row col-lg-12'>
+                              <textarea nbInput class='display-next' style="margin-bottom: 10px"
+                                        id='input-limitation'
+                                        name='limitation'
+                                        [placeholder]="question.placeholder"
+                                        fullWidth
+                                        shape="round"
+                                        formControlName="limitation"></textarea>
+                    <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
+                             (click)="open(deleteTreatDialog)"></nb-icon>
+                    <ng-template #deleteTreatDialog let-data let-ref="dialogRef">
+                      <nb-card accent="warning">
+                        <nb-card-body>Do you really want to remove the threat?</nb-card-body>
+                        <nb-card-footer class="text-center">
+                          <button nbButton status="success"
+                                  (click)="removeLimitation(i);ref.close();">YES
+                          </button>
+                          <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                          </button>
+                        </nb-card-footer>
+                      </nb-card>
+                    </ng-template>
+                  </div>
+                  <hr class="solid">
+                </section>
+              </form>
+              <button nbButton ghost shape='round' size='tiny' status='success' style="margin-bottom: 10px"
+                      (click)='addLimitation()'>
+                <nb-icon icon="plus-circle-outline"></nb-icon>
+                Add Limitation
+              </button>
+              <nb-checkbox [checked]="verifyThreatState(question.key)"
+                           (checkedChange)="checkThreatQuestion($event, question.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary" class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div class="col-lg-12 bottom-margin" *ngIf="question.key === 'TH-25-4'">
+              <nb-radio-group class="row bottom-margin"
+                              [(ngModel)]="assessment.assessmentThreat.ethicalAspectsDefined">
+                <nb-radio
+                  *ngFor="let option of genericSelectOptions.options"
+                  [value]="option.value">
+                  {{ option.label }}
+                </nb-radio>
+              </nb-radio-group>
+              <div *ngIf="!isNullOrUndefinedOrFalse(assessment.assessmentThreat.ethicalAspectsDefined)">
+                <label>Description:</label>
+                <textarea style="padding-left: 10px"
+                          [(ngModel)]="assessment.assessmentThreat.ethicalAspectsDescription" rows="5"
+                          nbInput fullWidth shape="round"
+                          required="true"
+                          [placeholder]="question.placeholder"
+                          [hidden]="!assessment.assessmentThreat.ethicalAspectsDefined"></textarea>
+              </div>
+              <nb-checkbox [checked]="verifyThreatState(question.key)"
+                           (checkedChange)="checkThreatQuestion($event, question.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary" class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <div *ngIf="question.key === 'TH-25-5'">
+                        <textarea style="padding-left: 10px"
+                                  [(ngModel)]="assessment.assessmentThreat.biasDescription" rows="5"
+                                  nbInput fullWidth shape="round"
+                                  [placeholder]="question.placeholder"></textarea>
+              <nb-checkbox [checked]="verifyThreatState(question.key)"
+                           (checkedChange)="checkThreatQuestion($event, question.key)"
+                           style="padding-left: 20px; padding-top: 10px"
+                           status="primary" class="padding-right">Done
+              </nb-checkbox>
+            </div>
+            <br>
+            <hr class="solid">
+          </div>
+          <div class="container col-lg-12">
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+        <b>SUBMIT</b>
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

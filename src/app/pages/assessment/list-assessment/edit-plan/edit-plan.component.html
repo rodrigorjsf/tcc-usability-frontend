@@ -390,7 +390,7 @@
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
                       <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
-                              status="success">
+                              status="success" (click)="onEditParticipant()">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
                       </button>
@@ -410,12 +410,13 @@
                       </label>
                     </div>
                     <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-7'">
-                      <input style="padding-left: 10px" [ngModel]="assessment.participant.participantsQuantity"
+                      <input class="col-lg-3" style="padding-left: 10px" [ngModel]="assessment.participant.participantsQuantity"
                              type="number" nbInput
-                             fullWidth required="true" placeholder="Enter the number of participants" readonly>
-                      <nb-checkbox checked="false"
+                             fullWidth required="true" placeholder="Enter the quantity" readonly>
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div *ngIf="parentQuestion.key === 'PA-8'">
@@ -424,9 +425,10 @@
                         <nb-option value="P" disabled="true">IN PERSON</nb-option>
                         <nb-option value="R" disabled="true">REMOTE</nb-option>
                       </nb-select>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-9'">
@@ -434,9 +436,10 @@
                                 nbInput fullWidth shape="round"
                                 [(ngModel)]="assessment.participant.compensationDescription"
                                 placeholder="Describe the compesations here" readonly></textarea>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-10'">
@@ -444,25 +447,27 @@
                                 nbInput fullWidth shape="round"
                                 [(ngModel)]="assessment.participant.criteria"
                                 placeholder="Describe the eligibility criteria here" readonly></textarea>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-11'">
                       <nb-select class="bottom-margin-light" placeholder="Not Selected" style="padding-left: 10px"
                                  [(selected)]="assessment.participant.hasCollectedInformation">
-                        <nb-option value="true" disabled="true">YES</nb-option>
-                        <nb-option value="false" disabled="true">NO</nb-option>
+                        <nb-option *ngFor="let option of genericSelectOptions.options"
+                                   [value]="option.value">{{option.label}}</nb-option>
                       </nb-select>
                       <textarea style="padding-left: 10px"
                                 nbInput fullWidth shape="round"
                                 placeholder="Describes data usage here"
                                 [(ngModel)]="assessment.participant.collectedInformationUse"
                                 [disabled]="!assessment.participant.hasCollectedInformation" readonly></textarea>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-12'">
@@ -470,9 +475,10 @@
                                 nbInput fullWidth shape="round"
                                 [(ngModel)]="assessment.participant.instructions"
                                 placeholder="Describes instructions here" readonly></textarea>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <div [formGroup]='form' class="bottom-margin-light" *ngIf="parentQuestion.key === 'PA-13'">
@@ -509,9 +515,10 @@
                         <nb-icon icon="plus-circle-outline"></nb-icon>
                         Add Question
                       </button>
-                      <nb-checkbox checked="false"
+                      <nb-checkbox [checked]="verifyParticipantState(parentQuestion.key)"
+                                   (checkedChange)="checkParticipantQuestion($event, parentQuestion.key)"
                                    style="padding-left: 20px; padding-top: 10px"
-                                   status="primary" disabled="true" class="padding-right">Done
+                                   status="primary"  class="padding-right" disabled>Done
                       </nb-checkbox>
                     </div>
                     <br>
@@ -537,7 +544,7 @@
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
                       <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
-                              status="success">
+                              status="success" (click)="onEditTools()">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
                       </button>
@@ -640,7 +647,7 @@
                               <div *ngIf="parentQuestion.key === 'TM-16'" class='row col-lg-12'>
                                 <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
                                 <input nbInput class='display-next'
-                                       id='input-task-execution'
+                                       id='input-edit-task-execution'
                                        name='task-execution'
                                        placeholder='Insert the task execution time (in minutes)'
                                        fullWidth
@@ -694,7 +701,7 @@
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
                       <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
-                              status="success">
+                              status="success" (click)="onEditProcedure()">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
                       </button>
@@ -723,11 +730,9 @@
                                  nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
                       </label>
                       <div *ngIf="question.key === 'PR-18-1'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurDate" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe when it will occur here" readonly></textarea>
+                        <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker"
+                               [(ngModel)]="assessment.assessmentProcedure.occurDate" disabled>
+                        <nb-datepicker #dateTimePicker format="yyyy-MM-dd"></nb-datepicker>
                         <nb-checkbox [checked]="verifyProcedureState(question.key)"
                                      (checkedChange)="checkProcedureQuestion($event, question.key)"
                                      style="padding-left: 20px; padding-top: 10px"
@@ -881,7 +886,7 @@
                       <nb-progress-bar class="col-lg-8 vertical-center" fullWidth [value]="questionsPercentage"
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
-                      <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
+                      <button (click)="onEditData()" class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
                               status="success">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -900,67 +905,6 @@
                                  nbTooltipPlacement="right"
                                  nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
                       </h4>
-                    </div>
-                    <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
-                         class="container col-lg-12">
-                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}
-                        <nb-icon *ngIf="!isNullOrUndefined(question.instruction)"
-                                 icon="info-outline" class="button-space"
-                                 [nbTooltip]="question.instruction"
-                                 nbTooltipPlacement="right"
-                                 nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
-                      </label>
-                      <div *ngIf="question.key === 'PR-18-1'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurDate" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe when it will occur here" readonly></textarea>
-                        <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                                     (checkedChange)="checkProcedureQuestion($event, question.key)"
-                                     style="padding-left: 20px; padding-top: 10px"
-                                     status="primary" disabled="true" class="padding-right">Done
-                        </nb-checkbox>
-                      </div>
-                      <div *ngIf="question.key === 'PR-18-2'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurLocal" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe where it will take place here" readonly></textarea>
-                        <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                                     (checkedChange)="checkProcedureQuestion($event, question.key)"
-                                     style="padding-left: 20px; padding-top: 10px"
-                                     status="primary" disabled="true" class="padding-right">Done
-                        </nb-checkbox>
-                      </div>
-                      <div *ngIf="question.key === 'PR-18-3'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurDetail" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe how it will occur here" readonly></textarea>
-                        <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                                     (checkedChange)="checkProcedureQuestion($event, question.key)"
-                                     style="padding-left: 20px; padding-top: 10px"
-                                     status="primary" disabled="true" class="padding-right">Done
-                        </nb-checkbox>
-                      </div>
-                      <div *ngIf="question.key === 'PR-18-4'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurTime" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe how long it will take here" readonly></textarea>
-                        <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                                     (checkedChange)="checkProcedureQuestion($event, question.key)"
-                                     style="padding-left: 20px; padding-top: 10px"
-                                     status="primary" disabled="true" class="padding-right">Done
-                        </nb-checkbox>
-                      </div>
-
-                      <br>
-                      <hr class="solid">
                     </div>
                     <div class="container col-lg-12">
                       <div *ngIf="parentQuestion.key === 'DT-22'">
@@ -1031,7 +975,7 @@
                       <nb-progress-bar class="col-lg-8 vertical-center" fullWidth [value]="questionsPercentage"
                                        [status]="getPercentageColor()"
                                        [displayValue]="true"></nb-progress-bar>
-                      <button class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
+                      <button (click)="onEditThreat()" class="fa-pull-right padding-right" style="margin-left:5px" size="medium" nbButton ghost
                               status="success">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -1145,8 +1089,8 @@
                           <nb-icon icon="plus-circle-outline"></nb-icon>
                           Add Limitation
                         </button>
-                        <nb-checkbox [checked]="verifyProcedureState(parentQuestion.key)"
-                                     (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
+                        <nb-checkbox [checked]="verifyThreatState(question.key)"
+                                     (checkedChange)="checkThreatQuestion($event, question.key)"
                                      style="padding-left: 20px; padding-top: 10px"
                                      status="primary" disabled="true" class="padding-right">Done
                         </nb-checkbox>
