@@ -8,7 +8,7 @@ import {
   SmartCityQuestionnaire,
   SystemUser,
   UsabilityGoal,
-  Variable,
+  Attribute,
 } from './AssessmentSections';
 import {PlanAnswers} from "./assessment-answers";
 
@@ -27,7 +27,7 @@ export class Assessment {
   assessmentData: AssessmentData;
   assessmentThreat: AssessmentThreat;
   answers: PlanAnswers;
-  variables: Variable[];
+  attributes: Attribute[];
   scale: Scale[];
 
   constructor() {

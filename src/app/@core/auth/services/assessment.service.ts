@@ -10,13 +10,19 @@ import {AssessmentToolsDTO} from "../../../models/dto/AssessmentToolsDTO";
 import {AssessmentProcedureDTO} from "../../../models/dto/AssessmentProcedureDTO";
 import {AssessmentDataDTO} from "../../../models/dto/AssessmentDataDTO";
 import {AssessmentThreatDTO} from "../../../models/dto/AssessmentThreatDTO";
+import * as FileSaver from "file-saver";
+import {NbToastrService} from "@nebular/theme";
+import {ToastService} from "../../../services/toastService";
 
 @Injectable()
 export class AssessmentService {
 
   private baseUrl = environment.baseUrl;
+  toast: ToastService;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private toastrService: NbToastrService) {
+    this.toast = new ToastService(toastrService);
   }
 
   private get headers(): HttpHeaders {
@@ -150,4 +156,25 @@ export class AssessmentService {
         responseType: 'json',
       });
   }
+
+  downloadPlan(planUid: string, fileName: string) {
+    const request = this.http.get(`${this.baseUrl}/assessment/` + planUid + `/file`,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'arraybuffer',
+      });
+    request.subscribe(
+      data => {
+        const blob: any = new Blob([data], {type: 'application/octet-stream'});
+
+        FileSaver.saveAs(blob, fileName.replace(/\s/g, '') + '.pdf');
+      },
+      (err) => {
+        console.log(err);
+        const statusInfo = err.statusText ? `${err.statusText}.` : '';
+        this.toast.showToast('download', 'top-right', 'danger', 'assessment');
+      });
+  }
+
 }

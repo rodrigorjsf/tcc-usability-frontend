@@ -32,6 +32,13 @@ export class ToastService {
           `Success!`,
           {position, status, destroyByClick: true, duration: 3000});
       }
+    } else if (type === 'download') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Could not download the ${object} plan.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
     } else {
       if (status === 'danger') {
         this.toastrService.show(
