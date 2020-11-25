@@ -136,7 +136,7 @@ export class Scale {
   }
 }
 
-export class Variable {
+export class Attribute {
   usabilityAttribute: string;
   variables: string;
   obtainedBy: string;

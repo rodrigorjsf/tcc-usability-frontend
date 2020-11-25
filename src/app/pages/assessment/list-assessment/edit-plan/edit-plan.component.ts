@@ -14,7 +14,7 @@ import {
   Scale,
   SmartCityQuestionnaire,
   UsabilityGoal,
-  Variable
+  Attribute
 } from "../../../../models/AssessmentSections";
 import {PlanAnswers} from "../../../../models/assessment-answers";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
@@ -160,8 +160,8 @@ export class EditPlanComponent implements OnInit {
   }
 
   initAssessmentAttribute() {
-    if (this.isNullOrUndefined(this.assessment.variables) || this.assessment.variables.length === 0) {
-      this.usabilityAtributes.forEach(value => this.assessment.variables.push(new Variable(value)));
+    if (this.isNullOrUndefined(this.assessment.attributes) || this.assessment.attributes.length === 0) {
+      this.usabilityAtributes.forEach(value => this.assessment.attributes.push(new Attribute(value)));
     }
     if (this.isNullOrUndefined(this.assessment.scale) || this.assessment.scale.length === 0) {
       this.assessment.scale = [];
@@ -170,15 +170,15 @@ export class EditPlanComponent implements OnInit {
   }
 
   fillVariableArray() {
-    if (this.assessment.variables.length !== 5) {
+    if (this.assessment.attributes.length !== 5) {
       let exist = false;
       this.usabilityAtributes.forEach(value => {
-        this.assessment.variables.forEach(variable => {
+        this.assessment.attributes.forEach(variable => {
           if (value === variable.usabilityAttribute)
             exist = true;
         });
         if (exist === false) {
-          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+          this.assessment.attributes.push({usabilityAttribute: value, variables: null, obtainedBy: null});
         }
         exist = false;
       });

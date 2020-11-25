@@ -110,6 +110,7 @@ export class ListAssessmentComponent implements OnInit {
     if ($event.action === 'edit') {
       this.onEdit($event.data);
     } else if ($event.action === 'export') {
+      this.assessmentService.downloadPlan($event.data.assessmentUid, $event.data.projectName);
     } else {
       this.open(deleteQuestionDialog, $event);
     }
