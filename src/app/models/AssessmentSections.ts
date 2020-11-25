@@ -13,7 +13,7 @@ export class AssessmentData {
 }
 
 export class AssessmentProcedure {
-  occurDate: string;
+  occurDate: Date;
   occurLocal: string;
   occurDetail: string;
   occurTime: number;

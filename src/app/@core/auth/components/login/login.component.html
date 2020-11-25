@@ -1,20 +1,20 @@
-<h1 id="title" class="title">Sign In</h1>
+<h1 class="title" id="title">Sign In</h1>
 
 <form (ngSubmit)="signIn()" [formGroup]="form" aria-labelledby="title">
 
   <div class="form-control-group">
     <label class="label" for="input-email">Email address or username:</label>
-    <input nbInput
-           fullWidth
-           name="email"
-           id="input-email"
-           placeholder="Email address or username"
+    <input [attr.aria-invalid]="login.invalid && login.touched ? true : null"
+           [status]="login.dirty ? (login.invalid  ? 'danger' : 'success') : 'basic'"
            autofocus
            formControlName="login"
-           [status]="login.dirty ? (login.invalid  ? 'danger' : 'success') : 'basic'"
-           [attr.aria-invalid]="login.invalid && login.touched ? true : null">
+           fullWidth
+           id="input-email"
+           name="email"
+           nbInput
+           placeholder="Email address or username">
     <ng-container *ngIf="login.invalid && login.touched">
-      <p class="caption status-danger" *ngIf="login.errors?.required">
+      <p *ngIf="login.errors?.required" class="caption status-danger">
         Field required!
       </p>
     </ng-container>
@@ -22,37 +22,37 @@
 
   <div class="form-control-group">
     <label class="label" for="input-password">Password:</label>
-    <input nbInput
-           fullWidth
-           name="password"
-           type="password"
-           formControlName="password"
-           id="input-password"
-           placeholder="Password"
+    <input [attr.aria-invalid]="password.invalid && password.touched ? true : null"
            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
-           [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+           formControlName="password"
+           fullWidth
+           id="input-password"
+           name="password"
+           nbInput
+           placeholder="Password"
+           type="password">
     <ng-container *ngIf="password.invalid && password.touched ">
-      <p class="caption status-danger" *ngIf="password.errors?.required">
+      <p *ngIf="password.errors?.required" class="caption status-danger">
         Password is required!
       </p>
     </ng-container>
   </div>
 
   <div class="form-control-group accept-group">
-    <nb-checkbox formControlName="rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
+    <nb-checkbox *ngIf="rememberMe" formControlName="rememberMe">Remember me</nb-checkbox>
     <a class="forgot-password" routerLink="../request-password">Forgot Password?</a>
   </div>
 
-  <button nbButton
+  <button [disabled]="!form.valid"
           fullWidth
+          nbButton
           status="success"
-          [disabled]="!form.valid"
           type="submit"
   >
     Sign In
   </button>
 </form>
 
-<section class="another-action" aria-label="Register">
+<section aria-label="Register" class="another-action">
   Do not have an account? <a class="text-link" routerLink="../register">Sign Up</a>
 </section>

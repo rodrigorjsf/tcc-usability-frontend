@@ -6,7 +6,9 @@ import {AuthTokenParceler} from './token-parceler';
 export abstract class TokenStorage {
 
   abstract get(): AuthToken;
+
   abstract set(token: AuthToken);
+
   abstract clear();
 }
 

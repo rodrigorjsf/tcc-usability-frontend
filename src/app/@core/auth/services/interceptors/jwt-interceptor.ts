@@ -13,35 +13,35 @@ export class AuthJWTInterceptor implements HttpInterceptor {
               @Inject(PEX_AUTH_TOKEN_INTERCEPTOR_FILTER) protected filter) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      if (!this.filter(req)) {
-        return this.authService.isAuthenticatedOrRefresh()
-          .pipe(
-            switchMap(authenticated => {
-              if (authenticated) {
-                  return this.authService.getToken().pipe(
-                    switchMap((token: AuthToken) => {
-                      const JWT = `Bearer ${token.getValue()}`;
-                      req = req.clone({
-                        setHeaders: {
-                          Authorization: JWT,
-                        },
-                      });
-                      return next.handle(req);
-                    }),
-                  );
-              } else {
-                return next.handle(req);
-              }
-            }),
-          );
-      } else {
-      return next.handle(req);
-    }
-  }
-
   protected get authService(): AuthService {
     return this.injector.get(AuthService);
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.filter(req)) {
+      return this.authService.isAuthenticatedOrRefresh()
+        .pipe(
+          switchMap(authenticated => {
+            if (authenticated) {
+              return this.authService.getToken().pipe(
+                switchMap((token: AuthToken) => {
+                  const JWT = `Bearer ${token.getValue()}`;
+                  req = req.clone({
+                    setHeaders: {
+                      Authorization: JWT,
+                    },
+                  });
+                  return next.handle(req);
+                }),
+              );
+            } else {
+              return next.handle(req);
+            }
+          }),
+        );
+    } else {
+      return next.handle(req);
+    }
   }
 
 }

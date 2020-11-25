@@ -21,10 +21,6 @@ export class LoginComponent {
     });
   }
 
-  signIn () {
-    this.store.dispatch(new AuthSignInRequest(this.value));
-  }
-
   get value() {
     return this.form.value;
   }
@@ -43,5 +39,9 @@ export class LoginComponent {
 
   get rememberMe() {
     return this.controls.rememberMe;
+  }
+
+  signIn() {
+    this.store.dispatch(new AuthSignInRequest(this.value));
   }
 }

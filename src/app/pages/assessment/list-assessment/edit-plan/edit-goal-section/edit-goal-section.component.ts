@@ -29,6 +29,7 @@ export class EditGoalSectionComponent implements OnInit {
   instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   planAnswersConstants = VuatConstants.PLAN_ANSWER;
   categories = VuatConstants.CATEGORIES;
+  usabilityAttributes = VuatConstants.USABILITY_ATRIBUTES;
   usabilityGoals: UsabilityGoalDTO;
   toast: ToastService;
 
@@ -39,6 +40,7 @@ export class EditGoalSectionComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.assessment = this.router.getCurrentNavigation().extras.state;
+    this.fillGoalsArray();
   }
 
   ngOnInit() {
@@ -107,8 +109,6 @@ export class EditGoalSectionComponent implements OnInit {
 
   async onSubmit() {
     this.mountUsabilityGoals();
-    console.log(this.assessment);
-    console.log(this.usabilityGoals);
     (await this.assessmentService.updateAssessmentGoalsSection(this.usabilityGoals))
       .subscribe(data => {
           this.toast.showToast('update', 'top-right', 'success', 'Assessment');
@@ -125,5 +125,21 @@ export class EditGoalSectionComponent implements OnInit {
     this.usabilityGoals.goals = this.assessment.usabilityGoals.map(value =>
       new Goal(value.attribute, value.goal));
     this.usabilityGoals.planGoalsAnswers = this.assessment.answers.planGoalsAnswers;
+  }
+
+  private fillGoalsArray() {
+    if (this.assessment.usabilityGoals.length !== 5) {
+      let exist = false;
+      this.usabilityAttributes.forEach(value => {
+        this.assessment.usabilityGoals.forEach(goal => {
+          if (value === goal.attribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.usabilityGoals.push({attribute: value.attribute, goal: null, done: false});
+        }
+        exist = false;
+      });
+    }
   }
 }

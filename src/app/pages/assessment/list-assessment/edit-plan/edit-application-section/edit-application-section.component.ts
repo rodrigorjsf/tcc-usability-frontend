@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AssessmentService} from "../../../../../@core/auth/services/assessment.service";
 import {QuestionService} from "../../../../../@core/auth/services/question.service";
 import {Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
 import {VuatConstants} from "../../../../../models/constants/vuat-constants";
-import {SmartCityQuestionnaireDTO} from "../../../../../models/dto/SmartCityQuestionnaireDTO";
+import {ApplicationSectionDTO} from "../../../../../models/dto/ApplicationSectionDTO";
 import {AssessmentTransferDTO} from "../../../../../models/dto/AssessmentTransferDTO";
 import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../../../services/toastService";
@@ -16,7 +15,6 @@ import {ToastService} from "../../../../../services/toastService";
 })
 export class EditApplicationSectionComponent implements OnInit {
 
-  form: FormGroup;
   assessment: any;
   router: Router;
   isVald = false;
@@ -29,7 +27,7 @@ export class EditApplicationSectionComponent implements OnInit {
   categories = VuatConstants.CATEGORIES;
   smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
   selectOptions = VuatConstants.SELECT_OPTIONS;
-  smartCityQuestionnaire: SmartCityQuestionnaireDTO;
+  smartCityQuestionnaire: ApplicationSectionDTO;
   toast: ToastService;
 
   constructor(private assessmentService: AssessmentService,
@@ -42,7 +40,7 @@ export class EditApplicationSectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.smartCityQuestionnaire = new SmartCityQuestionnaireDTO(this.assessment.uid);
+    this.smartCityQuestionnaire = new ApplicationSectionDTO(this.assessment.uid);
   }
 
   getApplicationAcronym() {
@@ -94,6 +92,7 @@ export class EditApplicationSectionComponent implements OnInit {
   }
 
   checkApplicationSection($event: boolean, key: string, projectDescription: string) {
+    console.log(this.assessment.smartCityQuestionnaire);
     if (key === 'AP-PN') {
       if ($event === true) {
         this.assessment.answers.planApplicationAnswers.projectName = this.planAnswersConstants.answered.name;
@@ -172,6 +171,8 @@ export class EditApplicationSectionComponent implements OnInit {
   }
 
   mountQuestionnaire() {
+    this.smartCityQuestionnaire.projectName = this.assessment.projectName;
+    this.smartCityQuestionnaire.projectDescription = this.assessment.projectDescription;
     this.smartCityQuestionnaire.hasDataManagement = this.assessment.smartCityQuestionnaire.hasDataManagement;
     this.smartCityQuestionnaire.hasAppExecution = this.assessment.smartCityQuestionnaire.hasAppExecution;
     this.smartCityQuestionnaire.hasSensorNetwork = this.assessment.smartCityQuestionnaire.hasSensorNetwork;

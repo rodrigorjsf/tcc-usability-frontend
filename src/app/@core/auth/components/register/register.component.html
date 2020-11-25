@@ -1,21 +1,21 @@
-<h1 id="title" class="title">Register</h1>
+<h1 class="title" id="title">Register</h1>
 
-<form [formGroup]="form" (ngSubmit)="register()" aria-labelledby="title">
+<form (ngSubmit)="register()" [formGroup]="form" aria-labelledby="title">
 
   <div class="form-control-group">
     <label class="label" for="input-name">Full name:</label>
-    <input nbInput
+    <input [attr.aria-invalid]="name.invalid && name.touched ? true : null"
+           [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+           autofocus
+           fieldSize="large"
+           formControlName="name"
+           fullWidth
            id="input-name"
            name="fullName"
-           formControlName="name"
-           placeholder="Full name"
-           autofocus
-           fullWidth
-           fieldSize="large"
-           [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
-           [attr.aria-invalid]="name.invalid && name.touched ? true : null">
+           nbInput
+           placeholder="Full name">
     <ng-container *ngIf="name.invalid && name.touched">
-      <p class="caption status-danger" *ngIf="name.errors?.required">
+      <p *ngIf="name.errors?.required" class="caption status-danger">
         Full name is required!
       </p>
     </ng-container>
@@ -23,18 +23,18 @@
 
   <div class="form-control-group">
     <label class="label" for="input-username">Username login:</label>
-    <input nbInput
+    <input [attr.aria-invalid]="userName.invalid && userName.touched ? true : null"
+           [status]="userName.dirty ? (userName.invalid  ? 'danger' : 'success') : ''"
+           autofocus
+           fieldSize="large"
+           formControlName="userName"
+           fullWidth
            id="input-username"
            name="username"
-           formControlName="userName"
-           placeholder="Username login"
-           autofocus
-           fullWidth
-           fieldSize="large"
-           [status]="userName.dirty ? (userName.invalid  ? 'danger' : 'success') : ''"
-           [attr.aria-invalid]="userName.invalid && userName.touched ? true : null">
+           nbInput
+           placeholder="Username login">
     <ng-container *ngIf="userName.invalid && userName.touched">
-      <p class="caption status-danger" *ngIf="userName.errors?.required">
+      <p *ngIf="userName.errors?.required" class="caption status-danger">
         Username login is required!
       </p>
     </ng-container>
@@ -42,21 +42,21 @@
 
   <div class="form-control-group">
     <label class="label" for="input-email">Email address:</label>
-    <input nbInput
-           id="input-email"
-           formControlName="email"
-           name="email"
-           pattern=".+@.+..+"
-           placeholder="Email address"
-           fullWidth
-           fieldSize="large"
+    <input [attr.aria-invalid]="email.invalid && email.touched ? true : null"
            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
-           [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+           fieldSize="large"
+           formControlName="email"
+           fullWidth
+           id="input-email"
+           name="email"
+           nbInput
+           pattern=".+@.+..+"
+           placeholder="Email address">
     <ng-container *ngIf="email.invalid && email.touched">
-      <p class="caption status-danger" *ngIf="email.errors?.required">
+      <p *ngIf="email.errors?.required" class="caption status-danger">
         Email is required!
       </p>
-      <p class="caption status-danger" *ngIf="email.errors?.pattern">
+      <p *ngIf="email.errors?.pattern" class="caption status-danger">
         Email should be the real one!
       </p>
     </ng-container>
@@ -64,21 +64,21 @@
 
   <div class="form-control-group">
     <label class="label" for="input-password">Password:</label>
-    <input nbInput
-           type="password"
+    <input [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+           [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+           fieldSize="large"
+           formControlName="password"
+           fullWidth
            id="input-password"
            name="password"
-           formControlName="password"
+           nbInput
            placeholder="Password"
-           fullWidth
-           fieldSize="large"
-           [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
-           [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+           type="password">
     <ng-container *ngIf="password.invalid && password.touched">
-      <p class="caption status-danger" *ngIf="password.errors?.required">
+      <p *ngIf="password.errors?.required" class="caption status-danger">
         Password is required!
       </p>
-      <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+      <p *ngIf="password.errors?.minlength || password.errors?.maxlength" class="caption status-danger">
         Password should contain at list 8 characters
       </p>
     </ng-container>
@@ -86,21 +86,22 @@
 
   <div class="form-control-group">
     <label class="label" for="input-re-password">Repeat password:</label>
-    <input nbInput
-           type="password"
+    <input [attr.aria-invalid]="confirmPassword.invalid && confirmPassword.touched ? true : null"
+           [status]="confirmPassword.dirty ? (confirmPassword.invalid || password.value != confirmPassword.value  ? 'danger' : 'success') : ''"
+           fieldSize="large"
            formControlName="confirmPassword"
+           fullWidth
            id="input-re-password"
            name="rePass"
+           nbInput
            placeholder="Confirm Password"
-           fullWidth
-           fieldSize="large"
-           [status]="confirmPassword.dirty ? (confirmPassword.invalid || password.value != confirmPassword.value  ? 'danger' : 'success') : ''"
-           [attr.aria-invalid]="confirmPassword.invalid && confirmPassword.touched ? true : null">
+           type="password">
     <ng-container *ngIf="confirmPassword.invalid && confirmPassword.touched">
-      <p class="caption status-danger" *ngIf="confirmPassword.errors?.required">
+      <p *ngIf="confirmPassword.errors?.required" class="caption status-danger">
         Password confirmation is required!
       </p>
-      <p class="caption status-danger" *ngIf="password.value != confirmPassword.value && !confirmPassword.errors?.required">
+      <p *ngIf="password.value != confirmPassword.value && !confirmPassword.errors?.required"
+         class="caption status-danger">
         Password does not match the confirm password.
       </p>
     </ng-container>
@@ -108,31 +109,31 @@
 
   <div class="form-control-group">
     <label class="label" for="input-re-password">Are you a reviewer?</label>
-    <nb-select placeholder="Select a option"
-               id="input-reviewer"
-               name="reviewer"
+    <nb-select fieldSize="large"
                formControlName="isReviewer"
                fullWidth
-               fieldSize="large" required="true">
+               id="input-reviewer"
+               name="reviewer"
+               placeholder="Select a option" required="true">
       <nb-option value="false">No</nb-option>
       <nb-option value="true">Yes</nb-option>
     </nb-select>
     <ng-container *ngIf="isReviewer.invalid && isReviewer.touched">
-      <p class="caption status-danger" *ngIf="isReviewer.errors?.required">
+      <p *ngIf="isReviewer.errors?.required" class="caption status-danger">
         Perfil option is required!
       </p>
     </ng-container>
   </div>
 
-  <button nbButton
+  <button [disabled]="!isValid"
           fullWidth
-          status="primary"
+          nbButton
           size="large"
-          [disabled]="!isValid">
+          status="primary">
     Register
   </button>
 </form>
 
-<section class="another-action" aria-label="Sign in">
+<section aria-label="Sign in" class="another-action">
   Already have an account? <a class="text-link" routerLink="../login">Log in</a>
 </section>

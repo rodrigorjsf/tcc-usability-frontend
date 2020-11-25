@@ -19,7 +19,7 @@ export class AuthService implements AuthData {
       .post<AuthSignInResponseModel>(
         `${this.url}/auth/login`,
         data,
-        { observe: 'response' },
-        );
+        {observe: 'response'},
+      );
   }
 }

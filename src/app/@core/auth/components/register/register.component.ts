@@ -15,6 +15,7 @@ import {of} from 'rxjs';
 })
 export class RegisterComponent {
   form: FormGroup;
+
   constructor(private formBuilder: FormBuilder, private userService: UserService,
               private router: Router, private toastr: ToastrService) {
     this.form = formBuilder.group({
@@ -25,18 +26,6 @@ export class RegisterComponent {
       confirmPassword: [null, Validators.required],
       isReviewer: [false, Validators.required],
     });
-  }
-
-  register(): void {
-    this.userService.registerUser(this.value).pipe(
-      tap(() => this.router.navigate(['/'])),
-      map(() => this.toastr.success('Cadastro realizado com sucesso')),
-      catchError((err: HttpErrorResponse) => of(this.toastr.warning(err.error))),
-    ).subscribe();
-  }
-
-  private get value() {
-    return this.form.value;
   }
 
   get controls() {
@@ -69,5 +58,17 @@ export class RegisterComponent {
 
   get isValid() {
     return this.form.valid;
+  }
+
+  private get value() {
+    return this.form.value;
+  }
+
+  register(): void {
+    this.userService.registerUser(this.value).pipe(
+      tap(() => this.router.navigate(['/'])),
+      map(() => this.toastr.success('Cadastro realizado com sucesso')),
+      catchError((err: HttpErrorResponse) => of(this.toastr.warning(err.error))),
+    ).subscribe();
   }
 }

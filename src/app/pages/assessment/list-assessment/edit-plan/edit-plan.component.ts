@@ -4,6 +4,7 @@ import {AssessmentService} from '../../../../@core/auth/services/assessment.serv
 import {Router} from '@angular/router';
 import {QuestionService} from '../../../../@core/auth/services/question.service';
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
+import {format} from 'date-fns';
 import {
   AssessmentData,
   AssessmentProcedure,
@@ -19,6 +20,7 @@ import {PlanAnswers} from "../../../../models/assessment-answers";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../../services/toastService";
+import {AssessmentTransferDTO} from "../../../../models/dto/AssessmentTransferDTO";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -41,6 +43,8 @@ export class EditPlanComponent implements OnInit {
   usabilityScales: Scale[];
   tooltipTrigger: string;
   submitTooltip: string;
+  smartCityQuestionnaire: SmartCityQuestionnaire;
+  toast: ToastService;
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
   private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
@@ -48,8 +52,6 @@ export class EditPlanComponent implements OnInit {
   private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
   private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
   private selectOptions = VuatConstants.SELECT_OPTIONS;
-  smartCityQuestionnaire: SmartCityQuestionnaire;
-  toast: ToastService;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
@@ -60,6 +62,41 @@ export class EditPlanComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
+  }
+
+  get questions() {
+    return this.form.controls.questions as FormArray;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
+    console.log(serialized);
+    delete serialized.questions;
+    return serialized;
+  }
+
+  get tools() {
+    return this.form.controls.tools as FormArray;
+  }
+
+  get tasks() {
+    return this.form.controls.tasks as FormArray;
+  }
+
+  get steps() {
+    return this.form.controls.steps as FormArray;
+  }
+
+  get threats() {
+    return this.form.controls.threats as FormArray;
+  }
+
+  get limitations() {
+    return this.form.controls.limitations as FormArray;
   }
 
   ngOnInit() {
@@ -104,6 +141,7 @@ export class EditPlanComponent implements OnInit {
     if (this.isNullOrUndefined(this.assessment.usabilityGoals) || this.assessment.usabilityGoals.length === 0)
       this.assessment.usabilityGoals = [new UsabilityGoal('LRN'), new UsabilityGoal('EFF'),
         new UsabilityGoal('USR'), new UsabilityGoal('ERR'), new UsabilityGoal('STF')];
+    this.fillGoalsArray();
   }
 
   initParticipants() {
@@ -112,6 +150,13 @@ export class EditPlanComponent implements OnInit {
     }
     if (this.assessment.participant.questions.length !== 0)
       this.assessment.participant.questions.map(value => this.formBuilder.group({question: [value]}));
+
+    if (this.assessment.participant.questions.length !== 0) {
+      this.assessment.participant.questions.map(value =>
+        this.questions.push(this.formBuilder.group({
+          question: [value],
+        })));
+    }
   }
 
   initAssessmentAttribute() {
@@ -120,6 +165,23 @@ export class EditPlanComponent implements OnInit {
     }
     if (this.isNullOrUndefined(this.assessment.scale) || this.assessment.scale.length === 0) {
       this.assessment.scale = [];
+    }
+    this.fillVariableArray();
+  }
+
+  fillVariableArray() {
+    if (this.assessment.variables.length !== 5) {
+      let exist = false;
+      this.usabilityAtributes.forEach(value => {
+        this.assessment.variables.forEach(variable => {
+          if (value === variable.usabilityAttribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+        }
+        exist = false;
+      });
     }
   }
 
@@ -138,6 +200,21 @@ export class EditPlanComponent implements OnInit {
           acceptanceCriteria: [value.acceptanceCriteria]
         }));
     }
+    if (this.assessment.assessmentTools.tools.length !== 0) {
+      this.assessment.assessmentTools.tools.map(value =>
+        this.tools.push(this.formBuilder.group({
+          tool: [value],
+        })));
+    }
+    if (this.assessment.assessmentTools.tasks.length !== 0) {
+      this.assessment.assessmentTools.tasks.map(value =>
+        this.tasks.push(this.formBuilder.group(
+          {
+            description: [value.description],
+            taskExecutionTime: [value.taskExecutionTime],
+            acceptanceCriteria: [value.acceptanceCriteria],
+          })));
+    }
   }
 
   initAnswers() {
@@ -148,6 +225,10 @@ export class EditPlanComponent implements OnInit {
   initProcedure() {
     if (this.isNullOrUndefined(this.assessment.assessmentProcedure))
       this.assessment.assessmentProcedure = new AssessmentProcedure();
+    if (this.assessment.assessmentProcedure.assessmentProcedureSteps.length !== 0) {
+      this.assessment.assessmentProcedure.assessmentProcedureSteps.map(value =>
+        this.steps.push(this.formBuilder.group({name: [value.name], description: [value.description]})));
+    }
   }
 
   initDataCollection() {
@@ -158,6 +239,15 @@ export class EditPlanComponent implements OnInit {
   initThreats() {
     if (this.isNullOrUndefined(this.assessment.assessmentThreat))
       this.assessment.assessmentThreat = new AssessmentThreat();
+    if (this.assessment.assessmentThreat.threats.length !== 0) {
+      this.assessment.assessmentThreat.threats.map(value =>
+        this.threats.push(this.formBuilder.group({threat: [value]})));
+    }
+    if (this.assessment.assessmentThreat.limitations.length !== 0) {
+      this.assessment.assessmentThreat.limitations.map(value =>
+        this.limitations.push(this.formBuilder.group(
+          {limitation: [value]})));
+    }
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -450,6 +540,13 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
+  // showQuestions() {
+  //   this.questions.getRawValue().forEach(value => console.log(value.question));
+  //   console.log(this.values.questions);
+  //   const arrayTest = this.questions.getRawValue().map(value => value.question);
+  //   console.log(arrayTest);
+  // }
+
   verifyScaleStatus(scale: Scale): boolean {
     for (const scaleObject of this.assessment.scale) {
       if (scaleObject.acronym === scale.acronym)
@@ -496,16 +593,75 @@ export class EditPlanComponent implements OnInit {
     return object;
   }
 
+  printValue(obj: any) {
+    console.log(obj);
+    console.log(obj.type);
+    console.log(new Date(obj));
+    console.log(format(new Date(obj), 'yyyy-MM-dd'));
+  }
 
-  // showQuestions() {
-  //   this.questions.getRawValue().forEach(value => console.log(value.question));
-  //   console.log(this.values.questions);
-  //   const arrayTest = this.questions.getRawValue().map(value => value.question);
-  //   console.log(arrayTest);
-  // }
+  verifyParticipantState(key: string) {
+    if (key === 'PA-7') {
+      return this.assessment.answers.planParticipantsAnswers.howManyParticipants === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-8') {
+      return this.assessment.answers.planParticipantsAnswers.participationType === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-9') {
+      return this.assessment.answers.planParticipantsAnswers.formCompensation === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-10') {
+      return this.assessment.answers.planParticipantsAnswers.eligibilityCriteria === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-11') {
+      return this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire === this.planAnswersConstants.answered.name;
+    } else if (key === 'PA-12') {
+      return this.assessment.answers.planParticipantsAnswers.participantsInstruction === this.planAnswersConstants.answered.name;
+    } else {
+      return this.assessment.answers.planParticipantsAnswers.askedQuestions === this.planAnswersConstants.answered.name;
+    }
+  }
 
-  private newQuestion(): FormGroup {
-    return this.formBuilder.group({question: ['']});
+  checkParticipantQuestion($event: boolean, key: string) {
+    if (key === 'PA-7') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.howManyParticipants = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.howManyParticipants = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-8') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.participationType = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.participationType = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-9') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.formCompensation = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.formCompensation = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-10') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.eligibilityCriteria = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.eligibilityCriteria = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-11') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.demographicQuestionnaire = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'PA-12') {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.participantsInstruction = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.participantsInstruction = this.planAnswersConstants.pending.name;
+      }
+    } else {
+      if ($event === true) {
+        this.assessment.answers.planParticipantsAnswers.askedQuestions = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planParticipantsAnswers.askedQuestions = this.planAnswersConstants.pending.name;
+      }
+    }
   }
 
   addQuestion() {
@@ -518,26 +674,6 @@ export class EditPlanComponent implements OnInit {
     this.questions.removeAt(i);
   }
 
-  get questions() {
-    return this.form.controls.questions as FormArray;
-  }
-
-  get values() {
-    return this.form.value;
-  }
-
-  get serializedValues() {
-    const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
-    console.log(serialized);
-    delete serialized.questions;
-    return serialized;
-  }
-
-  // --------------------- TASKS SECTION -------------------------
-  private newTool(): FormGroup {
-    return this.formBuilder.group({tool: ['']});
-  }
-
   addTools() {
     if (this.newTool().getRawValue() !== '')
       this.tools.push(this.newTool());
@@ -548,14 +684,6 @@ export class EditPlanComponent implements OnInit {
     this.tools.removeAt(i);
   }
 
-  get tools() {
-    return this.form.controls.tools as FormArray;
-  }
-
-  private newTask(): FormGroup {
-    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
-  }
-
   addTasks() {
     if (this.newTask().getRawValue() !== '')
       this.tasks.push(this.newTask());
@@ -564,10 +692,6 @@ export class EditPlanComponent implements OnInit {
 
   removeTask(i: number) {
     this.tasks.removeAt(i);
-  }
-
-  get tasks() {
-    return this.form.controls.tasks as FormArray;
   }
 
   open(dialog: TemplateRef<any>) {
@@ -691,10 +815,6 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  private newStep(): FormGroup {
-    return this.formBuilder.group({name: [''], description: ['']});
-  }
-
   addSteps() {
     if (this.newStep().getRawValue() !== '')
       this.steps.push(this.newStep());
@@ -704,12 +824,6 @@ export class EditPlanComponent implements OnInit {
   removeSteps(i: number) {
     this.steps.removeAt(i);
   }
-
-  get steps() {
-    return this.form.controls.steps as FormArray;
-  }
-
-  // ----------------- DATA SECTION ---------------------
 
   verifyDataState(key: string) {
     if (key === 'DT-22') {
@@ -743,26 +857,15 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  // ----------------- THREATS SECTION ---------------
-  private newThreat(): FormGroup {
-    return this.formBuilder.group({threat: ['']});
-  }
-
   addThreats() {
     if (this.newThreat().getRawValue() !== '')
       this.threats.push(this.newThreat());
   }
 
+  // ----------------- DATA SECTION ---------------------
+
   removeThreat(i: number) {
-    this.steps.removeAt(i);
-  }
-
-  get threats() {
-    return this.form.controls.threats as FormArray;
-  }
-
-  private newLimitation(): FormGroup {
-    return this.formBuilder.group({limitation: ['']});
+    this.threats.removeAt(i);
   }
 
   addLimitation() {
@@ -774,38 +877,50 @@ export class EditPlanComponent implements OnInit {
     this.limitations.removeAt(i);
   }
 
-  get limitations() {
-    return this.form.controls.limitations as FormArray;
-  }
-
   verifyThreatState(key: string) {
-    if (key === 'DT-22') {
-      return this.assessment.answers.planDataAnswers.dataCollectionProcedure === this.planAnswersConstants.answered.name;
-    } else if (key === 'DT-23') {
-      return this.assessment.answers.planDataAnswers.dataCollectedAnalyzed === this.planAnswersConstants.answered.name;
+    if (key === 'TH-25-1') {
+      return this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name;
+    } else if (key === 'TH-25-2') {
+      return this.assessment.answers.planThreatsAnswers.threatsValidityControlled === this.planAnswersConstants.answered.name;
+    } else if (key === 'TH-25-3') {
+      return this.assessment.answers.planThreatsAnswers.assessmentLimitations === this.planAnswersConstants.answered.name;
+    } else if (key === 'TH-25-4') {
+      return this.assessment.answers.planThreatsAnswers.ethicalAspects === this.planAnswersConstants.answered.name;
     } else {
-      return this.assessment.answers.planDataAnswers.statisticalMethods === this.planAnswersConstants.answered.name;
+      return this.assessment.answers.planThreatsAnswers.assessmentBiases === this.planAnswersConstants.answered.name;
     }
   }
 
   checkThreatQuestion($event: boolean, key: string) {
-    if (key === 'DT-22') {
+    if (key === 'TH-25-1') {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.whatThreats = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.dataCollectionProcedure = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.whatThreats = this.planAnswersConstants.pending.name;
       }
-    } else if (key === 'DT-23') {
+    } else if (key === 'TH-25-2') {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.threatsValidityControlled = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.dataCollectedAnalyzed = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.threatsValidityControlled = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'TH-25-3') {
+      if ($event === true) {
+        this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.pending.name;
+      }
+    } else if (key === 'TH-25-4') {
+      if ($event === true) {
+        this.assessment.answers.planThreatsAnswers.ethicalAspects = this.planAnswersConstants.answered.name;
+      } else {
+        this.assessment.answers.planThreatsAnswers.ethicalAspects = this.planAnswersConstants.pending.name;
       }
     } else {
       if ($event === true) {
-        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.answered.name;
+        this.assessment.answers.planThreatsAnswers.assessmentBiases = this.planAnswersConstants.answered.name;
       } else {
-        this.assessment.answers.planDataAnswers.statisticalMethods = this.planAnswersConstants.pending.name;
+        this.assessment.answers.planThreatsAnswers.assessmentBiases = this.planAnswersConstants.pending.name;
       }
     }
   }
@@ -837,7 +952,7 @@ export class EditPlanComponent implements OnInit {
     this.questionsAnswered = 0;
     let questionQuantity;
     if (this.categories.application.acronym === section) {
-      questionQuantity = 11;
+      questionQuantity = 10;
       if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
@@ -856,9 +971,6 @@ export class EditPlanComponent implements OnInit {
       if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
-        this.questionsAnswered = this.questionsAnswered + 1;
-      if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
-        this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
       if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
         this.questionsAnswered = this.questionsAnswered + 1;
@@ -968,7 +1080,7 @@ export class EditPlanComponent implements OnInit {
   calculatePlanPercentage() {
     this.planPercentage = 0;
     this.questionsAnswered = 0;
-    const questionQuantity = 53;
+    const questionQuantity = 52;
     if (this.assessment.answers.planApplicationAnswers.projectName === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.projectDescription === this.planAnswersConstants.answered.name)
@@ -987,9 +1099,6 @@ export class EditPlanComponent implements OnInit {
     if (this.assessment.answers.planApplicationAnswers.sensorNetwork === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.serviceManagement === this.planAnswersConstants.answered.name)
-      this.questionsAnswered = this.questionsAnswered + 1;
-    if (this.assessment.answers.planApplicationAnswers.smartCityPercentage ===
-      this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
     if (this.assessment.answers.planApplicationAnswers.tools === this.planAnswersConstants.answered.name)
       this.questionsAnswered = this.questionsAnswered + 1;
@@ -1098,6 +1207,7 @@ export class EditPlanComponent implements OnInit {
     return this.planPercentage !== 100;
   }
 
+  // --------------------------- ROUTES ----------------------------
   onEditApplication() {
     this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
   }
@@ -1108,5 +1218,80 @@ export class EditPlanComponent implements OnInit {
 
   onEditVariables() {
     this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
+  }
+
+  onEditParticipant() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/participant'], {state: this.assessment});
+  }
+
+  onEditTools() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/tools'], {state: this.assessment});
+  }
+
+  onEditProcedure() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/procedure'], {state: this.assessment});
+  }
+
+  onEditData() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/data'], {state: this.assessment});
+  }
+
+  onEditThreat() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/threats'], {state: this.assessment});
+  }
+
+  async onFinish() {
+    (await this.assessmentService.updatePlanState(this.assessment.uid))
+      .subscribe(data => {
+          this.toast.showToast('update', 'top-right', 'success', 'Assessment');
+          this.assessment = data;
+          const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
+          this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
+        },
+        () => {
+          this.toast.showToast('update', 'top-right', 'danger', 'Assessment');
+        });
+  }
+
+  private fillGoalsArray() {
+    if (this.assessment.usabilityGoals.length !== 5) {
+      let exist = false;
+      this.usabilityAtributes.forEach(value => {
+        this.assessment.usabilityGoals.forEach(goal => {
+          if (value === goal.attribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.usabilityGoals.push({attribute: value, goal: null, done: false});
+        }
+        exist = false;
+      });
+    }
+  }
+
+  private newQuestion(): FormGroup {
+    return this.formBuilder.group({question: ['']});
+  }
+
+  // --------------------- TASKS SECTION -------------------------
+  private newTool(): FormGroup {
+    return this.formBuilder.group({tool: ['']});
+  }
+
+  private newTask(): FormGroup {
+    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
+  }
+
+  private newStep(): FormGroup {
+    return this.formBuilder.group({name: [''], description: ['']});
+  }
+
+  // ----------------- THREATS SECTION ---------------
+  private newThreat(): FormGroup {
+    return this.formBuilder.group({threat: ['']});
+  }
+
+  private newLimitation(): FormGroup {
+    return this.formBuilder.group({limitation: ['']});
   }
 }

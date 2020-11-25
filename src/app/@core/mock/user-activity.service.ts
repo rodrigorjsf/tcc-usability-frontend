@@ -6,16 +6,6 @@ import {UserActive, UserActivityData} from '../data/user-activity';
 @Injectable()
 export class UserActivityService extends UserActivityData {
 
-  private getRandom = (roundTo: number) => Math.round(Math.random() * roundTo);
-  private generateUserActivityRandomData(date) {
-    return {
-      date,
-      pagesVisitCount: this.getRandom(1000),
-      deltaUp: this.getRandom(1) % 2 === 0,
-      newVisits: this.getRandom(100),
-    };
-  }
-
   data = {};
 
   constructor(private periods: PeriodsService) {
@@ -24,6 +14,21 @@ export class UserActivityService extends UserActivityData {
       week: this.getDataWeek(),
       month: this.getDataMonth(),
       year: this.getDataYear(),
+    };
+  }
+
+  getUserActivityData(period: string): Observable<UserActive[]> {
+    return observableOf(this.data[period]);
+  }
+
+  private getRandom = (roundTo: number) => Math.round(Math.random() * roundTo);
+
+  private generateUserActivityRandomData(date) {
+    return {
+      date,
+      pagesVisitCount: this.getRandom(1000),
+      deltaUp: this.getRandom(1) % 2 === 0,
+      newVisits: this.getRandom(100),
     };
   }
 
@@ -49,9 +54,5 @@ export class UserActivityService extends UserActivityData {
     return this.periods.getYears().map((year) => {
       return this.generateUserActivityRandomData(year);
     });
-  }
-
-  getUserActivityData(period: string): Observable<UserActive[]> {
-    return observableOf(this.data[period]);
   }
 }

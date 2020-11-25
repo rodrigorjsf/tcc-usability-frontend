@@ -18,4 +18,5 @@ import {NotFoundComponent} from './not-found/not-found.component';
     NotFoundComponent,
   ],
 })
-export class MiscellaneousModule { }
+export class MiscellaneousModule {
+}

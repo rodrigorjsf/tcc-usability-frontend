@@ -15,12 +15,12 @@ export class PasswordAuthStrategy extends AuthStrategy {
 
   protected defaultOptions: PasswordAuthStrategyOptions = passwordStrategyOptions;
 
-  static setup(options: PasswordAuthStrategyOptions): [AuthStrategyClass, PasswordAuthStrategyOptions] {
-    return [PasswordAuthStrategy, options];
-  }
-
   constructor(protected http: HttpClient, private route: ActivatedRoute) {
     super();
+  }
+
+  static setup(options: PasswordAuthStrategyOptions): [AuthStrategyClass, PasswordAuthStrategyOptions] {
+    return [PasswordAuthStrategy, options];
   }
 
   authenticate(data?: any): Observable<AuthResult> {
@@ -102,7 +102,7 @@ export class PasswordAuthStrategy extends AuthStrategy {
             this.getOption('messages.getter')(module, res, this.options));
         }),
         catchError((res) => {
-        return this.handleResponseError(res, module);
+          return this.handleResponseError(res, module);
         }),
       );
   }

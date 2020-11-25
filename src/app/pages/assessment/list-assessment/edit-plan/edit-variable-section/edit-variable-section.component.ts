@@ -28,6 +28,7 @@ export class EditVariableSectionComponent implements OnInit {
   tooltipTrigger: string;
   instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   planAnswersConstants = VuatConstants.PLAN_ANSWER;
+  usabilityAttributes = VuatConstants.USABILITY_ATRIBUTES;
   categories = VuatConstants.CATEGORIES;
   assessmentVariablesDTO: AssessmentVariablesDTO;
   toast: ToastService;
@@ -39,11 +40,14 @@ export class EditVariableSectionComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.assessment = this.router.getCurrentNavigation().extras.state;
+    console.log(this.assessment.variables.length);
+    this.fillVariableArray();
   }
 
   ngOnInit() {
     this.assessmentVariablesDTO = new AssessmentVariablesDTO(this.assessment.uid);
     this.getUsabilityScales();
+
   }
 
   getUsabilityScales() {
@@ -160,6 +164,7 @@ export class EditVariableSectionComponent implements OnInit {
         }
       }
     }
+    console.log(this.assessment)
   }
 
   verifyScaleStatus(scale: Scale): boolean {
@@ -221,6 +226,22 @@ export class EditVariableSectionComponent implements OnInit {
     this.assessmentVariablesDTO.planVariableAnswers = this.assessment.answers.planVariableAnswers;
     this.assessmentVariablesDTO.variables = this.assessment.variables.map(value =>
       new VariableDTO(value.usabilityAttribute, value.variables, value.obtainedBy));
+  }
+
+  private fillVariableArray() {
+    if (this.assessment.variables.length !== 5) {
+      let exist = false;
+      this.usabilityAttributes.forEach(value => {
+        this.assessment.variables.forEach(variable => {
+          if (value === variable.usabilityAttribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+        }
+        exist = false;
+      });
+    }
   }
 
 }

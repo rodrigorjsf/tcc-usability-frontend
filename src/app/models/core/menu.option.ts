@@ -1,5 +1,5 @@
 export type MenuOption = {
-  title : string,
+  title: string,
   icon: string,
   parentMenu?: MenuOption;
 }

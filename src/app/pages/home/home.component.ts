@@ -18,8 +18,6 @@ interface CardSettings {
 })
 export class HomeComponent implements OnDestroy {
 
-  private alive = true;
-
   solarValue: number;
   lightCard: CardSettings = {
     title: 'Light',
@@ -41,16 +39,13 @@ export class HomeComponent implements OnDestroy {
     iconClass: 'nb-coffee-maker',
     type: 'warning',
   };
-
   statusCards: string;
-
   commonStatusCardsSet: CardSettings[] = [
     this.lightCard,
     this.rollerShadesCard,
     this.wirelessAudioCard,
     this.coffeeMakerCard,
   ];
-
   statusCardsByThemes: {
     default: CardSettings[];
     cosmic: CardSettings[];
@@ -79,6 +74,7 @@ export class HomeComponent implements OnDestroy {
     ],
     dark: this.commonStatusCardsSet,
   };
+  private alive = true;
 
   constructor(private themeService: NbThemeService,
               private solarService: SolarData,
@@ -87,7 +83,7 @@ export class HomeComponent implements OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.statusCards = this.statusCardsByThemes[theme.name];
-    });
+      });
 
     this.solarService.getSolarData()
       .pipe(takeWhile(() => this.alive))
