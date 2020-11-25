@@ -10,39 +10,39 @@
           <div class="col-lg-12 row">
             <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
               <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
-                       icon="info-outline" class="button-space"
-                       [nbTooltip]="parentQuestion.instruction"
-                       nbTooltipPlacement="right"
-                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                       [nbTooltip]="parentQuestion.instruction" class="button-space"
+                       icon="info-outline"
+                       nbButton
+                       nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
             </h4>
           </div>
           <div class="container col-lg-12">
             <div *ngIf="parentQuestion.key === 'DT-22'">
-                        <textarea style="padding-left: 10px"
-                                  [(ngModel)]="assessment.assessmentData.dataCollectionProcedure" rows="5"
-                                  nbInput fullWidth shape="round"
-                                  placeholder="Describe the data collection procedure here" ></textarea>
-              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
-                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+                        <textarea [(ngModel)]="assessment.assessmentData.dataCollectionProcedure"
+                                  fullWidth nbInput
+                                  placeholder="Describe the data collection procedure here" rows="5" shape="round"
+                                  style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           [checked]="verifyDataState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
             <div *ngIf="parentQuestion.key === 'DT-23'">
               <label>Description:</label>
-              <textarea style="padding-left: 10px"
-                        [(ngModel)]="assessment.assessmentData.analysisDescription" rows="5"
-                        nbInput fullWidth shape="round"
-                        placeholder="Describe how it will be analyzed here" ></textarea>
-              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
-                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <textarea [(ngModel)]="assessment.assessmentData.analysisDescription"
+                        fullWidth nbInput
+                        placeholder="Describe how it will be analyzed here" rows="5" shape="round"
+                        style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           [checked]="verifyDataState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
-            <div class="col-lg-12 bottom-margin" *ngIf="parentQuestion.key === 'DT-24'">
-              <nb-radio-group  class="row bottom-margin"
-                              [(ngModel)]="assessment.assessmentData.statisticalMethods">
+            <div *ngIf="parentQuestion.key === 'DT-24'" class="col-lg-12 bottom-margin">
+              <nb-radio-group [(ngModel)]="assessment.assessmentData.statisticalMethods"
+                              class="row bottom-margin">
                 <nb-radio
                   *ngFor="let option of genericSelectOptions.options"
                   [value]="option.value">
@@ -51,17 +51,17 @@
               </nb-radio-group>
               <div *ngIf="!isNullOrUndefinedOrFalse(assessment.assessmentData.statisticalMethods)">
                 <label>Description:</label>
-                <textarea style="padding-left: 10px"
-                          [(ngModel)]="assessment.assessmentData.statisticalMethodsDescription" rows="5"
-                          nbInput fullWidth shape="round"
-                          required="true"
-                          placeholder="Describe how will be conducted here"
-                          [hidden]="!assessment.assessmentData.statisticalMethods"></textarea>
+                <textarea [(ngModel)]="assessment.assessmentData.statisticalMethodsDescription"
+                          [hidden]="!assessment.assessmentData.statisticalMethods" fullWidth
+                          nbInput placeholder="Describe how will be conducted here" required="true"
+                          rows="5"
+                          shape="round"
+                          style="padding-left: 10px"></textarea>
               </div>
-              <nb-checkbox [checked]="verifyDataState(parentQuestion.key)"
-                           (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <nb-checkbox (checkedChange)="checkDataQuestion($event, parentQuestion.key)"
+                           [checked]="verifyDataState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
           </div>
@@ -71,7 +71,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div>
-      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+      <button (click)="onSubmit()" class="padding-right" nbButton status="success">
         <b>SUBMIT</b>
       </button>
     </div>

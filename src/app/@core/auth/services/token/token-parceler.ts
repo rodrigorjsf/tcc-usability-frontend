@@ -53,7 +53,8 @@ export class AuthTokenParceler {
   protected parseTokenPack(value): TokenPack {
     try {
       return JSON.parse(value);
-    } catch (e) { }
+    } catch (e) {
+    }
     return null;
   }
 }

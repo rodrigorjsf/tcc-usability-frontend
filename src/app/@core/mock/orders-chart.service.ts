@@ -15,7 +15,7 @@ export class OrdersChartService extends OrdersChartData {
     '2018',
   ];
 
-  private data = { };
+  private data = {};
 
   constructor(private period: PeriodsService) {
     super();
@@ -24,6 +24,21 @@ export class OrdersChartService extends OrdersChartData {
       month: this.getDataForMonthPeriod(),
       year: this.getDataForYearPeriod(),
     };
+  }
+
+  getDataLabels(nPoints: number, labelsArray: string[]): string[] {
+    const labelsArrayLength = labelsArray.length;
+    const step = Math.round(nPoints / labelsArrayLength);
+
+    return Array.from(Array(nPoints)).map((item, index) => {
+      const dataIndex = Math.round(index / step);
+
+      return index % step === 0 ? labelsArray[dataIndex] : '';
+    });
+  }
+
+  getOrdersChartData(period: string): OrdersChart {
+    return this.data[period];
   }
 
   private getDataForWeekPeriod(): OrdersChart {
@@ -136,20 +151,5 @@ export class OrdersChartService extends OrdersChartData {
         ],
       ],
     };
-  }
-
-  getDataLabels(nPoints: number, labelsArray: string[]): string[] {
-    const labelsArrayLength = labelsArray.length;
-    const step = Math.round(nPoints / labelsArrayLength);
-
-    return Array.from(Array(nPoints)).map((item, index) => {
-      const dataIndex = Math.round(index / step);
-
-      return index % step === 0 ? labelsArray[dataIndex] : '';
-    });
-  }
-
-  getOrdersChartData(period: string): OrdersChart {
-    return this.data[period];
   }
 }

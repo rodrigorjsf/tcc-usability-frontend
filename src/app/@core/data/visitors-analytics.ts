@@ -7,6 +7,8 @@ export interface OutlineData {
 
 export abstract class VisitorsAnalyticsData {
   abstract getInnerLineChartData(): Observable<number[]>;
+
   abstract getOutlineLineChartData(): Observable<OutlineData[]>;
+
   abstract getPieChartData(): Observable<number>;
 }

@@ -8,5 +8,6 @@ export interface Temperature {
 
 export abstract class TemperatureHumidityData {
   abstract getTemperatureData(): Observable<Temperature>;
+
   abstract getHumidityData(): Observable<Temperature>;
 }

@@ -21,5 +21,6 @@ export interface ElectricityChart {
 
 export abstract class ElectricityData {
   abstract getListData(): Observable<Electricity[]>;
+
   abstract getChartData(): Observable<ElectricityChart[]>;
 }

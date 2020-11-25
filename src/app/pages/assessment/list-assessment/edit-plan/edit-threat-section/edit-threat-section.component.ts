@@ -38,6 +38,14 @@ export class EditThreatSectionComponent implements OnInit {
     this.assessment = this.router.getCurrentNavigation().extras.state;
   }
 
+  get threats() {
+    return this.form.controls.threats as FormArray;
+  }
+
+  get limitations() {
+    return this.form.controls.limitations as FormArray;
+  }
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       threats: this.formBuilder.array([]),
@@ -54,10 +62,6 @@ export class EditThreatSectionComponent implements OnInit {
     }
   }
 
-  private newThreat(): FormGroup {
-    return this.formBuilder.group({threat: ['']});
-  }
-
   addThreats() {
     if (this.newThreat().getRawValue() !== '')
       this.threats.push(this.newThreat());
@@ -67,14 +71,6 @@ export class EditThreatSectionComponent implements OnInit {
     this.threats.removeAt(i);
   }
 
-  get threats() {
-    return this.form.controls.threats as FormArray;
-  }
-
-  private newLimitation(): FormGroup {
-    return this.formBuilder.group({limitation: ['']});
-  }
-
   addLimitation() {
     if (this.newLimitation().getRawValue() !== '')
       this.limitations.push(this.newLimitation());
@@ -82,10 +78,6 @@ export class EditThreatSectionComponent implements OnInit {
 
   removeLimitation(i: number) {
     this.limitations.removeAt(i);
-  }
-
-  get limitations() {
-    return this.form.controls.limitations as FormArray;
   }
 
   isNullOrUndefinedOrFalse(object: any): boolean {
@@ -181,6 +173,14 @@ export class EditThreatSectionComponent implements OnInit {
       this.assessment.assessmentThreat.biasDescription,
       this.assessment.answers.planThreatsAnswers);
     console.log(this.assessmentThreatDTO);
+  }
+
+  private newThreat(): FormGroup {
+    return this.formBuilder.group({threat: ['']});
+  }
+
+  private newLimitation(): FormGroup {
+    return this.formBuilder.group({limitation: ['']});
   }
 
 }

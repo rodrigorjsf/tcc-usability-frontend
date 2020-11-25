@@ -12,6 +12,7 @@ export enum UserActionsType {
 
 export class UserRegisterRequest implements Action {
   readonly type = UserActionsType.USER_REGISTER_REQUEST;
+
   constructor(public payload: RegisterUserRequestModel) {
   }
 }
@@ -22,12 +23,14 @@ export class UserRegisterSuccess implements Action {
 
 export class UserRegisterFailure implements Action {
   readonly type = UserActionsType.USER_REGISTER_FAILURE;
+
   constructor(public payload: HttpErrorResponse) {
   }
 }
 
 export class UserSignedInformation implements Action {
   readonly type = UserActionsType.USER_SIGNED_INFORMATION;
+
   constructor(public payload: AuthSignInResponseModel) {
   }
 }

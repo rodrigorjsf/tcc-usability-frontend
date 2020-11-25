@@ -4,7 +4,7 @@ import {AssessmentService} from '../../../../@core/auth/services/assessment.serv
 import {Router} from '@angular/router';
 import {QuestionService} from '../../../../@core/auth/services/question.service';
 import {VuatConstants} from '../../../../models/constants/vuat-constants';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import {
   AssessmentData,
   AssessmentProcedure,
@@ -20,6 +20,7 @@ import {PlanAnswers} from "../../../../models/assessment-answers";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../../services/toastService";
+import {AssessmentTransferDTO} from "../../../../models/dto/AssessmentTransferDTO";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -42,6 +43,8 @@ export class EditPlanComponent implements OnInit {
   usabilityScales: Scale[];
   tooltipTrigger: string;
   submitTooltip: string;
+  smartCityQuestionnaire: SmartCityQuestionnaire;
+  toast: ToastService;
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
   private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
@@ -49,8 +52,6 @@ export class EditPlanComponent implements OnInit {
   private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
   private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
   private selectOptions = VuatConstants.SELECT_OPTIONS;
-  smartCityQuestionnaire: SmartCityQuestionnaire;
-  toast: ToastService;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
@@ -61,6 +62,41 @@ export class EditPlanComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
+  }
+
+  get questions() {
+    return this.form.controls.questions as FormArray;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
+    console.log(serialized);
+    delete serialized.questions;
+    return serialized;
+  }
+
+  get tools() {
+    return this.form.controls.tools as FormArray;
+  }
+
+  get tasks() {
+    return this.form.controls.tasks as FormArray;
+  }
+
+  get steps() {
+    return this.form.controls.steps as FormArray;
+  }
+
+  get threats() {
+    return this.form.controls.threats as FormArray;
+  }
+
+  get limitations() {
+    return this.form.controls.limitations as FormArray;
   }
 
   ngOnInit() {
@@ -149,22 +185,6 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  private fillGoalsArray() {
-    if (this.assessment.usabilityGoals.length !== 5) {
-      let exist = false;
-      this.usabilityAtributes.forEach(value => {
-        this.assessment.usabilityGoals.forEach(goal => {
-          if (value === goal.attribute)
-            exist = true;
-        });
-        if (exist === false) {
-          this.assessment.usabilityGoals.push({attribute: value, goal: null, done: false});
-        }
-        exist = false;
-      });
-    }
-  }
-
   initAssessmentTools() {
     if (this.isNullOrUndefined(this.assessment.assessmentTools)) {
       this.assessment.assessmentTools = new AssessmentTools();
@@ -186,7 +206,7 @@ export class EditPlanComponent implements OnInit {
           tool: [value],
         })));
     }
-    if (this.assessment.assessmentTools.tasks.length!== 0) {
+    if (this.assessment.assessmentTools.tasks.length !== 0) {
       this.assessment.assessmentTools.tasks.map(value =>
         this.tasks.push(this.formBuilder.group(
           {
@@ -520,6 +540,13 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
+  // showQuestions() {
+  //   this.questions.getRawValue().forEach(value => console.log(value.question));
+  //   console.log(this.values.questions);
+  //   const arrayTest = this.questions.getRawValue().map(value => value.question);
+  //   console.log(arrayTest);
+  // }
+
   verifyScaleStatus(scale: Scale): boolean {
     for (const scaleObject of this.assessment.scale) {
       if (scaleObject.acronym === scale.acronym)
@@ -572,13 +599,6 @@ export class EditPlanComponent implements OnInit {
     console.log(new Date(obj));
     console.log(format(new Date(obj), 'yyyy-MM-dd'));
   }
-
-  // showQuestions() {
-  //   this.questions.getRawValue().forEach(value => console.log(value.question));
-  //   console.log(this.values.questions);
-  //   const arrayTest = this.questions.getRawValue().map(value => value.question);
-  //   console.log(arrayTest);
-  // }
 
   verifyParticipantState(key: string) {
     if (key === 'PA-7') {
@@ -644,10 +664,6 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  private newQuestion(): FormGroup {
-    return this.formBuilder.group({question: ['']});
-  }
-
   addQuestion() {
     if (this.newQuestion().getRawValue() !== '')
       this.questions.push(this.newQuestion());
@@ -656,26 +672,6 @@ export class EditPlanComponent implements OnInit {
 
   removeQuestion(i: number) {
     this.questions.removeAt(i);
-  }
-
-  get questions() {
-    return this.form.controls.questions as FormArray;
-  }
-
-  get values() {
-    return this.form.value;
-  }
-
-  get serializedValues() {
-    const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
-    console.log(serialized);
-    delete serialized.questions;
-    return serialized;
-  }
-
-  // --------------------- TASKS SECTION -------------------------
-  private newTool(): FormGroup {
-    return this.formBuilder.group({tool: ['']});
   }
 
   addTools() {
@@ -688,14 +684,6 @@ export class EditPlanComponent implements OnInit {
     this.tools.removeAt(i);
   }
 
-  get tools() {
-    return this.form.controls.tools as FormArray;
-  }
-
-  private newTask(): FormGroup {
-    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
-  }
-
   addTasks() {
     if (this.newTask().getRawValue() !== '')
       this.tasks.push(this.newTask());
@@ -704,10 +692,6 @@ export class EditPlanComponent implements OnInit {
 
   removeTask(i: number) {
     this.tasks.removeAt(i);
-  }
-
-  get tasks() {
-    return this.form.controls.tasks as FormArray;
   }
 
   open(dialog: TemplateRef<any>) {
@@ -831,10 +815,6 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  private newStep(): FormGroup {
-    return this.formBuilder.group({name: [''], description: ['']});
-  }
-
   addSteps() {
     if (this.newStep().getRawValue() !== '')
       this.steps.push(this.newStep());
@@ -844,12 +824,6 @@ export class EditPlanComponent implements OnInit {
   removeSteps(i: number) {
     this.steps.removeAt(i);
   }
-
-  get steps() {
-    return this.form.controls.steps as FormArray;
-  }
-
-  // ----------------- DATA SECTION ---------------------
 
   verifyDataState(key: string) {
     if (key === 'DT-22') {
@@ -883,26 +857,15 @@ export class EditPlanComponent implements OnInit {
     }
   }
 
-  // ----------------- THREATS SECTION ---------------
-  private newThreat(): FormGroup {
-    return this.formBuilder.group({threat: ['']});
-  }
-
   addThreats() {
     if (this.newThreat().getRawValue() !== '')
       this.threats.push(this.newThreat());
   }
 
+  // ----------------- DATA SECTION ---------------------
+
   removeThreat(i: number) {
     this.threats.removeAt(i);
-  }
-
-  get threats() {
-    return this.form.controls.threats as FormArray;
-  }
-
-  private newLimitation(): FormGroup {
-    return this.formBuilder.group({limitation: ['']});
   }
 
   addLimitation() {
@@ -914,18 +877,14 @@ export class EditPlanComponent implements OnInit {
     this.limitations.removeAt(i);
   }
 
-  get limitations() {
-    return this.form.controls.limitations as FormArray;
-  }
-
   verifyThreatState(key: string) {
     if (key === 'TH-25-1') {
       return this.assessment.answers.planThreatsAnswers.whatThreats === this.planAnswersConstants.answered.name;
     } else if (key === 'TH-25-2') {
       return this.assessment.answers.planThreatsAnswers.threatsValidityControlled === this.planAnswersConstants.answered.name;
-    }else if (key === 'TH-25-3') {
+    } else if (key === 'TH-25-3') {
       return this.assessment.answers.planThreatsAnswers.assessmentLimitations === this.planAnswersConstants.answered.name;
-    }else if (key === 'TH-25-4') {
+    } else if (key === 'TH-25-4') {
       return this.assessment.answers.planThreatsAnswers.ethicalAspects === this.planAnswersConstants.answered.name;
     } else {
       return this.assessment.answers.planThreatsAnswers.assessmentBiases === this.planAnswersConstants.answered.name;
@@ -945,13 +904,13 @@ export class EditPlanComponent implements OnInit {
       } else {
         this.assessment.answers.planThreatsAnswers.threatsValidityControlled = this.planAnswersConstants.pending.name;
       }
-    }else if (key === 'TH-25-3') {
+    } else if (key === 'TH-25-3') {
       if ($event === true) {
         this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.answered.name;
       } else {
         this.assessment.answers.planThreatsAnswers.assessmentLimitations = this.planAnswersConstants.pending.name;
       }
-    }else if (key === 'TH-25-4') {
+    } else if (key === 'TH-25-4') {
       if ($event === true) {
         this.assessment.answers.planThreatsAnswers.ethicalAspects = this.planAnswersConstants.answered.name;
       } else {
@@ -1247,7 +1206,8 @@ export class EditPlanComponent implements OnInit {
   isPlanNotDone(): boolean {
     return this.planPercentage !== 100;
   }
- // --------------------------- ROUTES ----------------------------
+
+  // --------------------------- ROUTES ----------------------------
   onEditApplication() {
     this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
   }
@@ -1278,5 +1238,60 @@ export class EditPlanComponent implements OnInit {
 
   onEditThreat() {
     this.router.navigate(['/pages/assessment/my-plans/edit/threats'], {state: this.assessment});
+  }
+
+  async onFinish() {
+    (await this.assessmentService.updatePlanState(this.assessment.uid))
+      .subscribe(data => {
+          this.toast.showToast('update', 'top-right', 'success', 'Assessment');
+          this.assessment = data;
+          const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
+          this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
+        },
+        () => {
+          this.toast.showToast('update', 'top-right', 'danger', 'Assessment');
+        });
+  }
+
+  private fillGoalsArray() {
+    if (this.assessment.usabilityGoals.length !== 5) {
+      let exist = false;
+      this.usabilityAtributes.forEach(value => {
+        this.assessment.usabilityGoals.forEach(goal => {
+          if (value === goal.attribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.usabilityGoals.push({attribute: value, goal: null, done: false});
+        }
+        exist = false;
+      });
+    }
+  }
+
+  private newQuestion(): FormGroup {
+    return this.formBuilder.group({question: ['']});
+  }
+
+  // --------------------- TASKS SECTION -------------------------
+  private newTool(): FormGroup {
+    return this.formBuilder.group({tool: ['']});
+  }
+
+  private newTask(): FormGroup {
+    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
+  }
+
+  private newStep(): FormGroup {
+    return this.formBuilder.group({name: [''], description: ['']});
+  }
+
+  // ----------------- THREATS SECTION ---------------
+  private newThreat(): FormGroup {
+    return this.formBuilder.group({threat: ['']});
+  }
+
+  private newLimitation(): FormGroup {
+    return this.formBuilder.group({limitation: ['']});
   }
 }

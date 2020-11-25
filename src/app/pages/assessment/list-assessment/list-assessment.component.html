@@ -3,14 +3,14 @@
     <h3>
       My Assessment Plans
     </h3>
-    <nb-card  accent="sucess">
+    <nb-card accent="sucess">
       <nb-card-body class="col-12">
       </nb-card-body>
       <nb-card-body>
         <ng2-smart-table #table
+                         (custom)="onCustom($event, deleteQuestionDialog)"
                          [settings]="settings"
-                         [source]="source"
-                         (custom)="onCustom($event, deleteQuestionDialog)">
+                         [source]="source">
           <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
             <nb-card accent="warning">
               <nb-card-header class="text-center">Warning</nb-card-header>
@@ -21,10 +21,10 @@
                 </span>
               </nb-card-body>
               <nb-card-footer class="text-center">
-                <button nbButton status="success"
-                        (click)="onDelete();ref.close();">YES
+                <button (click)="onDelete();ref.close();" nbButton
+                        status="success">YES
                 </button>
-                <button nbButton status="danger" class="button-space" (click)="cancelDelete();ref.close()">NO</button>
+                <button (click)="cancelDelete();ref.close()" class="button-space" nbButton status="danger">NO</button>
               </nb-card-footer>
             </nb-card>
           </ng-template>

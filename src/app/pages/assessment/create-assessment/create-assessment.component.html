@@ -8,35 +8,35 @@
       <nb-card-body class='example-items-col'>
         <div class='row col-lg-12 bottom-margin'>
           <label><b>Project name</b></label>
-          <input formControlName='projectName' type='text' nbInput fullWidth required='true'>
+          <input formControlName='projectName' fullWidth nbInput required='true' type='text'>
         </div>
 
         <div class='row col-lg-12 bottom-margin'>
           <label><b>Project description</b></label>
-          <textarea rows='5' nbInput fullWidth shape='round' required='true'
-                    placeholder='Describe your project' formControlName="projectDescription"></textarea>
+          <textarea formControlName="projectDescription" fullWidth nbInput placeholder='Describe your project' required='true'
+                    rows='5' shape='round'></textarea>
         </div>
         <label *ngIf='hasCollaborator'><b>Collaborator(s) email(s):</b></label>
         <form *ngIf='hasCollaborator == true' class='container mt-3' formArrayName="emails">
           <section *ngFor='let email of emails.controls; let i = index;' [formGroupName]="i">
             <div class='row col-lg-8 bottom-margin-light'>
-              <input nbInput class='display-next'
-                     id='input-email'
-                     name='email'
-                     placeholder='Collaborator email address'
-                     fullWidth
+              <input [attr.aria-invalid]="email.invalid && email.touched ? true : null" [required]="true"
+                     [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                     class='display-next'
                      fieldSize='large'
                      formControlName="email"
-                     [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
-                     [required]="true"
-                     [attr.aria-invalid]="email.invalid && email.touched ? true : null">
-              <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
-                       (click)="removeEmail(i)"></nb-icon>
+                     fullWidth
+                     id='input-email'
+                     name='email'
+                     nbInput
+                     placeholder='Collaborator email address'>
+              <nb-icon (click)="removeEmail(i)" class="display-next" icon="minus-circle-outline" nbButton
+                       status="danger"></nb-icon>
             </div>
           </section>
         </form>
-        <button nbButton ghost shape='round' size='tiny' status='success' class='top-margin'
-                (click)='addEmail()'>
+        <button (click)='addEmail()' class='top-margin' ghost nbButton shape='round' size='tiny'
+                status='success'>
           <nb-icon icon="plus-circle-outline"></nb-icon>
           Add
           Collaborator
@@ -44,9 +44,9 @@
       </nb-card-body>
       <nb-card-footer>
         <div>
-          <button nbButton status='success' class='padding-right'
-                  [disabled]='!isValid'
-                  (click)='create()'>
+          <button (click)='create()' [disabled]='!isValid' class='padding-right'
+                  nbButton
+                  status='success'>
             <nb-icon icon='save-outline'></nb-icon>
             <b>CREATE</b>
           </button>

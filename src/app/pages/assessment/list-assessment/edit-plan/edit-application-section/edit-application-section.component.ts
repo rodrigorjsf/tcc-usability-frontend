@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AssessmentService} from "../../../../../@core/auth/services/assessment.service";
 import {QuestionService} from "../../../../../@core/auth/services/question.service";
 import {Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
 import {VuatConstants} from "../../../../../models/constants/vuat-constants";
 import {ApplicationSectionDTO} from "../../../../../models/dto/ApplicationSectionDTO";
 import {AssessmentTransferDTO} from "../../../../../models/dto/AssessmentTransferDTO";

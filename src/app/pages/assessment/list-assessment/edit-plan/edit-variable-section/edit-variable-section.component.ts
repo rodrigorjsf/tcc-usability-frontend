@@ -7,7 +7,7 @@ import {QuestionService} from "../../../../../@core/auth/services/question.servi
 import {NbToastrService} from "@nebular/theme";
 import {AssessmentTransferDTO} from "../../../../../models/dto/AssessmentTransferDTO";
 import {Assessment} from "../../../../../models/assessment";
-import {Scale, Variable} from "../../../../../models/AssessmentSections";
+import {Scale} from "../../../../../models/AssessmentSections";
 import {AssessmentVariablesDTO, VariableDTO} from "../../../../../models/dto/AssessmentVariablesDTO";
 
 @Component({
@@ -48,22 +48,6 @@ export class EditVariableSectionComponent implements OnInit {
     this.assessmentVariablesDTO = new AssessmentVariablesDTO(this.assessment.uid);
     this.getUsabilityScales();
 
-  }
-
-  private fillVariableArray() {
-    if (this.assessment.variables.length !== 5) {
-      let exist = false;
-      this.usabilityAttributes.forEach(value => {
-        this.assessment.variables.forEach(variable => {
-          if (value === variable.usabilityAttribute)
-            exist = true;
-        });
-        if (exist === false) {
-          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
-        }
-        exist = false;
-      });
-    }
   }
 
   getUsabilityScales() {
@@ -242,6 +226,22 @@ export class EditVariableSectionComponent implements OnInit {
     this.assessmentVariablesDTO.planVariableAnswers = this.assessment.answers.planVariableAnswers;
     this.assessmentVariablesDTO.variables = this.assessment.variables.map(value =>
       new VariableDTO(value.usabilityAttribute, value.variables, value.obtainedBy));
+  }
+
+  private fillVariableArray() {
+    if (this.assessment.variables.length !== 5) {
+      let exist = false;
+      this.usabilityAttributes.forEach(value => {
+        this.assessment.variables.forEach(variable => {
+          if (value === variable.usabilityAttribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+        }
+        exist = false;
+      });
+    }
   }
 
 }

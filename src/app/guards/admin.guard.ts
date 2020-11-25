@@ -9,6 +9,7 @@ import {selectSigned} from '../store/modules/auth/auth.selectors';
 
 export class AdminGuard implements CanActivate {
   signed: boolean;
+
   constructor(private router: Router, private store: Store<AppState>) {
     this.store.select(selectSigned).subscribe(signed => this.signed = signed);
   }

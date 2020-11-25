@@ -6,7 +6,7 @@ import {AuthToken, AuthTokenClass} from './services/token/token';
 
 export type AuthStrategyClass = new (...params: any[]) => AuthStrategy;
 
-export type AuthStrategies  = [AuthStrategyClass, AuthStrategyOptions][];
+export type AuthStrategies = [AuthStrategyClass, AuthStrategyOptions][];
 
 export interface AuthOptions {
   forms?: any;

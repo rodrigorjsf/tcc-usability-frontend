@@ -9,37 +9,37 @@
           *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.tasks.acronym).parentQuestions; let i = index;">
           <div class="col-lg-12 row">
             <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
-              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" icon="info-outline"
+              <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)" [nbTooltip]="parentQuestion.instruction"
                        class="button-space"
-                       [nbTooltip]="parentQuestion.instruction"
-                       nbTooltipPlacement="right"
-                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                       icon="info-outline"
+                       nbButton
+                       nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
             </label>
           </div>
-          <div class="bottom-margin-light" *ngIf="parentQuestion.key === 'TM-14'">
+          <div *ngIf="parentQuestion.key === 'TM-14'" class="bottom-margin-light">
             <nb-card [formGroup]='form'>
               <nb-card-body class="row">
                 <label *ngIf="!checkIfToolsIsNotEmpty()">N/A</label>
                 <form class='container mt-3' formArrayName="tools">
                   <section *ngFor='let tool of tools.controls; let i = index;' [formGroupName]="i">
                     <div class='row col-lg-8'>
-                            <textarea nbInput class='display-next'
+                            <textarea class='display-next' formControlName="tool"
+                                      fullWidth
                                       id='input-edit-tool'
                                       name='tool'
+                                      nbInput
                                       placeholder='New instruments, materials, technology, or tool'
-                                      fullWidth
-                                      shape="round"
-                                      formControlName="tool"></textarea>
-                      <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
-                               (click)="open(deleteToolDialog)"></nb-icon>
+                                      shape="round"></textarea>
+                      <nb-icon (click)="open(deleteToolDialog)" class="display-next" icon="minus-circle-outline" nbButton
+                               status="danger"></nb-icon>
                       <ng-template #deleteToolDialog let-data let-ref="dialogRef">
                         <nb-card accent="warning">
                           <nb-card-body>Do you really want to remove the tool?</nb-card-body>
                           <nb-card-footer class="text-center">
-                            <button nbButton status="success"
-                                    (click)="removeTool(i);ref.close();">YES
+                            <button (click)="removeTool(i);ref.close();" nbButton
+                                    status="success">YES
                             </button>
-                            <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                            <button (click)="ref.close()" class="button-space" nbButton status="danger">NO
                             </button>
                           </nb-card-footer>
                         </nb-card>
@@ -47,8 +47,8 @@
                     </div>
                   </section>
                 </form>
-                <button nbButton ghost shape='round' size='tiny' status='success' class="top-margin"
-                        (click)='addTools()' >
+                <button (click)='addTools()' class="top-margin" ghost nbButton shape='round' size='tiny'
+                        status='success'>
                   <nb-icon icon="plus-circle-outline"></nb-icon>
                   Add Tool
                 </button>
@@ -56,43 +56,43 @@
             </nb-card>
             <span *ngIf="checkIfToolsIsNotEmpty()">
                          <label>Description:</label>
-                      <textarea style="padding-left: 10px"
-                                nbInput fullWidth shape="round"
-                                [(ngModel)]="assessment.assessmentTools.toolsUsageDescription"
-                                placeholder="Describe their usage here" ></textarea>
+                      <textarea [(ngModel)]="assessment.assessmentTools.toolsUsageDescription"
+                                fullWidth nbInput placeholder="Describe their usage here"
+                                shape="round"
+                                style="padding-left: 10px"></textarea>
                       </span>
-            <nb-checkbox [checked]="verifyMaterialsCheckState(parentQuestion.key)"
-                         (checkedChange)="checkMaterial($event, parentQuestion.key)"
-                         style="padding-left: 20px; padding-top: 10px"
-                         status="primary"  class="padding-right">Done
+            <nb-checkbox (checkedChange)="checkMaterial($event, parentQuestion.key)"
+                         [checked]="verifyMaterialsCheckState(parentQuestion.key)"
+                         class="padding-right"
+                         status="primary" style="padding-left: 20px; padding-top: 10px">Done
             </nb-checkbox>
           </div>
-          <div class="bottom-margin-light"
-               *ngIf="parentQuestion.key === 'TM-15' || parentQuestion.key === 'TM-16'
-                         || parentQuestion.key === 'TM-17'">
+          <div *ngIf="parentQuestion.key === 'TM-15' || parentQuestion.key === 'TM-16'
+                         || parentQuestion.key === 'TM-17'"
+               class="bottom-margin-light">
             <nb-card [formGroup]='form'>
               <nb-card-body class="row">
                 <label *ngIf="!checkIfTasksIsNotEmpty()">N/A</label>
                 <form class='container mt-3' formArrayName="tasks">
                   <section *ngFor='let task of tasks.controls; let i = index;' [formGroupName]="i">
                     <div *ngIf="parentQuestion.key === 'TM-15'" class='row col-lg-8'>
-                                <textarea nbInput class='display-next'
+                                <textarea class='display-next' formControlName="description"
+                                          fullWidth
                                           id='input-task-description'
                                           name='task-description'
+                                          nbInput
                                           placeholder='Describe the task'
-                                          fullWidth
-                                          shape="round"
-                                          formControlName="description"></textarea>
-                      <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
-                               (click)="open(deleteTaskDialog)"></nb-icon>
+                                          shape="round"></textarea>
+                      <nb-icon (click)="open(deleteTaskDialog)" class="display-next" icon="minus-circle-outline" nbButton
+                               status="danger"></nb-icon>
                       <ng-template #deleteTaskDialog let-data let-ref="dialogRef">
                         <nb-card accent="warning">
                           <nb-card-body>Do you really want to remove the task?</nb-card-body>
                           <nb-card-footer class="text-center">
-                            <button nbButton status="success"
-                                    (click)="removeTask(i);ref.close();">YES
+                            <button (click)="removeTask(i);ref.close();" nbButton
+                                    status="success">YES
                             </button>
-                            <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                            <button (click)="ref.close()" class="button-space" nbButton status="danger">NO
                             </button>
                           </nb-card-footer>
                         </nb-card>
@@ -100,36 +100,36 @@
                     </div>
                     <div *ngIf="parentQuestion.key === 'TM-16'" class='row col-lg-12'>
                       <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
-                      <input nbInput class='display-next'
+                      <input class='display-next' formControlName="taskExecutionTime"
+                             fullWidth
                              id='input-task-execution'
                              name='task-execution'
-                             placeholder='Insert the task execution time (in minutes)'
-                             fullWidth
-                             formControlName="taskExecutionTime">
+                             nbInput
+                             placeholder='Insert the task execution time (in minutes)'>
                     </div>
                     <div *ngIf="parentQuestion.key === 'TM-17'" class='row col-lg-12'>
                       <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
-                      <input nbInput class='display-next'
+                      <input class='display-next' formControlName="acceptanceCriteria"
+                             fullWidth
                              id='input-edit-task-acceptance-criteria'
                              name='task-acceptance-criteria'
-                             placeholder='Insert the task acceptance criteria'
-                             fullWidth
-                             formControlName="acceptanceCriteria">
+                             nbInput
+                             placeholder='Insert the task acceptance criteria'>
                     </div>
                   </section>
                 </form>
-                <button *ngIf="parentQuestion.key === 'TM-15'" nbButton ghost shape='round'
-                        size='tiny' status='success' class="top-margin"
-                        (click)='addTasks()' >
+                <button (click)='addTasks()' *ngIf="parentQuestion.key === 'TM-15'" class="top-margin" ghost
+                        nbButton shape='round' size='tiny'
+                        status='success'>
                   <nb-icon icon="plus-circle-outline"></nb-icon>
                   Add Task
                 </button>
               </nb-card-body>
             </nb-card>
-            <nb-checkbox [checked]="verifyMaterialsCheckState(parentQuestion.key)"
-                         (checkedChange)="checkMaterial($event, parentQuestion.key)"
-                         style="padding-left: 20px; padding-top: 10px"
-                         status="primary"  class="padding-right">Done
+            <nb-checkbox (checkedChange)="checkMaterial($event, parentQuestion.key)"
+                         [checked]="verifyMaterialsCheckState(parentQuestion.key)"
+                         class="padding-right"
+                         status="primary" style="padding-left: 20px; padding-top: 10px">Done
             </nb-checkbox>
           </div>
           <br>
@@ -140,7 +140,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div>
-      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+      <button (click)="onSubmit()" class="padding-right" nbButton status="success">
         <b>SUBMIT</b>
       </button>
     </div>

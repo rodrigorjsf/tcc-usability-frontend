@@ -5,9 +5,13 @@ export abstract class AuthToken {
   protected payload: any = null;
 
   abstract getValue(): string;
+
   abstract isValid(): boolean;
+
   abstract getOwnerStrategyName(): string;
+
   abstract getCreatedAt(): Date;
+
   abstract toString(): string;
 
   getName(): string {
@@ -49,12 +53,14 @@ export class AuthIllegalJWTTokenError extends AuthIllegalTokenError {
 
 export interface AuthRefreshableToken {
   getRefreshToken(): string;
+
   setRefreshToken(refreshToken: string);
 }
 
 export interface AuthTokenClass<T = AuthToken> {
   NAME: string;
-  new (raw: any, strategyName: string, expDate?: Date): T;
+
+  new(raw: any, strategyName: string, expDate?: Date): T;
 }
 
 export function authCreateToken<T extends AuthToken>(tokenClass: AuthTokenClass<T>,
@@ -110,14 +116,6 @@ export class AuthSimpleToken extends AuthToken {
     this.createdAt = this.prepareCreatedAt(createdAt);
   }
 
-  protected parsePayload(): any {
-    this.payload = null;
-  }
-
-  protected prepareCreatedAt(date: Date) {
-    return date ? date : new Date();
-  }
-
   getCreatedAt(): Date {
     return this.createdAt;
   }
@@ -137,23 +135,19 @@ export class AuthSimpleToken extends AuthToken {
   toString(): string {
     return !!this.token ? this.token : '';
   }
+
+  protected parsePayload(): any {
+    this.payload = null;
+  }
+
+  protected prepareCreatedAt(date: Date) {
+    return date ? date : new Date();
+  }
 }
 
 export class AuthJWTToken extends AuthSimpleToken {
 
   static NAME = 'pex:auth:jwt:token';
-
-  protected prepareCreatedAt(date: Date) {
-      const decoded = this.getPayload();
-      return decoded && decoded.iat ? new Date(Number(decoded.iat) * 1000) : super.prepareCreatedAt(date);
-  }
-
-  protected parsePayload(): void {
-    if (!this.token) {
-      throw new AuthTokenNotFoundError('Token not found. ');
-    }
-    this.payload = decodeJwtPayload(this.token);
-  }
 
   getTokenExpDate(): Date {
     const decoded = this.getPayload();
@@ -168,13 +162,26 @@ export class AuthJWTToken extends AuthSimpleToken {
   isValid(): boolean {
     return super.isValid() && (!this.getTokenExpDate() || new Date() < this.getTokenExpDate());
   }
+
+  protected prepareCreatedAt(date: Date) {
+    const decoded = this.getPayload();
+    return decoded && decoded.iat ? new Date(Number(decoded.iat) * 1000) : super.prepareCreatedAt(date);
+  }
+
+  protected parsePayload(): void {
+    if (!this.token) {
+      throw new AuthTokenNotFoundError('Token not found. ');
+    }
+    this.payload = decodeJwtPayload(this.token);
+  }
 }
 
 const prepareOAuth2Token = (data) => {
   if (typeof data === 'string') {
     try {
       return JSON.parse(data);
-    } catch (e) {}
+    } catch (e) {
+    }
   }
   return data;
 };
@@ -183,9 +190,9 @@ export class AuthOAuth2Token extends AuthSimpleToken {
 
   static NAME = 'pex:auth:oauth2:token';
 
-  constructor( data: { [key: string]: string|number }|string = {},
-               ownerStrategyName: string,
-               createdAt?: Date) {
+  constructor(data: { [key: string]: string | number } | string = {},
+              ownerStrategyName: string,
+              createdAt?: Date) {
 
     super(prepareOAuth2Token(data), ownerStrategyName, createdAt);
   }
@@ -202,17 +209,6 @@ export class AuthOAuth2Token extends AuthSimpleToken {
     this.token.refresh_token = refreshToken;
   }
 
-  protected parsePayload(): void {
-    if (!this.token) {
-      throw new AuthTokenNotFoundError('Token not found.');
-    } else {
-      if (!Object.keys(this.token).length) {
-        throw new AuthEmptyTokenError('Cannot extract payload from an empty token.');
-      }
-    }
-    this.payload = this.token;
-  }
-
   getType(): string {
     return this.token.token_type;
   }
@@ -226,10 +222,21 @@ export class AuthOAuth2Token extends AuthSimpleToken {
       return null;
     }
     return new Date(this.createdAt.getTime() + Number(this.token.expires_in) * 1000);
-}
+  }
 
   toString(): string {
     return JSON.stringify(this.token);
+  }
+
+  protected parsePayload(): void {
+    if (!this.token) {
+      throw new AuthTokenNotFoundError('Token not found.');
+    } else {
+      if (!Object.keys(this.token).length) {
+        throw new AuthEmptyTokenError('Cannot extract payload from an empty token.');
+      }
+    }
+    this.payload = this.token;
   }
 }
 
@@ -239,26 +246,8 @@ export class AuthOAuth2JWTToken extends AuthOAuth2Token {
 
   protected accessTokenPayload: any;
 
-  protected parsePayload(): void {
-    super.parsePayload();
-    this.parseAccessTokenPayload();
-  }
-
-  protected parseAccessTokenPayload(): any {
-    const accessToken = this.getValue();
-    if (!accessToken) {
-      throw new AuthTokenNotFoundError('accessToken key not found.');
-    }
-    this.accessTokenPayload = decodeJwtPayload(accessToken);
-  }
-
   getAccessTokenPayload(): any {
     return this.accessTokenPayload;
-  }
-
-  protected prepareCreatedAt(date: Date) {
-    const payload = this.accessTokenPayload;
-    return payload && payload.iat ? new Date(Number(payload.iat) * 1000) : super.prepareCreatedAt(date);
   }
 
   isValid(): boolean {
@@ -273,5 +262,23 @@ export class AuthOAuth2JWTToken extends AuthOAuth2Token {
     } else {
       return super.getTokenExpDate();
     }
+  }
+
+  protected parsePayload(): void {
+    super.parsePayload();
+    this.parseAccessTokenPayload();
+  }
+
+  protected parseAccessTokenPayload(): any {
+    const accessToken = this.getValue();
+    if (!accessToken) {
+      throw new AuthTokenNotFoundError('accessToken key not found.');
+    }
+    this.accessTokenPayload = decodeJwtPayload(accessToken);
+  }
+
+  protected prepareCreatedAt(date: Date) {
+    const payload = this.accessTokenPayload;
+    return payload && payload.iat ? new Date(Number(payload.iat) * 1000) : super.prepareCreatedAt(date);
   }
 }

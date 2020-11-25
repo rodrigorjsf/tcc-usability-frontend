@@ -14,6 +14,10 @@ export class NbAuthSimpleInterceptor implements HttpInterceptor {
               @Inject(PEX_AUTH_INTERCEPTOR_HEADER) protected headerName: string = 'Authorization') {
   }
 
+  protected get authService(): AuthService {
+    return this.injector.get(AuthService);
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     return this.authService.getToken()
@@ -29,9 +33,5 @@ export class NbAuthSimpleInterceptor implements HttpInterceptor {
           return next.handle(req);
         }),
       );
-  }
-
-  protected get authService(): AuthService {
-    return this.injector.get(AuthService);
   }
 }

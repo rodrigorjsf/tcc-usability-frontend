@@ -10,65 +10,65 @@
           <div class="col-lg-12 row">
             <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
               <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
-                       icon="info-outline" class="button-space"
-                       [nbTooltip]="parentQuestion.instruction"
-                       nbTooltipPlacement="right"
-                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                       [nbTooltip]="parentQuestion.instruction" class="button-space"
+                       icon="info-outline"
+                       nbButton
+                       nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
             </h4>
           </div>
-          <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
-               class="container col-lg-12">
+          <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+               style="padding-left: 10px">
             <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}
               <nb-icon *ngIf="!isNullOrUndefined(question.instruction)"
-                       icon="info-outline" class="button-space"
-                       [nbTooltip]="question.instruction"
-                       nbTooltipPlacement="right"
-                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+                       [nbTooltip]="question.instruction" class="button-space"
+                       icon="info-outline"
+                       nbButton
+                       nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
             </label>
             <div *ngIf="question.key === 'PR-18-1'">
-              <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker"
-                     [(ngModel)]="assessment.assessmentProcedure.occurDate" >
+              <input [(ngModel)]="assessment.assessmentProcedure.occurDate" [nbDatepicker]="dateTimePicker" nbInput
+                     placeholder="Pick Date">
               <nb-datepicker #dateTimePicker format="yyyy-MM-dd"></nb-datepicker>
-              <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                           (checkedChange)="checkProcedureQuestion($event, question.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, question.key)"
+                           [checked]="verifyProcedureState(question.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
             <div *ngIf="question.key === 'PR-18-2'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurLocal" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe where it will take place here" ></textarea>
-              <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                           (checkedChange)="checkProcedureQuestion($event, question.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+                         <textarea [(ngModel)]="assessment.assessmentProcedure.occurLocal"
+                                   fullWidth nbInput
+                                   placeholder="Describe where it will take place here" required="true" rows="5"
+                                   shape="round"
+                                   style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, question.key)"
+                           [checked]="verifyProcedureState(question.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
             <div *ngIf="question.key === 'PR-18-3'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurDetail" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe how it will occur here" ></textarea>
-              <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                           (checkedChange)="checkProcedureQuestion($event, question.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+                         <textarea [(ngModel)]="assessment.assessmentProcedure.occurDetail"
+                                   fullWidth nbInput
+                                   placeholder="Describe how it will occur here" required="true" rows="5"
+                                   shape="round"
+                                   style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, question.key)"
+                           [checked]="verifyProcedureState(question.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
             <div *ngIf="question.key === 'PR-18-4'">
-                         <textarea style="padding-left: 10px"
-                                   [(ngModel)]="assessment.assessmentProcedure.occurTime" rows="5"
-                                   nbInput fullWidth shape="round"
-                                   required="true"
-                                   placeholder="Describe how long it will take here" ></textarea>
-              <nb-checkbox [checked]="verifyProcedureState(question.key)"
-                           (checkedChange)="checkProcedureQuestion($event, question.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+                         <textarea [(ngModel)]="assessment.assessmentProcedure.occurTime"
+                                   fullWidth nbInput
+                                   placeholder="Describe how long it will take here" required="true" rows="5"
+                                   shape="round"
+                                   style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, question.key)"
+                           [checked]="verifyProcedureState(question.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
 
@@ -76,36 +76,36 @@
             <hr class="solid">
           </div>
           <div class="container col-lg-12">
-            <div [formGroup]="form" class="col-lg-12 bottom-margin" *ngIf="parentQuestion.key === 'PR-19'">
+            <div *ngIf="parentQuestion.key === 'PR-19'" [formGroup]="form" class="col-lg-12 bottom-margin">
               <form class='container mt-3' formArrayName="steps">
                 <section *ngFor='let step of steps.controls; let i = index;' [formGroupName]="i">
                   <div class='row col-lg-12'>
                     <label>Step Title:</label>
-                    <textarea nbInput class='display-next' style="margin-bottom: 10px"
+                    <textarea class='display-next' formControlName="name" fullWidth
                               id='input-edit-step-name'
                               name='step-name'
+                              nbInput
                               placeholder='Step title'
-                              fullWidth
                               shape="round"
-                              formControlName="name"></textarea>
+                              style="margin-bottom: 10px"></textarea>
                     <label>Step Description:</label>
-                    <textarea nbInput class='display-next'
+                    <textarea class='display-next' formControlName="description"
+                              fullWidth
                               id='input-edit-step-description'
                               name='step-description'
+                              nbInput
                               placeholder='Step description'
-                              fullWidth
-                              shape="round"
-                              formControlName="description"></textarea>
-                    <nb-icon nbButton status="danger" class="display-next" icon="minus-circle-outline"
-                             (click)="open(deleteStepDialog)"></nb-icon>
+                              shape="round"></textarea>
+                    <nb-icon (click)="open(deleteStepDialog)" class="display-next" icon="minus-circle-outline" nbButton
+                             status="danger"></nb-icon>
                     <ng-template #deleteStepDialog let-data let-ref="dialogRef">
                       <nb-card accent="warning">
                         <nb-card-body>Do you really want to remove the step?</nb-card-body>
                         <nb-card-footer class="text-center">
-                          <button nbButton status="success"
-                                  (click)="removeSteps(i);ref.close();">YES
+                          <button (click)="removeSteps(i);ref.close();" nbButton
+                                  status="success">YES
                           </button>
-                          <button nbButton status="danger" class="button-space" (click)="ref.close()">NO
+                          <button (click)="ref.close()" class="button-space" nbButton status="danger">NO
                           </button>
                         </nb-card-footer>
                       </nb-card>
@@ -114,32 +114,32 @@
                   <hr class="solid">
                 </section>
               </form>
-              <button nbButton ghost shape='round' size='tiny' status='success' style="margin-bottom: 10px"
-                      (click)='addSteps()' >
+              <button (click)='addSteps()' ghost nbButton shape='round' size='tiny' status='success'
+                      style="margin-bottom: 10px">
                 <nb-icon icon="plus-circle-outline"></nb-icon>
                 Add Step
               </button>
-              <nb-checkbox [checked]="verifyProcedureState(parentQuestion.key)"
-                           (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
+                           [checked]="verifyProcedureState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
-            <div class="col-lg-12 bottom-margin" *ngIf="parentQuestion.key === 'PR-20'">
-              <nb-select placeholder="Not Selected" style="padding-left: 10px"
-                         [(selected)]="assessment.assessmentProcedure.questionsAllowed">
+            <div *ngIf="parentQuestion.key === 'PR-20'" class="col-lg-12 bottom-margin">
+              <nb-select [(selected)]="assessment.assessmentProcedure.questionsAllowed" placeholder="Not Selected"
+                         style="padding-left: 10px">
                 <nb-option *ngFor="let option of genericSelectOptions.options" [value]="option.value"
-                           >{{ option.label }}</nb-option>
+                >{{ option.label }}</nb-option>
               </nb-select>
-              <nb-checkbox [checked]="verifyProcedureState(parentQuestion.key)"
-                           (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
+                           [checked]="verifyProcedureState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
-            <div class="col-lg-12 bottom-margin" *ngIf="parentQuestion.key === 'PR-21'">
-              <nb-radio-group  class="row bottom-margin"
-                              [(ngModel)]="assessment.assessmentProcedure.isPilotAssessment">
+            <div *ngIf="parentQuestion.key === 'PR-21'" class="col-lg-12 bottom-margin">
+              <nb-radio-group [(ngModel)]="assessment.assessmentProcedure.isPilotAssessment"
+                              class="row bottom-margin">
                 <nb-radio
                   *ngFor="let option of genericSelectOptions.options"
                   [value]="option.value">
@@ -148,17 +148,17 @@
               </nb-radio-group>
               <div *ngIf="!isNullOrUndefinedOrFalse(assessment.assessmentProcedure.isPilotAssessment)">
                 <label>Description:</label>
-                <textarea style="padding-left: 10px"
-                          [(ngModel)]="assessment.assessmentProcedure.pilotDescription" rows="5"
-                          nbInput fullWidth shape="round"
-                          required="true"
-                          placeholder="Describe how will be conducted here"
-                          [hidden]="!assessment.assessmentProcedure.isPilotAssessment"></textarea>
+                <textarea [(ngModel)]="assessment.assessmentProcedure.pilotDescription"
+                          [hidden]="!assessment.assessmentProcedure.isPilotAssessment" fullWidth
+                          nbInput placeholder="Describe how will be conducted here" required="true"
+                          rows="5"
+                          shape="round"
+                          style="padding-left: 10px"></textarea>
               </div>
-              <nb-checkbox [checked]="verifyProcedureState(parentQuestion.key)"
-                           (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+              <nb-checkbox (checkedChange)="checkProcedureQuestion($event, parentQuestion.key)"
+                           [checked]="verifyProcedureState(parentQuestion.key)"
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
           </div>
@@ -168,7 +168,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div>
-      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+      <button (click)="onSubmit()" class="padding-right" nbButton status="success">
         <b>SUBMIT</b>
       </button>
     </div>

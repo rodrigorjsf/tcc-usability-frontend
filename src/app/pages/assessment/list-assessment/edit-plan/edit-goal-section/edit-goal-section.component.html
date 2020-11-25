@@ -11,28 +11,28 @@
           *ngFor="let parentQuestion of getCharacterizationQuestionsObject(this.categories.goals.acronym).parentQuestions; let i = index;">
           <div class="col-lg-12 row">
             <h5 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
-              <nb-icon icon="info-outline" class="button-space"
-                       [nbTooltip]="parentQuestion.instruction"
-                       nbTooltipPlacement="right"
-                       nbTooltipStatus="warning" nbButton status="warning"></nb-icon>
+              <nb-icon [nbTooltip]="parentQuestion.instruction" class="button-space"
+                       icon="info-outline"
+                       nbButton
+                       nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
             </h5>
           </div>
-          <div *ngFor="let question of parentQuestion.questions" style="padding-left: 10px"
-               class="container col-lg-12">
+          <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+               style="padding-left: 10px">
             <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
 
             <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12 bottom-margin">
                           <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
-                                    style="padding-left: 10px"
-                                    [(ngModel)]="usabilityGoal.goal" rows="5"
-                                    nbInput fullWidth shape="round"
-                                    required="true"
-                                    placeholder="Describe the goals here" ></textarea>
-              <nb-checkbox *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                    [(ngModel)]="usabilityGoal.goal"
+                                    fullWidth nbInput
+                                    placeholder="Describe the goals here" required="true" rows="5"
+                                    shape="round"
+                                    style="padding-left: 10px"></textarea>
+              <nb-checkbox (checkedChange)="checkUsabilityGoal($event, usabilityGoal)"
+                           *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
                            [checked]="verifyGoalsCheckState(usabilityGoal)"
-                           (checkedChange)="checkUsabilityGoal($event, usabilityGoal)"
-                           style="padding-left: 20px; padding-top: 10px"
-                           status="primary"  class="padding-right">Done
+                           class="padding-right"
+                           status="primary" style="padding-left: 20px; padding-top: 10px">Done
               </nb-checkbox>
             </div>
             <br>
@@ -44,7 +44,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div>
-      <button nbButton class="padding-right" (click)="onSubmit()" status="success">
+      <button (click)="onSubmit()" class="padding-right" nbButton status="success">
         <b>SUBMIT</b>
       </button>
     </div>

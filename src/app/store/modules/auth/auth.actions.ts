@@ -11,18 +11,21 @@ export enum AuthActionsType {
 
 export class AuthSignInRequest implements Action {
   readonly type = AuthActionsType.AUTH_SIGN_IN_REQUEST;
+
   constructor(public payload: AuthSignInRequestModel) {
   }
 }
 
 export class AuthSignInSuccess implements Action {
   readonly type = AuthActionsType.AUTH_SIGN_IN_SUCCESS;
+
   constructor(public payload: AuthSignInResponseModel) {
   }
 }
 
 export class AuthSignInFailure implements Action {
   readonly type = AuthActionsType.AUTH_SIGN_IN_FAILURE;
+
   constructor(public error: HttpErrorResponse) {
   }
 }

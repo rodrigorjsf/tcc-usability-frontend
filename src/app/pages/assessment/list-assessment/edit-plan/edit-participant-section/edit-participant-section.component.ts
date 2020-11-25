@@ -1,6 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Router} from "@angular/router";
-import {Scale} from "../../../../../models/AssessmentSections";
 import {VuatConstants} from "../../../../../models/constants/vuat-constants";
 import {ToastService} from "../../../../../services/toastService";
 import {AssessmentService} from "../../../../../@core/auth/services/assessment.service";
@@ -46,6 +45,14 @@ export class EditParticipantSectionComponent implements OnInit {
     console.log(this.assessment.variables.length);
   }
 
+  get questions() {
+    return this.form.controls.questions as FormArray;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       questions: this.formBuilder.array([]),
@@ -56,10 +63,6 @@ export class EditParticipantSectionComponent implements OnInit {
           question: [value],
         })));
     }
-  }
-
-  private newQuestion(): FormGroup {
-    return this.formBuilder.group({question: ['']});
   }
 
   open(dialog: TemplateRef<any>) {
@@ -73,14 +76,6 @@ export class EditParticipantSectionComponent implements OnInit {
 
   removeQuestion(i: number) {
     this.questions.removeAt(i);
-  }
-
-  get questions() {
-    return this.form.controls.questions as FormArray;
-  }
-
-  get values() {
-    return this.form.value;
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -199,5 +194,9 @@ export class EditParticipantSectionComponent implements OnInit {
       return this.questions.getRawValue().map(value => value.question)[0] === '';
     }
     return false;
+  }
+
+  private newQuestion(): FormGroup {
+    return this.formBuilder.group({question: ['']});
   }
 }

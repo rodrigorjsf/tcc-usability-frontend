@@ -10,11 +10,6 @@ export class UserService extends UserData {
 
   private time: Date = new Date;
   private user: any;
-  constructor(private store: Store<AppState>) {
-    super();
-    this.store.select(selectUser).subscribe(signed => this.user = signed.name);
-  }
-
   private users = {
     nick: {name: 'Rodrigo Jorge de Santana França', picture: 'assets/images/nick.png'},
     eva: {name: 'Eva Moor', picture: 'assets/images/eva.png'},
@@ -46,6 +41,11 @@ export class UserService extends UserData {
     {user: this.users.kate, type: this.types.work, time: this.time.setHours(9, 31)},
     {user: this.users.jack, type: this.types.mobile, time: this.time.setHours(8, 0)},
   ];
+
+  constructor(private store: Store<AppState>) {
+    super();
+    this.store.select(selectUser).subscribe(signed => this.user = signed.name);
+  }
 
   getUsers(): Observable<any> {
     return observableOf(this.users);

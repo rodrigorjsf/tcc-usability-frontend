@@ -5,7 +5,7 @@ import {NbRoleProvider, NbSecurityModule} from '@nebular/security';
 import {of as observableOf} from 'rxjs';
 
 import {throwIfAlreadyLoaded} from './module-import-guard';
-import {AnalyticsService, LayoutService, PlayerService, SeoService, StateService,} from './utils';
+import {AnalyticsService, LayoutService, PlayerService, SeoService, StateService} from './utils';
 import {UserData} from './data/users';
 import {ElectricityData} from './data/electricity';
 import {SmartTableData} from './data/smart-table';
@@ -79,26 +79,26 @@ const socialLinks = [
 ];
 
 const DATA_SERVICES = [
-  { provide: UserData, useClass: UserService },
-  { provide: ElectricityData, useClass: ElectricityService },
-  { provide: SmartTableData, useClass: SmartTableService },
-  { provide: UserActivityData, useClass: UserActivityService },
-  { provide: OrdersChartData, useClass: OrdersChartService },
-  { provide: ProfitChartData, useClass: ProfitChartService },
-  { provide: TrafficListData, useClass: TrafficListService },
-  { provide: EarningData, useClass: EarningService },
-  { provide: OrdersProfitChartData, useClass: OrdersProfitChartService },
-  { provide: TrafficBarData, useClass: TrafficBarService },
-  { provide: ProfitBarAnimationChartData, useClass: ProfitBarAnimationChartService },
-  { provide: TemperatureHumidityData, useClass: TemperatureHumidityService },
-  { provide: SolarData, useClass: SolarService },
-  { provide: TrafficChartData, useClass: TrafficChartService },
-  { provide: StatsBarData, useClass: StatsBarService },
-  { provide: Authentication, useClass: AuthenticationService},
-  { provide: CountryOrderData, useClass: CountryOrderService },
-  { provide: StatsProgressBarData, useClass: StatsProgressBarService },
-  { provide: VisitorsAnalyticsData, useClass: VisitorsAnalyticsService },
-  { provide: SecurityCamerasData, useClass: SecurityCamerasService },
+  {provide: UserData, useClass: UserService},
+  {provide: ElectricityData, useClass: ElectricityService},
+  {provide: SmartTableData, useClass: SmartTableService},
+  {provide: UserActivityData, useClass: UserActivityService},
+  {provide: OrdersChartData, useClass: OrdersChartService},
+  {provide: ProfitChartData, useClass: ProfitChartService},
+  {provide: TrafficListData, useClass: TrafficListService},
+  {provide: EarningData, useClass: EarningService},
+  {provide: OrdersProfitChartData, useClass: OrdersProfitChartService},
+  {provide: TrafficBarData, useClass: TrafficBarService},
+  {provide: ProfitBarAnimationChartData, useClass: ProfitBarAnimationChartService},
+  {provide: TemperatureHumidityData, useClass: TemperatureHumidityService},
+  {provide: SolarData, useClass: SolarService},
+  {provide: TrafficChartData, useClass: TrafficChartService},
+  {provide: StatsBarData, useClass: StatsBarService},
+  {provide: Authentication, useClass: AuthenticationService},
+  {provide: CountryOrderData, useClass: CountryOrderService},
+  {provide: StatsProgressBarData, useClass: StatsProgressBarService},
+  {provide: VisitorsAnalyticsData, useClass: VisitorsAnalyticsService},
+  {provide: SecurityCamerasData, useClass: SecurityCamerasService},
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

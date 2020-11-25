@@ -47,22 +47,6 @@ export class EditGoalSectionComponent implements OnInit {
     this.usabilityGoals = new UsabilityGoalDTO(this.assessment.uid);
   }
 
-  private fillGoalsArray() {
-    if (this.assessment.usabilityGoals.length !== 5) {
-      let exist = false;
-      this.usabilityAttributes.forEach(value => {
-        this.assessment.usabilityGoals.forEach(goal => {
-          if (value === goal.attribute)
-            exist = true;
-        });
-        if (exist === false) {
-          this.assessment.usabilityGoals.push({attribute: value.attribute, goal: null, done: false});
-        }
-        exist = false;
-      });
-    }
-  }
-
   getCharacterizationQuestionsObject(key: string): any {
     return this.instrumentQuestions.find(item => item['key'] === key);
   }
@@ -141,5 +125,21 @@ export class EditGoalSectionComponent implements OnInit {
     this.usabilityGoals.goals = this.assessment.usabilityGoals.map(value =>
       new Goal(value.attribute, value.goal));
     this.usabilityGoals.planGoalsAnswers = this.assessment.answers.planGoalsAnswers;
+  }
+
+  private fillGoalsArray() {
+    if (this.assessment.usabilityGoals.length !== 5) {
+      let exist = false;
+      this.usabilityAttributes.forEach(value => {
+        this.assessment.usabilityGoals.forEach(goal => {
+          if (value === goal.attribute)
+            exist = true;
+        });
+        if (exist === false) {
+          this.assessment.usabilityGoals.push({attribute: value.attribute, goal: null, done: false});
+        }
+        exist = false;
+      });
+    }
   }
 }

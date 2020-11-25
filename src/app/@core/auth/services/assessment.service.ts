@@ -28,10 +28,10 @@ export class AssessmentService {
   async createNewAssessment(newAssessment: CreateAssessmentDTO) {
     return this.http.post<any>(`${this.baseUrl}/assessment/create`, newAssessment,
       {
-      headers: this.headers,
-      observe: 'body',
-      responseType: 'json',
-    });
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
   }
 
   async updateAssessmentApplicationSection(application: ApplicationSectionDTO) {
@@ -54,6 +54,15 @@ export class AssessmentService {
 
   async updateAssessmentVariableSection(variables: AssessmentVariablesDTO) {
     return this.http.post<any>(`${this.baseUrl}/assessment/add/variables`, variables,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async updatePlanState(uid: string) {
+    return this.http.put<any>(`${this.baseUrl}/assessment/finish/` + uid,
       {
         headers: this.headers,
         observe: 'body',

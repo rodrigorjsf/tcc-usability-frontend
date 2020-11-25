@@ -28,7 +28,7 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/list',
       },
       {
-        title: 'Archived Assessment Plans',
+        title: 'Archived Plans',
         icon: 'done-all-outline',
         link: '/pages/assessment/list',
       },
@@ -97,7 +97,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/list',
       },
       {
-        title: 'Archived Assessment Plans',
+        title: 'Archived Plans',
         icon: 'done-all-outline',
         link: '/pages/assessment/list',
       },

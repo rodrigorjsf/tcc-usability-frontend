@@ -29,4 +29,5 @@ import {Component} from '@angular/core';
     </nb-layout>
   `,
 })
-export class ThreeColumnsLayoutComponent {}
+export class ThreeColumnsLayoutComponent {
+}

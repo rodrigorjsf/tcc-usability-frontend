@@ -2,7 +2,7 @@ export class CreateAssessmentFormModel {
   userUid: string;
   projectName: string;
   projectDescription: string;
-  collaboratorsEmail: {email: string}[];
+  collaboratorsEmail: { email: string }[];
 }
 
 

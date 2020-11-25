@@ -23,7 +23,7 @@ import {takeWhile} from 'rxjs/operators';
               <div class="logo-app">
               </div>
 
-                <router-outlet></router-outlet>
+              <router-outlet></router-outlet>
 
             </pex-auth-block>
           </nb-card-body>
@@ -34,12 +34,10 @@ import {takeWhile} from 'rxjs/operators';
 })
 export class AuthComponent implements OnDestroy {
 
-  private alive = true;
-
   subscription: any;
-
   authenticated = false;
   token = '';
+  private alive = true;
 
   constructor(protected auth: AuthService, protected location: Location) {
 

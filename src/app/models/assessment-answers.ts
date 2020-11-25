@@ -103,9 +103,9 @@ export class PlanProcedureAnswers {
   whereOccur: string;
   howOccur: string;
   howMuchTime: string;
-assessmentProcedureSteps: string;
-isPilotAssessment: string;
-questionsAllowed: string;
+  assessmentProcedureSteps: string;
+  isPilotAssessment: string;
+  questionsAllowed: string;
 
   constructor() {
     this.whenOccur = VuatConstants.PLAN_ANSWER.pending.name;

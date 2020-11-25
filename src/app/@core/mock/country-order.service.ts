@@ -13,11 +13,6 @@ export class CountryOrderService extends CountryOrderData {
     'Textiles',
   ];
   private countriesCategoriesLength = this.countriesCategories.length;
-  private generateRandomData(nPoints: number): number[] {
-    return Array.from(Array(nPoints)).map(() => {
-      return Math.round(Math.random() * 20);
-    });
-  }
 
   getCountriesCategories(): Observable<string[]> {
     return observableOf(this.countriesCategories);
@@ -25,5 +20,11 @@ export class CountryOrderService extends CountryOrderData {
 
   getCountriesCategoriesData(country: string): Observable<number[]> {
     return observableOf(this.generateRandomData(this.countriesCategoriesLength));
+  }
+
+  private generateRandomData(nPoints: number): number[] {
+    return Array.from(Array(nPoints)).map(() => {
+      return Math.round(Math.random() * 20);
+    });
   }
 }

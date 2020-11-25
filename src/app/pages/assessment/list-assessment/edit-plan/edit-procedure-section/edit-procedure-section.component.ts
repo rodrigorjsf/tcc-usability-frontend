@@ -46,6 +46,10 @@ export class EditProcedureSectionComponent implements OnInit {
     this.assessment = this.router.getCurrentNavigation().extras.state;
   }
 
+  get steps() {
+    return this.form.controls.steps as FormArray;
+  }
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       steps: this.formBuilder.array([]),
@@ -144,10 +148,6 @@ export class EditProcedureSectionComponent implements OnInit {
     }
   }
 
-  private newStep(): FormGroup {
-    return this.formBuilder.group({name: [''], description: ['']});
-  }
-
   addSteps() {
     if (this.newStep().getRawValue() !== '')
       this.steps.push(this.newStep());
@@ -155,10 +155,6 @@ export class EditProcedureSectionComponent implements OnInit {
 
   removeSteps(i: number) {
     this.steps.removeAt(i);
-  }
-
-  get steps() {
-    return this.form.controls.steps as FormArray;
   }
 
   async onSubmit() {
@@ -188,6 +184,10 @@ export class EditProcedureSectionComponent implements OnInit {
       this.assessment.assessmentProcedure.questionsAllowed,
       this.assessment.answers.planProcedureAnswers);
     console.log(this.assessmentProcedureDTO);
+  }
+
+  private newStep(): FormGroup {
+    return this.formBuilder.group({name: [''], description: ['']});
   }
 
 }

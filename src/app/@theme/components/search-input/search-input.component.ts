@@ -14,7 +14,7 @@ import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/c
   `,
 })
 export class SearchInputComponent {
-  @ViewChild('input', { static: true }) input: ElementRef;
+  @ViewChild('input', {static: true}) input: ElementRef;
 
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 

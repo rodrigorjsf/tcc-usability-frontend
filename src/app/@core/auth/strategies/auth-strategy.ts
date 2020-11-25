@@ -19,7 +19,7 @@ export abstract class AuthStrategy {
   }
 
   createToken<T extends AuthToken>(value: any, failWhenInvalidToken?: boolean): T {
-    const token =  authCreateToken<T>(this.getOption('token.class'), value, this.getName());
+    const token = authCreateToken<T>(this.getOption('token.class'), value, this.getName());
     if (failWhenInvalidToken && !token.isValid()) {
       throw new AuthIllegalTokenError('Token is empty or invalid.');
     }
@@ -43,11 +43,11 @@ export abstract class AuthStrategy {
   abstract refreshToken(data?: any): Observable<AuthResult>;
 
   protected createFailResponse(data?: any): HttpResponse<Object> {
-    return new HttpResponse<Object>({ body: {}, status: 401 });
+    return new HttpResponse<Object>({body: {}, status: 401});
   }
 
   protected createSuccessResponse(data?: any): HttpResponse<Object> {
-    return new HttpResponse<Object>({ body: {}, status: 200 });
+    return new HttpResponse<Object>({body: {}, status: 200});
   }
 
   protected getActionEndpoint(action: string): string {

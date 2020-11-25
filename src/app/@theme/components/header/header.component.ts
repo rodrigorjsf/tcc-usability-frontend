@@ -18,10 +18,8 @@ import {AuthSignOut} from '../../../store/modules/auth/auth.actions';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: UserState;
-
   themes = [
     {
       value: 'default',
@@ -40,10 +38,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       name: 'Corporate',
     },
   ];
-
   currentTheme = 'dark';
-
-  userMenu = [ { title: 'Profile'}, { title: 'Log out' } ];
+  userMenu = [{title: 'Profile'}, {title: 'Log out'}];
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private store: Store<AppState>,
@@ -62,8 +59,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.menuService.onItemClick()
       .pipe(
-        filter(({ tag }) => tag === 'my-context-menu'),
-        map(({ item: { title } }) => title),
+        filter(({tag}) => tag === 'my-context-menu'),
+        map(({item: {title}}) => title),
       )
       .subscribe(title => {
         if (title === 'Log out') {
@@ -71,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-    const { xl } = this.breakpointService.getBreakpointsMap();
+    const {xl} = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(
         map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
@@ -81,7 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.themeService.onThemeChange()
       .pipe(
-        map(({ name }) => name),
+        map(({name}) => name),
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);

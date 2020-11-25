@@ -107,9 +107,17 @@ export function getDeepFromObject(object = {}, name: string, defaultValue?: any)
 export function urlBase64Decode(str: string): string {
   let output = str.replace(/-/g, '+').replace(/_/g, '/');
   switch (output.length % 4) {
-    case 0: { break; }
-    case 2: { output += '=='; break; }
-    case 3: { output += '='; break; }
+    case 0: {
+      break;
+    }
+    case 2: {
+      output += '==';
+      break;
+    }
+    case 3: {
+      output += '=';
+      break;
+    }
     default: {
       throw new Error('Illegal base64url string!');
     }
@@ -132,11 +140,11 @@ export function b64decode(str: string): string {
 
     buffer = str.charAt(idx++);
 
-      // tslint:disable-next-line:no-bitwise
+    // tslint:disable-next-line:no-bitwise
     ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
 
 
-        // tslint:disable-next-line:no-bitwise
+      // tslint:disable-next-line:no-bitwise
     bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
   ) {
 

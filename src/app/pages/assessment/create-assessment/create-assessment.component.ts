@@ -16,10 +16,33 @@ export class CreateAssessmentComponent implements OnInit {
   form: FormGroup;
   uid: string;
   assessment: Assessment;
-  constructor (private formBuilder: FormBuilder, private assessmentService: AssessmentService,
-               private store: Store<AppState>,
-               private router: Router) {
-    this.store.select(selectUser).subscribe(({ uid }) => this.uid = uid);
+
+  constructor(private formBuilder: FormBuilder, private assessmentService: AssessmentService,
+              private store: Store<AppState>,
+              private router: Router) {
+    this.store.select(selectUser).subscribe(({uid}) => this.uid = uid);
+  }
+
+  get isValid() {
+    return this.form.valid;
+  }
+
+  get emails() {
+    return this.form.controls.emails as FormArray;
+  }
+
+  get hasCollaborator() {
+    return this.form.controls.emails.value?.length !== 0;
+  }
+
+  get values() {
+    return this.form.value;
+  }
+
+  get serializedValues() {
+    const serialized = {...this.values, collaboratorsEmail: this.values.emails.map(email => email.email)};
+    delete serialized.emails;
+    return serialized;
   }
 
   ngOnInit() {
@@ -29,10 +52,6 @@ export class CreateAssessmentComponent implements OnInit {
       projectDescription: [null, Validators.required],
       emails: this.formBuilder.array([]),
     });
-  }
-
-  private newEmail(): FormGroup {
-    return this.formBuilder.group({ email: ['', [ Validators.required, Validators.email ]] });
   }
 
   addEmail() {
@@ -55,25 +74,7 @@ export class CreateAssessmentComponent implements OnInit {
       });
   }
 
-  get isValid() {
-    return this.form.valid;
-  }
-
-  get emails() {
-    return this.form.controls.emails as FormArray;
-  }
-
-  get hasCollaborator() {
-    return this.form.controls.emails.value?.length !== 0;
-  }
-
-  get values() {
-    return this.form.value;
-  }
-
-  get serializedValues() {
-    const serialized = { ...this.values, collaboratorsEmail: this.values.emails.map(email => email.email) };
-    delete serialized.emails;
-    return serialized;
+  private newEmail(): FormGroup {
+    return this.formBuilder.group({email: ['', [Validators.required, Validators.email]]});
   }
 }

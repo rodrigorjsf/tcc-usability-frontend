@@ -1,7 +1,6 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
-import {Scale} from "../../../../../models/AssessmentSections";
 import {VuatConstants} from "../../../../../models/constants/vuat-constants";
 import {ToastService} from "../../../../../services/toastService";
 import {AssessmentService} from "../../../../../@core/auth/services/assessment.service";
@@ -45,6 +44,14 @@ export class EditTaskSectionComponent implements OnInit {
     console.log(this.assessment.variables.length);
   }
 
+  get tools() {
+    return this.form.controls.tools as FormArray;
+  }
+
+  get tasks() {
+    return this.form.controls.tasks as FormArray;
+  }
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       tools: this.formBuilder.array([]),
@@ -56,7 +63,7 @@ export class EditTaskSectionComponent implements OnInit {
           tool: [value],
         })));
     }
-    if (this.assessment.assessmentTools.tasks.length!== 0) {
+    if (this.assessment.assessmentTools.tasks.length !== 0) {
       this.assessment.assessmentTools.tasks.map(value =>
         this.tasks.push(this.formBuilder.group(
           {
@@ -65,10 +72,6 @@ export class EditTaskSectionComponent implements OnInit {
             acceptanceCriteria: [value.acceptanceCriteria],
           })));
     }
-  }
-
-  private newTool(): FormGroup {
-    return this.formBuilder.group({tool: ['']});
   }
 
   addTools() {
@@ -80,14 +83,6 @@ export class EditTaskSectionComponent implements OnInit {
     this.tools.removeAt(i);
   }
 
-  get tools() {
-    return this.form.controls.tools as FormArray;
-  }
-
-  private newTask(): FormGroup {
-    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
-  }
-
   addTasks() {
     if (this.newTask().getRawValue() !== '')
       this.tasks.push(this.newTask());
@@ -95,10 +90,6 @@ export class EditTaskSectionComponent implements OnInit {
 
   removeTask(i: number) {
     this.tasks.removeAt(i);
-  }
-
-  get tasks() {
-    return this.form.controls.tasks as FormArray;
   }
 
   open(dialog: TemplateRef<any>) {
@@ -187,7 +178,6 @@ export class EditTaskSectionComponent implements OnInit {
     }
   }
 
-
   async onSubmit() {
     this.mountTools();
     console.log(this.assessmentToolsDTO);
@@ -213,6 +203,14 @@ export class EditTaskSectionComponent implements OnInit {
       this.tasks.getRawValue().map(value => value),
       this.assessment.answers.planTasksAnswers);
     console.log(this.assessmentToolsDTO);
+  }
+
+  private newTool(): FormGroup {
+    return this.formBuilder.group({tool: ['']});
+  }
+
+  private newTask(): FormGroup {
+    return this.formBuilder.group({description: [''], taskExecutionTime: [''], acceptanceCriteria: ['']});
   }
 
 }

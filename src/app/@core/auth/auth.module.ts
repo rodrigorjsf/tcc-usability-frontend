@@ -80,26 +80,26 @@ export function noOpInterceptorFilter(req: HttpRequest<any>): boolean {
 }
 
 @NgModule({
-    imports: [
-        AuthRoutingModule,
-        NbThemeModule,
-        NbAlertModule,
-        NbIconModule,
-        NbCheckboxModule,
-        FormsModule,
-        CommonModule,
-        NbCardModule,
-        NbCheckboxModule,
-        NbAlertModule,
-        NbInputModule,
-        NbButtonModule,
-        RouterModule,
-        FormsModule,
-        NbIconModule,
-        NbLayoutModule,
-        NbSelectModule,
-        ReactiveFormsModule,
-    ],
+  imports: [
+    AuthRoutingModule,
+    NbThemeModule,
+    NbAlertModule,
+    NbIconModule,
+    NbCheckboxModule,
+    FormsModule,
+    CommonModule,
+    NbCardModule,
+    NbCheckboxModule,
+    NbAlertModule,
+    NbInputModule,
+    NbButtonModule,
+    RouterModule,
+    FormsModule,
+    NbIconModule,
+    NbLayoutModule,
+    NbSelectModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     AuthComponent,
     AuthBlockComponent,
@@ -121,17 +121,17 @@ export function noOpInterceptorFilter(req: HttpRequest<any>): boolean {
 
 export class AuthModule {
   static forRoot(authOptions?: AuthOptions): ModuleWithProviders<any> {
-    return <ModuleWithProviders<any>> {
+    return <ModuleWithProviders<any>>{
       ngModule: AuthModule,
       providers: [
-        { provide: PEX_AUTH_USER_OPTIONS, useValue: authOptions },
-        { provide: PEX_AUTH_OPTIONS, useFactory: optionsFactory, deps: [PEX_AUTH_USER_OPTIONS] },
-        { provide: PEX_AUTH_STRATEGIES, useFactory: strategiesFactory, deps: [PEX_AUTH_OPTIONS, Injector] },
-        { provide: PEX_AUTH_TOKENS, useFactory: tokensFactory, deps: [PEX_AUTH_STRATEGIES] },
-        { provide: PEX_AUTH_FALLBACK_TOKEN, useValue: AuthSimpleToken },
-        { provide: PEX_AUTH_INTERCEPTOR_HEADER, useValue: 'Authorization' },
-        { provide: PEX_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: noOpInterceptorFilter },
-        { provide: TokenStorage, useClass: TokenLocalStorage },
+        {provide: PEX_AUTH_USER_OPTIONS, useValue: authOptions},
+        {provide: PEX_AUTH_OPTIONS, useFactory: optionsFactory, deps: [PEX_AUTH_USER_OPTIONS]},
+        {provide: PEX_AUTH_STRATEGIES, useFactory: strategiesFactory, deps: [PEX_AUTH_OPTIONS, Injector]},
+        {provide: PEX_AUTH_TOKENS, useFactory: tokensFactory, deps: [PEX_AUTH_STRATEGIES]},
+        {provide: PEX_AUTH_FALLBACK_TOKEN, useValue: AuthSimpleToken},
+        {provide: PEX_AUTH_INTERCEPTOR_HEADER, useValue: 'Authorization'},
+        {provide: PEX_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: noOpInterceptorFilter},
+        {provide: TokenStorage, useClass: TokenLocalStorage},
         AuthTokenParceler,
         AuthService,
         TokenService,

@@ -4,17 +4,17 @@
     <nb-action (click)="goToCreate()" fullWidth="true">
       <nb-card-body>
         <span>
-          <nb-icon class="blob" icon="file-add-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+          <nb-icon [options]="{ animation: { type: 'pulse' } }" class="blob" icon="file-add-outline"></nb-icon>
           <h5>New Assessment Plan</h5>
           <p class="light">Create a new usability assessment plan, define your collaborators.</p>
         </span>
       </nb-card-body>
     </nb-action>
   </nb-card>
-  <nb-card nbButton (click)="goToPlans()" class="fe-pulse-w-pause col-md-12">
+  <nb-card (click)="goToPlans()" class="fe-pulse-w-pause col-md-12" nbButton>
     <nb-card-body>
       <div>
-        <nb-icon icon="message-square-outline" size="large" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+        <nb-icon [options]="{ animation: { type: 'pulse' } }" icon="message-square-outline" size="large"></nb-icon>
       </div>
       <div>
         <h5>My Assessment Plans</h5>
@@ -26,7 +26,7 @@
   <nb-card class="fe-pulse-w-pause col-md-12" style="cursor: pointer">
     <nb-card-body>
       <div>
-        <nb-icon icon="list-outline" size="large" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+        <nb-icon [options]="{ animation: { type: 'pulse' } }" icon="list-outline" size="large"></nb-icon>
       </div>
       <div>
         <h5>In Review Phase</h5>

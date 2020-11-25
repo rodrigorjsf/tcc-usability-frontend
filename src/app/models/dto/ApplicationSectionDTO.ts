@@ -1,4 +1,4 @@
-import {PlanAnswers, PlanApplicationAnswers} from "../assessment-answers";
+import {PlanApplicationAnswers} from "../assessment-answers";
 
 export class ApplicationSectionDTO {
   assessmentUid: string;

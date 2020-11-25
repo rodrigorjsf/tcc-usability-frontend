@@ -7,16 +7,17 @@ import {FormsModule} from '@angular/forms';
 import {NbActionsModule, NbCardModule, NbIconModule} from '@nebular/theme';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ThemeModule,
-        NgxEchartsModule,
-        NbIconModule,
-        NbCardModule,
-        NbActionsModule,
-    ],
+  imports: [
+    FormsModule,
+    ThemeModule,
+    NgxEchartsModule,
+    NbIconModule,
+    NbCardModule,
+    NbActionsModule,
+  ],
   declarations: [
     HomeComponent,
   ],
 })
-export class HomeModule { }
+export class HomeModule {
+}
