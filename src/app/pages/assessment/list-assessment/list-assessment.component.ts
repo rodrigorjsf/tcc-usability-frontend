@@ -21,6 +21,7 @@ export class ListAssessmentComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   toast: ToastService;
   assessmentDelete: any;
+  user: any;
 
   settings = {
     mode: 'external',
@@ -70,6 +71,8 @@ export class ListAssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.getDataTable();
+    this.store.select(selectUser).subscribe(user => this.user = user);
+
   }
 
   getDataTable() {
@@ -79,7 +82,7 @@ export class ListAssessmentComponent implements OnInit {
         if (data !== null)
           this.source.load(data);
       }),
-    ).subscribe();
+    ).subscribe(() => this.assessmentService.releaseSection(this.user.uid));
   }
 
   onEdit(data: any) {

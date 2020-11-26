@@ -1,0 +1,17 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    max-width: 600px;
+    max-height: 500px;
+  }
+}
+
+.button-space {
+  margin-left: 15px;
+}
+
+.bottom-margin {
+  margin-bottom: 30px;
+}
+

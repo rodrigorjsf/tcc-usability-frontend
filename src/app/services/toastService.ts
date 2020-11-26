@@ -51,6 +51,13 @@ export class ToastService {
           `Error!`,
           {position, status, destroyByClick: true, duration: 3000});
       }
+    }else if (type === 'section') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `This section is being edited by ${object}. Try again later.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
     } else {
       if (status === 'danger') {
         this.toastrService.show(

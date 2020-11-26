@@ -1,0 +1,46 @@
+<nb-card>
+  <nb-card-header>{{ title }}</nb-card-header>
+  <nb-card-body>
+    <span>
+      <div class="flex-row bottom-margin">
+        <button nbButton (click)="downloadFile()"><nb-icon icon="file-text-outline"></nb-icon> Download PDF</button>
+        <button class="button-space" nbButton (click)="enableEmail()"><nb-icon icon="email-outline"></nb-icon> Send Email</button>
+      </div>
+      </span>
+    <div [formGroup]="form" *ngIf='showEmailForm'>
+      <form class='col-lg-12' formArrayName="emails">
+        <section *ngFor='let email of emails.controls; let i = index;' [formGroupName]="i">
+          <div class='row col-lg-12 bottom-margin-light'>
+            <input [attr.aria-invalid]="email.invalid && email.touched ? true : null" [required]="true"
+                   [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                   class='display-next'
+                   fieldSize='large'
+                   formControlName="email"
+                   fullWidth
+                   id='input-email-export'
+                   name='email'
+                   nbInput
+                   placeholder='Type a email address'>
+            <nb-icon (click)="removeEmail(i)" class="display-next" icon="minus-circle-outline" nbButton
+                     status="danger" style="margin-bottom: 10px"></nb-icon>
+          </div>
+        </section>
+      </form>
+      <button nbButton (click)='addEmail()' class='top-margin' ghost nbButton shape='round' size='tiny'
+              status='success'>
+        <nb-icon icon="plus-circle-outline"></nb-icon>
+        Add Email
+      </button>
+    </div>
+    <div class="container text-center">
+      <button *ngIf="hasEmail && isValid" (click)='sendMail()' class='top-margin' hero nbButton shape='round' size='tiny'
+              status='primary'>
+        <nb-icon icon="corner-down-right-outline"></nb-icon>
+        SEND
+      </button>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton hero status="primary" (click)="dismiss()">Dismiss Dialog</button>
+  </nb-card-footer>
+</nb-card>

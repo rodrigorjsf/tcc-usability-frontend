@@ -14,6 +14,8 @@ import * as FileSaver from "file-saver";
 import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../services/toastService";
 import {SendMailRequest} from "../../../models/dto/SendMailRequest";
+import {SectionControlRequestDTO} from "../../../models/dto/SectionControlRequestDTO";
+import {SectionUpdateRequestDTO} from "../../../models/dto/SectionUpdateRequestDTO";
 
 @Injectable()
 export class AssessmentService {
@@ -154,6 +156,34 @@ export class AssessmentService {
       {
         headers: this.headers,
         observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  releaseSection(uid: string) {
+    this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
+  }
+
+  verifySection(sectionRequest: SectionUpdateRequestDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/verify/section`, sectionRequest,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+
+  async updateSection(sectionUpdate: SectionUpdateRequestDTO) {
+    this.http.post<any>(`${this.baseUrl}/assessment/update/section`, sectionUpdate,
+      {
+        headers: this.headers,
+        observe: 'response',
         responseType: 'json',
       });
   }
