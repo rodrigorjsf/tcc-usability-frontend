@@ -6,8 +6,9 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
 import {selectUser} from '../../../store/modules/user/user.selectors';
 import {map, switchMap} from 'rxjs/operators';
-import {NbDialogService, NbToastrService} from "@nebular/theme";
-import {ToastService} from "../../../services/toastService";
+import {NbDialogService, NbToastrService} from '@nebular/theme';
+import {ToastService} from '../../../services/toastService';
+import {DownloadPlanDialogComponent} from '../../modal/download-plan-dialog/download-plan-dialog.component';
 
 @Component({
   selector: 'ngx-list-assessment',
@@ -110,9 +111,19 @@ export class ListAssessmentComponent implements OnInit {
     if ($event.action === 'edit') {
       this.onEdit($event.data);
     } else if ($event.action === 'export') {
-      this.assessmentService.downloadPlan($event.data.assessmentUid, $event.data.projectName);
+      this.openDownload($event.data);
     } else {
       this.open(deleteQuestionDialog, $event);
     }
+  }
+
+  openDownload(data: any) {
+    this.dialogService.open(DownloadPlanDialogComponent, {
+      context: {
+        title: 'Choose the method you want to export',
+        assessmentUid: data.assessmentUid,
+        projectName: data.projectName,
+      },
+    });
   }
 }
