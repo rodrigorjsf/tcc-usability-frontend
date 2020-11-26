@@ -27,6 +27,8 @@ import {AppState} from "../../../../store";
 import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
 import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
 import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
+import {map} from "rxjs/operators";
+import {mergeMap} from "rxjs-compat/operator/mergeMap";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -73,7 +75,16 @@ export class EditPlanComponent implements OnInit {
               private store: Store<AppState>) {
     this.toast = new ToastService(toastrService);
     this.router = router;
+    this.store.select(selectUser).subscribe(user => this.user = user);
     this.planInfo = this.router.getCurrentNavigation().extras.state;
+    this.form = this.formBuilder.group({
+      questions: this.formBuilder.array([]),
+      tools: this.formBuilder.array([]),
+      tasks: this.formBuilder.array([]),
+      steps: this.formBuilder.array([]),
+      threats: this.formBuilder.array([]),
+      limitations: this.formBuilder.array([]),
+    });
   }
 
   get questions() {
@@ -112,33 +123,27 @@ export class EditPlanComponent implements OnInit {
 
   ngOnInit() {
     this.assessment = new Assessment();
-    this.store.select(selectUser).subscribe(user => this.user = user);
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
         this.assessment = data;
-        this.calculatePlanPercentage();
-        this.initQuestionnaire();
-        this.initGoals();
-        this.initAnswers();
-        this.initAssessmentAttribute();
-        this.initParticipants();
-        this.initAssessmentTools();
-        this.initProcedure();
-        this.initDataCollection();
-        this.initThreats();
+        this.loadResources();
 
         this.dataloaded = Promise.resolve(true);
       });
+    this.assessmentService.releaseSection(this.user.uid).subscribe();
+  }
 
-    this.assessmentService.releaseSection(this.user.uid);
-    this.form = this.formBuilder.group({
-      questions: this.formBuilder.array([]),
-      tools: this.formBuilder.array([]),
-      tasks: this.formBuilder.array([]),
-      steps: this.formBuilder.array([]),
-      threats: this.formBuilder.array([]),
-      limitations: this.formBuilder.array([]),
-    });
+  private loadResources() {
+    this.calculatePlanPercentage();
+    this.initQuestionnaire();
+    this.initGoals();
+    this.initAnswers();
+    this.initAssessmentAttribute();
+    this.initParticipants();
+    this.initAssessmentTools();
+    this.initProcedure();
+    this.initDataCollection();
+    this.initThreats();
   }
 
   getApplicationAcronym() {

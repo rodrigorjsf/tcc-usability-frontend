@@ -16,6 +16,7 @@ import {ToastService} from "../../../services/toastService";
 import {SendMailRequest} from "../../../models/dto/SendMailRequest";
 import {SectionControlRequestDTO} from "../../../models/dto/SectionControlRequestDTO";
 import {SectionUpdateRequestDTO} from "../../../models/dto/SectionUpdateRequestDTO";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class AssessmentService {
@@ -142,7 +143,7 @@ export class AssessmentService {
       });
   }
 
-  getAssessmentByUid(userUid: string) {
+  getAssessmentByUid(userUid: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/assessment/by-uid/` + userUid,
       {
         headers: this.headers,
@@ -160,8 +161,8 @@ export class AssessmentService {
       });
   }
 
-  releaseSection(uid: string) {
-    this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
+  releaseSection(uid: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
       {
         headers: this.headers,
         observe: 'response',

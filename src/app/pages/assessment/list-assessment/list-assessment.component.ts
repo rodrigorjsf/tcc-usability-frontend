@@ -67,12 +67,11 @@ export class ListAssessmentComponent implements OnInit {
               private dialogService: NbDialogService,
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
+    this.store.select(selectUser).subscribe(user => this.user = user);
   }
 
   ngOnInit() {
     this.getDataTable();
-    this.store.select(selectUser).subscribe(user => this.user = user);
-
   }
 
   getDataTable() {
@@ -82,7 +81,8 @@ export class ListAssessmentComponent implements OnInit {
         if (data !== null)
           this.source.load(data);
       }),
-    ).subscribe(() => this.assessmentService.releaseSection(this.user.uid));
+    ).subscribe();
+    this.assessmentService.releaseSection(this.user.uid).subscribe();
   }
 
   onEdit(data: any) {

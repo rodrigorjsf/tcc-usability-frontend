@@ -21,6 +21,7 @@ export class CreateAssessmentComponent implements OnInit {
               private store: Store<AppState>,
               private router: Router) {
     this.store.select(selectUser).subscribe(({uid}) => this.uid = uid);
+    this.assessmentService.releaseSection(this.uid).subscribe();
   }
 
   get isValid() {
