@@ -56,6 +56,30 @@ export class ToastService {
         this.toastrService.show(
           `This section is being edited by ${object}. Try again later.` || status,
           `Error!`,
+          {position, status, destroyByClick: true, duration: 6000});
+      }
+    } else if (type === 'collab') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Error adding ${object} to the assessment. Check that the code is correct.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      } else {
+        this.toastrService.show(
+          `${object} successfully added to the assessment.` || status,
+          `Success!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
+    } else if (type === 'collabAdd') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Error sending ${object} request to enter the assessment.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      } else {
+        this.toastrService.show(
+          `Entry invitation successfully sent to ${object}.` || status,
+          `Success!`,
           {position, status, destroyByClick: true, duration: 3000});
       }
     } else {

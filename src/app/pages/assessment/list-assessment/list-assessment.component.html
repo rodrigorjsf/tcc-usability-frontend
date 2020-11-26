@@ -1,4 +1,4 @@
-<div class="container">
+<div>
   <div class="col-12">
     <h3>
       My Assessment Plans
@@ -7,7 +7,8 @@
       <nb-card-body class="col-12">
       </nb-card-body>
       <nb-card-body>
-        <ng2-smart-table #table
+        <ng2-smart-table #table style="cursor: pointer"
+                         (userRowSelect)="onUserRowSelect($event)"
                          (custom)="onCustom($event, deleteQuestionDialog)"
                          [settings]="settings"
                          [source]="source">

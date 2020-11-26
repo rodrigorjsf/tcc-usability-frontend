@@ -24,6 +24,16 @@ const routes: Routes = [{
         .then(m => m.MiscellaneousModule),
     },
     {
+      path: 'references',
+      loadChildren: () => import('./references/references-routing.module')
+        .then(m => m.ReferencesRoutingModule),
+    },
+    {
+      path: 'suggested-scales',
+      loadChildren: () => import('./suggested-scales/suggested-scales.module')
+        .then(m => m.SuggestedScalesModule),
+    },
+    {
       path: '',
       redirectTo: 'home',
       pathMatch: 'full',

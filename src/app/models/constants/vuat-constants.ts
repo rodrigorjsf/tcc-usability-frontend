@@ -424,73 +424,28 @@ export class VuatConstants {
 
   static readonly REFERENCES: Array<any> = [
     {
-      citation: "Wohlin 2012",
-      work: "C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell, and A. Wesslén. Experimentation in Software Engineering. Springer, 2012."
+      citation: "REF001",
+      work: "FERRÉ, X. et al. Usability basics for software developers, 2001."
     },
 
     {
-      citation: "Basili 1994",
-      work: "V. R. Basili, G. Caldeira, and H. D. Rombach. The Goal Question Metric Approach. In Encyclopedia of Software Engineering, pages 1: 528– 532. John Wiley and Sons Inc., 1994."
+      citation: "REF002",
+      work: "LEWIS, J. R. The System Usability Scale: Past, Present, and Future, 2018."
     },
 
     {
-      citation: "Easterbrook 2008",
-      work: "S. Easterbrook, J. Singer, M. A. Storey, and D. Damian. Selecting Empirical Methods for Software Engineering Research. Springer, 2008."
+      citation: "REF003",
+      work: "ERDINÇ, O.; LEWIS, J. R. Psychometric Evaluation of the T-CSUQ: The Turkish Version of the Computer System Usability Questionnaire, 2013."
     },
 
     {
-      citation: "Dyba and Dingsoyr 2008",
-      work: "T. Dybå and T. Dingsøyr, Strength of evidence in systematic reviews in software engineering, Proc. 2nd ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM), 2008."
+      citation: "REF004",
+      work: "CHIN, J.; DIEHL, V.; NORMAN, K. L. Development of an Instrument Measuring User Satisfaction of the Human-Computer Interface, 1988."
     },
 
     {
-      citation: "CASP 2013",
-      work: "PHRU, Critical appraisal skills programme. [online]. Available: http://media.wix.com/ugd/dded87_29c5b002d99342f788c6ac670e49f274.pdf"
-    },
-
-    {
-      citation: "Vinson and Singer 2008",
-      work: "N.G. Vinson and J. Singer. A practical guide to ethical research involving humans. Springer, 2008."
-    },
-
-    {
-      citation: "Jedlitschka 2008",
-      work: "A. Jedlitschka, M. Ciolkowski, and D. Pfahl. Reporting Experiments in Software Engineering, Guide to Advanced Empirical Software Eng., F. Shull, F, J. Singer, and D.I.K. Sjoberg, eds., Springer- 2008"
-    },
-
-    {
-      citation: "Kitchenham 2009",
-      work: "B.A. Kitchenham, O.P. Brereton, D. Budgen, and Z. Li, An evaluation of quality checklist proposals – A participant observer case study. EASE’09, BCS eWic, 2009."
-    },
-
-    {
-      citation: "Ko 2015",
-      work: "A. J. Ko, T. D. Latoza, and M. M. Burnett. A practical guide to controlled experiments of software engineering tools with human participants. Empirical Software Engineering. v. 20, n.1, p.110-141, 2015."
-    },
-
-    {
-      citation: "Lazar 2010",
-      work: "J. Lazar, JH Feng, H. Hochheiser, Research methods in human-computer interaction. Wiley, 2010."
-    },
-
-    {
-      citation: "Jedlitschka 2008",
-      work: "A. Jedlitschka, M. Ciolkowski, and D. Pfahl. Reporting Experiments in Software Engineering, Guide to Advanced Empirical Software Eng., F. Shull, F, J. Singer, and D.I.K. Sjoberg, eds., Springer- 2008."
-    },
-
-    {
-      citation: "Montgomery 2013",
-      work: "D.C. Montgomery, Design and Analysis of Experiments. eighth ed., John Wiley and Sons, 2013."
-    },
-
-    {
-      citation: "Pfleeger 1995",
-      work: "S. Pfleeger, Experimental design and analysis in software engineering, Annals of Software Engineering, vol. 1, no. 1, pp. 219–253, 1995."
-    },
-
-    {
-      citation: "Ardelin Neto and Conte 2014",
-      work: "A. Ardelin Neto and T.U Conte. Identifying Threats to Validity and Control Actions in the Planning Stages of Controlled Experiments. In: International Conference on Software Engineering and Knowledge Engineering (SEKE), 2014, Vancouver. Proceedings of the 26th International Conference on Software Engineering and Knowledge Engineering (SEKE 2014), 2014. p. 256-261."
+      citation: "REF005",
+      work: "KIRAKOWSKI, J. The use of Questionnaire Methods for Usability Assessment, 1994."
     }
   ]
 

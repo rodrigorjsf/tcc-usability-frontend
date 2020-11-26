@@ -34,6 +34,12 @@
           </nb-card-header>
           <nb-card-body class="example-items-col">
             <div class="row col-lg-12 bottom-margin">
+              <button [disabled]="!isAuthor" (click)="addCollaborator()" ghost
+                      nbButton size="medium" shape="round" status="success"
+                      style="margin-left:5px">
+                <nb-icon icon='person-add-outline'></nb-icon>
+                ADD COLLABORATOR
+              </button>
               <nb-progress-bar [displayValue]="true" [status]="getPlanPercentageColor()" [value]="planPercentage"
                                class="col-lg-8 vertical-center"
                                fullWidth></nb-progress-bar>
@@ -977,7 +983,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditT(categories.threats.acronym)" class="fa-pull-right padding-right" ghost
+                      <button (click)="onEdit(categories.threats.acronym)" class="fa-pull-right padding-right" ghost
                               nbButton size="medium" status="success"
                               style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>

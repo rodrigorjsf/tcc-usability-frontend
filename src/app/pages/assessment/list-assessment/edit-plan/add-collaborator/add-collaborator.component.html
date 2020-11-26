@@ -1,0 +1,47 @@
+<div [formGroup]="form" class='container'>
+  <div class='col-lg-12'>
+    <h3>
+      Enter as Collaborator
+    </h3>
+    <nb-card>
+      <nb-card-header>Enter the code that was sent to your email in the field below:</nb-card-header>
+      <nb-card-body class='example-items-col'>
+        <label><b>Collaborator(s) email(s):</b></label>
+        <form class='container mt-3' formArrayName="emails">
+          <section *ngFor='let email of emails.controls; let i = index;' [formGroupName]="i">
+            <div class='row col-lg-8 bottom-margin-light'>
+              <input [attr.aria-invalid]="email.invalid && email.touched ? true : null" [required]="true"
+                     [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                     class='display-next'
+                     fieldSize='large'
+                     formControlName="email"
+                     fullWidth
+                     id='input-colab-email'
+                     name='email'
+                     nbInput
+                     placeholder='Collaborator email address'>
+              <nb-icon (click)="removeEmail(i)" class="display-next" icon="minus-circle-outline" nbButton
+                       status="danger"></nb-icon>
+            </div>
+          </section>
+        </form>
+        <button (click)='addEmail()' ghost nbButton shape='round' size='tiny'
+                status='success'>
+          <nb-icon icon="plus-circle-outline"></nb-icon>
+          Add
+          Collaborator
+        </button>
+      </nb-card-body>
+      <nb-card-footer>
+        <div>
+          <button (click)='submit()' [disabled]='!isValid'
+                  nbButton
+                  status='success'>
+            <nb-icon icon='save-outline'></nb-icon>
+            <b>SUBMIT</b>
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>

@@ -14,6 +14,8 @@ import {EditTaskSectionComponent} from "./list-assessment/edit-plan/edit-task-se
 import {EditProcedureSectionComponent} from "./list-assessment/edit-plan/edit-procedure-section/edit-procedure-section.component";
 import {EditDataSectionComponent} from "./list-assessment/edit-plan/edit-data-section/edit-data-section.component";
 import {EditThreatSectionComponent} from "./list-assessment/edit-plan/edit-threat-section/edit-threat-section.component";
+import {NewCollaboratorComponent} from "./new-collaborator/new-collaborator.component";
+import {AddCollaboratorComponent} from "./list-assessment/edit-plan/add-collaborator/add-collaborator.component";
 
 const routes: Routes = [
   {
@@ -33,6 +35,11 @@ const routes: Routes = [
       {
         path: 'my-plans/edit',
         component: EditPlanComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/edit/add-collaborator',
+        component: AddCollaboratorComponent,
         canActivate: [AdminGuard],
       },
       {
@@ -73,6 +80,11 @@ const routes: Routes = [
       {
         path: 'my-plans/edit/threats',
         component: EditThreatSectionComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'new-collaborator',
+        component: NewCollaboratorComponent,
         canActivate: [AdminGuard],
       },
       {

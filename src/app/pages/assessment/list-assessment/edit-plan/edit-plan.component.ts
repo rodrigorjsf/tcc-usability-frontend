@@ -27,8 +27,6 @@ import {AppState} from "../../../../store";
 import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
 import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
 import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
-import {map} from "rxjs/operators";
-import {mergeMap} from "rxjs-compat/operator/mergeMap";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -85,6 +83,17 @@ export class EditPlanComponent implements OnInit {
       threats: this.formBuilder.array([]),
       limitations: this.formBuilder.array([]),
     });
+  }
+
+  addCollaborator() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/add-collaborator'],
+      {state: this.assessment});
+  }
+
+  get isAuthor() {
+    if (this.assessment.userProfile === 'AUTHOR')
+      return true;
+    return false;
   }
 
   get questions() {

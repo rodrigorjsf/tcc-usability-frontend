@@ -21,7 +21,12 @@ export class CreateAssessmentComponent implements OnInit {
               private store: Store<AppState>,
               private router: Router) {
     this.store.select(selectUser).subscribe(({uid}) => this.uid = uid);
-    this.assessmentService.releaseSection(this.uid).subscribe();
+    this.form = this.formBuilder.group({
+      userUid: [this.uid, Validators.required],
+      projectName: [null, [Validators.required]],
+      projectDescription: [null, Validators.required],
+      emails: this.formBuilder.array([]),
+    });
   }
 
   get isValid() {
@@ -47,12 +52,7 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      userUid: [this.uid, Validators.required],
-      projectName: [null, [Validators.required]],
-      projectDescription: [null, Validators.required],
-      emails: this.formBuilder.array([]),
-    });
+    this.assessmentService.releaseSection(this.uid).subscribe();
   }
 
   addEmail() {

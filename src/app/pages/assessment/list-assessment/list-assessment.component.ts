@@ -32,16 +32,12 @@ export class ListAssessmentComponent implements OnInit {
       position: 'right',
       custom: [
         {
-          name: 'edit',
-          title: '<i class="nb-edit"></i>',
-        },
-        {
           name: 'export',
-          title: '<i class="nb-arrow-thin-down"></i>',
+          title: '<i title="TITLE1" data-toggle="Export plan" class="nb-arrow-thin-down"></i>',
         },
         {
           name: 'delete',
-          title: '<i class="nb-trash"></i>',
+          title: '<i data-toggle="Delete plan" class="nb-trash"></i>',
         },
       ],
     },
@@ -52,6 +48,10 @@ export class ListAssessmentComponent implements OnInit {
       },
       authorName: {
         title: 'Author',
+        type: 'string',
+      },
+      profile: {
+        title: 'Profile',
         type: 'string',
       },
       state: {
@@ -111,13 +111,15 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   onCustom($event: any, deleteQuestionDialog: TemplateRef<any>) {
-    if ($event.action === 'edit') {
-      this.onEdit($event.data);
-    } else if ($event.action === 'export') {
+    if ($event.action === 'export') {
       this.openDownload($event.data);
     } else {
       this.open(deleteQuestionDialog, $event);
     }
+  }
+
+  onUserRowSelect(event): void {
+    this.onEdit(event.data);
   }
 
   openDownload(data: any) {
