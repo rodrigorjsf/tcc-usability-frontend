@@ -10,17 +10,23 @@ import {
   AssessmentProcedure,
   AssessmentThreat,
   AssessmentTools,
+  Attribute,
   Participant,
   Scale,
   SmartCityQuestionnaire,
-  UsabilityGoal,
-  Attribute
+  UsabilityGoal
 } from "../../../../models/AssessmentSections";
 import {PlanAnswers} from "../../../../models/assessment-answers";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../../services/toastService";
 import {AssessmentTransferDTO} from "../../../../models/dto/AssessmentTransferDTO";
+import {selectUser} from "../../../../store/modules/user/user.selectors";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../../../store";
+import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
+import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
+import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -30,6 +36,9 @@ import {AssessmentTransferDTO} from "../../../../models/dto/AssessmentTransferDT
 export class EditPlanComponent implements OnInit {
 
   form: FormGroup;
+  sectionUpdate: SectionUpdateRequestDTO;
+  sectionRequest: SectionControlRequestDTO;
+  sectionResponse: SectionControlResponseDTO;
   formEditable = false;
   assessment: Assessment;
   router: Router;
@@ -40,6 +49,7 @@ export class EditPlanComponent implements OnInit {
   questionsPercentage: number;
   planPercentage: number;
   data: any;
+  user: any;
   usabilityScales: Scale[];
   tooltipTrigger: string;
   submitTooltip: string;
@@ -52,13 +62,15 @@ export class EditPlanComponent implements OnInit {
   private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
   private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
   private selectOptions = VuatConstants.SELECT_OPTIONS;
+  private sectionControl = VuatConstants.SECTION_CONTROL;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
               router: Router,
               private formBuilder: FormBuilder,
               private dialogService: NbDialogService,
-              private toastrService: NbToastrService) {
+              private toastrService: NbToastrService,
+              private store: Store<AppState>) {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.planInfo = this.router.getCurrentNavigation().extras.state;
@@ -74,7 +86,6 @@ export class EditPlanComponent implements OnInit {
 
   get serializedValues() {
     const serialized = {...this.values, planQuestions: this.values.questions.map(question => question.question)};
-    console.log(serialized);
     delete serialized.questions;
     return serialized;
   }
@@ -101,6 +112,7 @@ export class EditPlanComponent implements OnInit {
 
   ngOnInit() {
     this.assessment = new Assessment();
+    this.store.select(selectUser).subscribe(user => this.user = user);
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
         this.assessment = data;
@@ -114,9 +126,11 @@ export class EditPlanComponent implements OnInit {
         this.initProcedure();
         this.initDataCollection();
         this.initThreats();
-        console.log(this.assessment);
+
         this.dataloaded = Promise.resolve(true);
       });
+
+    this.assessmentService.releaseSection(this.user.uid);
     this.form = this.formBuilder.group({
       questions: this.formBuilder.array([]),
       tools: this.formBuilder.array([]),
@@ -1208,36 +1222,35 @@ export class EditPlanComponent implements OnInit {
   }
 
   // --------------------------- ROUTES ----------------------------
-  onEditApplication() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
-  }
 
-  onEditGoals() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/goal'], {state: this.assessment});
-  }
+  onEdit(section: any) {
+    this.sectionRequest = new SectionControlRequestDTO(this.assessment.uid, section);
+    this.sectionUpdate = new SectionUpdateRequestDTO(this.assessment.uid, this.user.uid, section);
 
-  onEditVariables() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
-  }
-
-  onEditParticipant() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/participant'], {state: this.assessment});
-  }
-
-  onEditTools() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/tools'], {state: this.assessment});
-  }
-
-  onEditProcedure() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/procedure'], {state: this.assessment});
-  }
-
-  onEditData() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/data'], {state: this.assessment});
-  }
-
-  onEditThreat() {
-    this.router.navigate(['/pages/assessment/my-plans/edit/threats'], {state: this.assessment});
+    this.assessmentService.verifySection(this.sectionUpdate)
+      .subscribe(data => {
+        this.sectionResponse = data;
+        if (this.sectionResponse.sectionControlEnum === this.sectionControl.busy.name)
+          this.toast.showToast('section', 'top-right', 'warning', data.userName);
+        else {
+          if (this.categories.application.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/application'], {state: this.assessment});
+          else if (this.categories.goals.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/goal'], {state: this.assessment});
+          else if (this.categories.variables.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
+          else if (this.categories.participants.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/participant'], {state: this.assessment});
+          else if (this.categories.tools.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/tools'], {state: this.assessment});
+          else if (this.categories.procedure.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/procedure'], {state: this.assessment});
+          else if (this.categories.data.acronym === section)
+            this.router.navigate(['/pages/assessment/my-plans/edit/data'], {state: this.assessment});
+          else
+            this.router.navigate(['/pages/assessment/my-plans/edit/threats'], {state: this.assessment});
+        }
+      });
   }
 
   async onFinish() {

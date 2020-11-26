@@ -30,6 +30,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import {UserReducer} from './store/modules/user/user.reducer';
 import {storageSyncMetaReducer} from 'ngrx-store-persist';
+import {AssessmentService} from "./@core/auth/services/assessment.service";
+import {QuestionService} from "./@core/auth/services/question.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,6 +62,9 @@ import {storageSyncMetaReducer} from 'ngrx-store-persist';
     EffectsModule.forRoot([AuthEffects]),
     ToastrModule.forRoot(),
     NgxSpinnerModule,
+  ],
+  providers: [
+    AssessmentService,
   ],
   bootstrap: [AppComponent],
 })

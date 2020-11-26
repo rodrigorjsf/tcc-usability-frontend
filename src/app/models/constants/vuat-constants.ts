@@ -5,6 +5,11 @@ export class VuatConstants {
     pending: {name: 'PENDING', type: false},
   };
 
+  static readonly SECTION_CONTROL: any = {
+    available: {name: 'AVAILABLE'},
+    busy: {name: 'BUSY'},
+  };
+
   static readonly CATEGORIES: any = {
     application: {acronym: 'AP'},
     goals: {acronym: 'GO'},

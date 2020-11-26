@@ -13,6 +13,9 @@ import {AssessmentThreatDTO} from "../../../models/dto/AssessmentThreatDTO";
 import * as FileSaver from "file-saver";
 import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../services/toastService";
+import {SendMailRequest} from "../../../models/dto/SendMailRequest";
+import {SectionControlRequestDTO} from "../../../models/dto/SectionControlRequestDTO";
+import {SectionUpdateRequestDTO} from "../../../models/dto/SectionUpdateRequestDTO";
 
 @Injectable()
 export class AssessmentService {
@@ -157,6 +160,34 @@ export class AssessmentService {
       });
   }
 
+  releaseSection(uid: string) {
+    this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
+  }
+
+  verifySection(sectionRequest: SectionUpdateRequestDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/verify/section`, sectionRequest,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+
+  async updateSection(sectionUpdate: SectionUpdateRequestDTO) {
+    this.http.post<any>(`${this.baseUrl}/assessment/update/section`, sectionUpdate,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
+  }
+
   downloadPlan(planUid: string, fileName: string) {
     const request = this.http.get(`${this.baseUrl}/assessment/` + planUid + `/file`,
       {
@@ -177,4 +208,19 @@ export class AssessmentService {
       });
   }
 
+  sendPlanToEmail(emails: SendMailRequest) {
+    const request = this.http.post<any>(`${this.baseUrl}/assessment/export/to-email`, emails,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+    request.subscribe(
+      () => {
+        this.toast.showToast('send', 'top-right', 'success', 'email');
+      },
+      () => {
+        this.toast.showToast('send', 'top-right', 'danger', 'email');
+      });
+  }
 }

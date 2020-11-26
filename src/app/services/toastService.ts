@@ -32,10 +32,29 @@ export class ToastService {
           `Success!`,
           {position, status, destroyByClick: true, duration: 3000});
       }
+    } else if (type === 'send') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Failed to send the ${object}.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      } else {
+        this.toastrService.show(
+          `${object} sended successfully!` || status,
+          `Success!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
     } else if (type === 'download') {
       if (status === 'danger') {
         this.toastrService.show(
           `Could not download the ${object} plan.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
+    }else if (type === 'section') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `This section is being edited by ${object}. Try again later.` || status,
           `Error!`,
           {position, status, destroyByClick: true, duration: 3000});
       }

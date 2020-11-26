@@ -57,7 +57,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditApplication()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.application.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -225,7 +225,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditGoals()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.goals.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -285,7 +285,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditVariables()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.variables.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -389,7 +389,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditParticipant()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.participants.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -544,7 +544,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditTools()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.tasks.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -701,7 +701,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditProcedure()" class="fa-pull-right padding-right" ghost nbButton size="medium"
+                      <button (click)="onEdit(categories.procedure.acronym)" class="fa-pull-right padding-right" ghost nbButton size="medium"
                               status="success" style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
                         EDIT SECTION
@@ -887,7 +887,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditData()" class="fa-pull-right padding-right" ghost
+                      <button (click)="onEdit(categories.data.acronym)" class="fa-pull-right padding-right" ghost
                               nbButton size="medium" status="success"
                               style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
@@ -977,7 +977,7 @@
                       <nb-progress-bar [displayValue]="true" [status]="getPercentageColor()" [value]="questionsPercentage"
                                        class="col-lg-8 vertical-center"
                                        fullWidth></nb-progress-bar>
-                      <button (click)="onEditThreat()" class="fa-pull-right padding-right" ghost
+                      <button (click)="onEditT(categories.threats.acronym)" class="fa-pull-right padding-right" ghost
                               nbButton size="medium" status="success"
                               style="margin-left:5px">
                         <nb-icon icon="edit-2-outline"></nb-icon>
