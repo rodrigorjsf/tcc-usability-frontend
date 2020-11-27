@@ -31,10 +31,13 @@ import {ToastrModule} from 'ngx-toastr';
 import {UserReducer} from './store/modules/user/user.reducer';
 import {storageSyncMetaReducer} from 'ngrx-store-persist';
 import {AssessmentService} from "./@core/auth/services/assessment.service";
-import {QuestionService} from "./@core/auth/services/question.service";
+import {NoSanitizePipe} from "./services/no-sanitizer-pipe.service";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    NoSanitizePipe,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

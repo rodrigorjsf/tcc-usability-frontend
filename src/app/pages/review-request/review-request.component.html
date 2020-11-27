@@ -1,0 +1,38 @@
+<div>
+  <div class="col-12">
+    <h3>
+      Review Requests
+    </h3>
+    <nb-card accent="sucess">
+      <nb-card-body class="col-12">
+      </nb-card-body>
+      <nb-card-body>
+        <ng2-smart-table #table style="cursor: pointer"
+                         (userRowSelect)="onUserRowSelect($event)"
+                         (custom)="onCustom($event, deleteQuestionDialog)"
+                         [settings]="settings"
+                         [source]="source">
+          <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
+            <nb-card accent="warning">
+              <nb-card-header class="text-center">Warning</nb-card-header>
+              <nb-card-body class="text-center">
+                <span class="col-lg-6">
+                  You will no longer have access to this assessment.<br>
+                Do you really want to delete it?
+                </span>
+              </nb-card-body>
+              <nb-card-footer class="text-center">
+                <button (click)="onDelete();ref.close();" nbButton
+                        status="success">YES
+                </button>
+                <button (click)="cancelDelete();ref.close()" class="button-space" nbButton status="danger">NO</button>
+              </nb-card-footer>
+            </nb-card>
+          </ng-template>
+        </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+

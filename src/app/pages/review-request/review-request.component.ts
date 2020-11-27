@@ -1,21 +1,22 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Router} from '@angular/router';
-import {LocalDataSource} from 'ng2-smart-table';
-import {AssessmentService} from '../../../@core/auth/services/assessment.service';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../../store';
-import {selectUser} from '../../../store/modules/user/user.selectors';
-import {map, switchMap} from 'rxjs/operators';
-import {NbDialogService, NbToastrService} from '@nebular/theme';
-import {ToastService} from '../../../services/toastService';
-import {DownloadPlanDialogComponent} from '../../modal/download-plan-dialog/download-plan-dialog.component';
+import {LocalDataSource} from "ng2-smart-table";
+import {ToastService} from "../../services/toastService";
+import {AssessmentService} from "../../@core/auth/services/assessment.service";
+import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store";
+import {NbDialogService, NbToastrService} from "@nebular/theme";
+import {selectUser} from "../../store/modules/user/user.selectors";
+import {map, switchMap} from "rxjs/operators";
+import {DownloadPlanDialogComponent} from "../modal/download-plan-dialog/download-plan-dialog.component";
+import {ReviewService} from "../../@core/auth/services/review.service";
 
 @Component({
-  selector: 'ngx-list-assessment',
-  styleUrls: ['./list-assessment.component.scss'],
-  templateUrl: './list-assessment.component.html',
+  selector: 'ngx-sugested-scales',
+  templateUrl: './review-request.component.html',
+  styleUrls: ['./review-request.component.scss'],
 })
-export class ListAssessmentComponent implements OnInit {
+export class ReviewRequestComponent implements OnInit{
 
   data: any;
   source: LocalDataSource = new LocalDataSource();
@@ -46,22 +47,19 @@ export class ListAssessmentComponent implements OnInit {
         title: 'Name',
         type: 'string',
       },
-      authorName: {
-        title: 'Author',
-        type: 'string',
+      limitReviewDate: {
+        title: 'Review Limit Date',
+        type: 'date',
       },
-      profile: {
-        title: 'Profile',
-        type: 'string',
-      },
-      state: {
-        title: 'State',
+      reviewStatus: {
+        title: 'Status',
         type: 'string',
       },
     },
   };
 
   constructor(private assessmentService: AssessmentService,
+              private reviewService: ReviewService,
               private router: Router,
               private store: Store<AppState>,
               private dialogService: NbDialogService,
@@ -76,7 +74,7 @@ export class ListAssessmentComponent implements OnInit {
 
   getDataTable() {
     this.store.select(selectUser).pipe(
-      switchMap(user => this.assessmentService.getUserAssessments(user.uid)),
+      switchMap(user => this.reviewService.getAvailableReviews(user.uid)),
       map(data => {
         if (data !== null)
           this.source.load(data);
@@ -85,8 +83,9 @@ export class ListAssessmentComponent implements OnInit {
     this.assessmentService.releaseSection(this.user.uid).subscribe();
   }
 
-  onEdit(data: any) {
-    this.router.navigate(['/pages/assessment/my-plans/edit'], {state: data});
+  onReview(data: any) {
+    console.log(data);
+    this.router.navigate(['/pages/review-request/review'], {state: data});
   }
 
   async onDelete() {
@@ -119,7 +118,7 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   onUserRowSelect(event): void {
-    this.onEdit(event.data);
+    this.onReview(event.data);
   }
 
   openDownload(data: any) {

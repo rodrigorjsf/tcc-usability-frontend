@@ -75,7 +75,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Review Requests',
     icon: 'eye-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/review-request',
   },
   {
     title: 'Assessment',

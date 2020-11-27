@@ -51,7 +51,7 @@ export class ToastService {
           `Error!`,
           {position, status, destroyByClick: true, duration: 3000});
       }
-    }else if (type === 'section') {
+    } else if (type === 'section') {
       if (status === 'danger') {
         this.toastrService.show(
           `This section is being edited by ${object}. Try again later.` || status,
@@ -67,6 +67,30 @@ export class ToastService {
       } else {
         this.toastrService.show(
           `${object} successfully added to the assessment.` || status,
+          `Success!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      }
+    } else if (type === 'reviewComment') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Error submitting ${object}.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      } else {
+        this.toastrService.show(
+          `${object} submitted successfully.` || status,
+          `Success!`,
+          {position, status, destroyByClick: true, duration: 6000});
+      }
+    } else if (type === 'review') {
+      if (status === 'danger') {
+        this.toastrService.show(
+          `Error sending ${object} to review.` || status,
+          `Error!`,
+          {position, status, destroyByClick: true, duration: 3000});
+      } else {
+        this.toastrService.show(
+          `${object} successfully sended to review.` || status,
           `Success!`,
           {position, status, destroyByClick: true, duration: 3000});
       }

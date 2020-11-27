@@ -30,6 +30,7 @@ export class Assessment {
   attributes: Attribute[];
   scale: Scale[];
   userProfile: string;
+  state: string;
 
   constructor() {
   }

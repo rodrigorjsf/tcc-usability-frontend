@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
   NbAccordionModule,
   NbButtonModule,
-  NbCardModule,
+  NbCardModule, NbDatepickerModule,
   NbIconModule,
   NbInputModule,
   NbMenuModule
@@ -14,9 +14,10 @@ import {PagesRoutingModule} from './pages-routing.module';
 import {MiscellaneousModule} from './miscellaneous/miscellaneous.module';
 import {HomeModule} from './home/home.module';
 import { DownloadPlanDialogComponent } from './modal/download-plan-dialog/download-plan-dialog.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ReferencesComponent } from './references/references.component';
 import { SuggestedScalesComponent } from './suggested-scales/suggested-scales.component';
+import { DialogDataReviewComponent } from './modal/dialog-data-review/dialog-data-review.component';
 
 @NgModule({
   imports: [
@@ -31,10 +32,13 @@ import { SuggestedScalesComponent } from './suggested-scales/suggested-scales.co
     ReactiveFormsModule,
     NbButtonModule,
     NbAccordionModule,
+    NbDatepickerModule,
+    FormsModule,
   ],
   declarations: [
     PagesComponent,
     DownloadPlanDialogComponent,
+    DialogDataReviewComponent,
   ],
 })
 export class PagesModule {

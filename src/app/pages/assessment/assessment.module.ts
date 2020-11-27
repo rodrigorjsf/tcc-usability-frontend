@@ -37,6 +37,8 @@ import {EditThreatSectionComponent} from './list-assessment/edit-plan/edit-threa
 import {NbDateFnsDateModule} from "@nebular/date-fns";
 import { NewCollaboratorComponent } from './new-collaborator/new-collaborator.component';
 import { AddCollaboratorComponent } from './list-assessment/edit-plan/add-collaborator/add-collaborator.component';
+import { RequestReviewComponent } from './list-assessment/edit-plan/request-review/request-review.component';
+import {ReviewService} from "../../@core/auth/services/review.service";
 
 @NgModule({
   imports: [
@@ -77,10 +79,12 @@ import { AddCollaboratorComponent } from './list-assessment/edit-plan/add-collab
     EditThreatSectionComponent,
     NewCollaboratorComponent,
     AddCollaboratorComponent,
+    RequestReviewComponent,
   ],
   providers: [
     AssessmentService,
     QuestionService,
+    ReviewService,
   ],
 })
 export class AssessmentModule {
