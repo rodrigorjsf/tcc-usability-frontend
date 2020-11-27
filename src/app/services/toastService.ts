@@ -7,6 +7,20 @@ export class ToastService {
   constructor(private toastrService: NbToastrService) {
   }
 
+  showToastr(position, status, object) {
+    if (status === 'danger') {
+      this.toastrService.show(
+        `${object}.` || status,
+        `Error!`,
+        {position, status, destroyByClick: true, duration: 3000});
+    } else {
+      this.toastrService.show(
+        `${object}` || status,
+        `Success!`,
+        {position, status, destroyByClick: true, duration: 6000});
+    }
+  }
+
   showToast(type, position, status, object) {
     if (type === 'delete') {
       if (status === 'danger') {

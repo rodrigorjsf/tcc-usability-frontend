@@ -20,7 +20,7 @@ import {
 } from '@nebular/theme';
 import {CreateAssessmentComponent} from './create-assessment/create-assessment.component';
 import {ListAssessmentComponent} from './list-assessment/list-assessment.component';
-import {ReviewAssessmentComponent} from './review-assesment/review-assessment.component';
+import {ReviewedPlanComponent} from './reviewed-plan/reviewed-plan.component';
 import {AssessmentRoutingModule} from './assessment-routing.module';
 import {AssessmentService} from '../../@core/auth/services/assessment.service';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -67,7 +67,7 @@ import {ReviewService} from "../../@core/auth/services/review.service";
     AssessmentComponent,
     CreateAssessmentComponent,
     ListAssessmentComponent,
-    ReviewAssessmentComponent,
+    ReviewedPlanComponent,
     EditPlanComponent,
     EditApplicationSectionComponent,
     EditGoalSectionComponent,

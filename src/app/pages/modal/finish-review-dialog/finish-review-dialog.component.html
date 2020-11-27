@@ -1,0 +1,46 @@
+<nb-card>
+  <nb-card-header>Check responses before submitting review completion</nb-card-header>
+  <nb-card-body>
+  <nb-card *ngFor="let comment of finishReview.comments">
+    <nb-card-header>
+      <label *ngIf="comment.section === categories.application.acronym">
+        <b>These were your comments on the Application section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.goals.acronym">
+        <b>These were your comments on the Goals section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.variables.acronym">
+        <b>These were your comments on the Variables and Measurement section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.participants.acronym">
+        <b>These were your comments on the Participants section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.tasks.acronym">
+        <b>These were your comments on the Tasks and Materials section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.procedure.acronym">
+        <b>These were your comments on the Procedure section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.data.acronym">
+        <b>These were your comments on the Data collection and Data analysis section:</b>
+      </label>
+      <label *ngIf="comment.section === categories.threats.acronym">
+        <b>These were your comments on the Threats to validity section:</b>
+      </label>
+    </nb-card-header>
+    <nb-card-body>
+      <textarea [(ngModel)]="comment.comment"
+                fullWidth
+                nbInput placeholder="N/A"
+                required="true"
+                rows="5" shape="round" status="success"
+                style="padding-left: 10px" readonly></textarea>
+
+    </nb-card-body>
+  </nb-card>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton hero status="primary" (click)="dismiss()">BACK</button>
+    <button nbButton hero status="success" class="padding-right" (click)="onFinish()">CONFIRM REVIEW FINISH</button>
+  </nb-card-footer>
+</nb-card>

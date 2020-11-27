@@ -32,6 +32,7 @@ import {UserReducer} from './store/modules/user/user.reducer';
 import {storageSyncMetaReducer} from 'ngrx-store-persist';
 import {AssessmentService} from "./@core/auth/services/assessment.service";
 import {NoSanitizePipe} from "./services/no-sanitizer-pipe.service";
+import {ReviewService} from "./@core/auth/services/review.service";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {NoSanitizePipe} from "./services/no-sanitizer-pipe.service";
   ],
   providers: [
     AssessmentService,
+    ReviewService,
   ],
   bootstrap: [AppComponent],
 })

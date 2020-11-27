@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ReferencesComponent } from './references/references.component';
 import { SuggestedScalesComponent } from './suggested-scales/suggested-scales.component';
 import { DialogDataReviewComponent } from './modal/dialog-data-review/dialog-data-review.component';
+import { FinishReviewDialogComponent } from './modal/finish-review-dialog/finish-review-dialog.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { DialogDataReviewComponent } from './modal/dialog-data-review/dialog-dat
     PagesComponent,
     DownloadPlanDialogComponent,
     DialogDataReviewComponent,
+    FinishReviewDialogComponent,
   ],
 })
 export class PagesModule {

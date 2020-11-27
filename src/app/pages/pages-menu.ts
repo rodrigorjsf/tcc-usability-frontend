@@ -23,7 +23,7 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/my-plans',
       },
       {
-        title: 'In Review Phase',
+        title: 'Reviewed Plans',
         icon: 'book-open-outline',
         link: '/pages/assessment/list',
       },
@@ -92,7 +92,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/my-plans',
       },
       {
-        title: 'In Review Phase',
+        title: 'Reviewed Plans',
         icon: 'book-open-outline',
         link: '/pages/assessment/list',
       },

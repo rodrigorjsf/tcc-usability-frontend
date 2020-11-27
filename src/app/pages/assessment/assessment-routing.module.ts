@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AssessmentComponent} from './assessment.component';
 import {CreateAssessmentComponent} from './create-assessment/create-assessment.component';
-import {ReviewAssessmentComponent} from './review-assesment/review-assessment.component';
+import {ReviewedPlanComponent} from './reviewed-plan/reviewed-plan.component';
 import {ListAssessmentComponent} from './list-assessment/list-assessment.component';
 import {EditPlanComponent} from './list-assessment/edit-plan/edit-plan.component';
 import {AdminGuard} from '../../guards/admin.guard';
@@ -89,7 +89,7 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        component: ReviewAssessmentComponent,
+        component: ReviewedPlanComponent,
         canActivate: [AdminGuard],
       },
     ],

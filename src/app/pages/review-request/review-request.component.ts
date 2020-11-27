@@ -26,21 +26,11 @@ export class ReviewRequestComponent implements OnInit{
 
   settings = {
     mode: 'external',
+    noDataMessage: 'No revisions were found to be made',
     actions: {
       add: false,
       edit: false,
       delete: false,
-      position: 'right',
-      custom: [
-        {
-          name: 'export',
-          title: '<i class="nb-arrow-thin-down"></i>',
-        },
-        {
-          name: 'delete',
-          title: '<i class="nb-trash"></i>',
-        },
-      ],
     },
     columns: {
       projectName: {

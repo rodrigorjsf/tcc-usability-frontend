@@ -5,6 +5,7 @@ import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../services/toastService";
 import {ReviewRequestDTO} from "../../../models/dto/ReviewRequestDTO";
 import {BeginReviewDTO} from "../../../models/dto/BeginReviewDTO";
+import {FinishReviewDTO} from "../../../models/dto/FinishReviewDTO";
 
 @Injectable()
 export class ReviewService {
@@ -52,6 +53,15 @@ export class ReviewService {
 
   startReview(beginReviewDTO: BeginReviewDTO) {
     return this.http.post<any>(`${this.baseUrl}/review/start`, beginReviewDTO,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async finishReview(finishReview: FinishReviewDTO) {
+    return this.http.post<any>(`${this.baseUrl}/review/finish`, finishReview,
       {
         headers: this.headers,
         observe: 'body',
