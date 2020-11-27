@@ -300,11 +300,12 @@ export class EditPlanComponent implements OnInit {
   }
 
   getUsabilityScales() {
-    this.assessmentService.getScaleList()
-      .subscribe(scaleData => {
-        this.usabilityScales = scaleData;
-        console.log(this.usabilityScales);
-      });
+    if (this.usabilityScales === undefined || this.usabilityScales.length === 0) {
+      this.assessmentService.getScaleList()
+        .subscribe(scaleData => {
+          this.usabilityScales = scaleData;
+        });
+    }
   }
 
   isNullOrUndefined(object: any): boolean {
