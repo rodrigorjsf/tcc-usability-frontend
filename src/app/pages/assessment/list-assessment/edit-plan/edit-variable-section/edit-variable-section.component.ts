@@ -51,11 +51,13 @@ export class EditVariableSectionComponent implements OnInit {
   }
 
   getUsabilityScales() {
-    this.assessmentService.getScaleList()
-      .subscribe(scaleData => {
-        this.usabilityScales = scaleData;
-        this.dataloaded = Promise.resolve(true);
-      });
+    if (this.usabilityScales === undefined || this.usabilityScales.length === 0) {
+      this.assessmentService.getScaleList()
+        .subscribe(scaleData => {
+          this.usabilityScales = scaleData;
+          this.dataloaded = Promise.resolve(true);
+        });
+    }
   }
 
   getCharacterizationQuestionsObject(key: string): any {
