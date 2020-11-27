@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>Enter the limit date for the review</nb-card-header>
+  <nb-card-body>
+    <input [(ngModel)]="reviewDate" [nbDatepicker]="dateTimePicker" nbInput
+           placeholder="Pick Date">
+    <nb-datepicker #dateTimePicker format="yyyy-MM-dd"></nb-datepicker>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button nbButton status="success" [disabled]="!isValid" (click)="submit()">Submit</button>
+  </nb-card-footer>
+</nb-card>

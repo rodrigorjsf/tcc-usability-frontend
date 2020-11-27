@@ -29,6 +29,8 @@ export class Assessment {
   answers: PlanAnswers;
   attributes: Attribute[];
   scale: Scale[];
+  userProfile: string;
+  state: string;
 
   constructor() {
   }

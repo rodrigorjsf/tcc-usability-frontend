@@ -27,6 +27,9 @@ import {AppState} from "../../../../store";
 import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
 import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
 import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
+import {DialogDataReviewComponent} from "../../../modal/dialog-data-review/dialog-data-review.component";
+import {ReviewService} from "../../../../@core/auth/services/review.service";
+import {ReviewRequestDTO} from "../../../../models/dto/ReviewRequestDTO";
 
 @Component({
   selector: 'ngx-edit-plan',
@@ -42,6 +45,7 @@ export class EditPlanComponent implements OnInit {
   formEditable = false;
   assessment: Assessment;
   router: Router;
+  reviewDate: any;
   isVald = false;
   planInfo: any;
   dataloaded: Promise<boolean>;
@@ -55,6 +59,7 @@ export class EditPlanComponent implements OnInit {
   submitTooltip: string;
   smartCityQuestionnaire: SmartCityQuestionnaire;
   toast: ToastService;
+  reviewRequest: ReviewRequestDTO;
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
   private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
@@ -65,6 +70,7 @@ export class EditPlanComponent implements OnInit {
   private sectionControl = VuatConstants.SECTION_CONTROL;
 
   constructor(private assessmentService: AssessmentService,
+              private reviewService: ReviewService,
               private questionService: QuestionService,
               router: Router,
               private formBuilder: FormBuilder,
@@ -73,7 +79,27 @@ export class EditPlanComponent implements OnInit {
               private store: Store<AppState>) {
     this.toast = new ToastService(toastrService);
     this.router = router;
+    this.store.select(selectUser).subscribe(user => this.user = user);
     this.planInfo = this.router.getCurrentNavigation().extras.state;
+    this.form = this.formBuilder.group({
+      questions: this.formBuilder.array([]),
+      tools: this.formBuilder.array([]),
+      tasks: this.formBuilder.array([]),
+      steps: this.formBuilder.array([]),
+      threats: this.formBuilder.array([]),
+      limitations: this.formBuilder.array([]),
+    });
+  }
+
+  addCollaborator() {
+    this.router.navigate(['/pages/assessment/my-plans/edit/add-collaborator'],
+      {state: this.assessment});
+  }
+
+  get isAuthor() {
+    if (this.assessment.userProfile === 'AUTHOR')
+      return true;
+    return false;
   }
 
   get questions() {
@@ -112,33 +138,27 @@ export class EditPlanComponent implements OnInit {
 
   ngOnInit() {
     this.assessment = new Assessment();
-    this.store.select(selectUser).subscribe(user => this.user = user);
     this.assessmentService.getAssessmentByUid(this.planInfo.assessmentUid)
       .subscribe(data => {
         this.assessment = data;
-        this.calculatePlanPercentage();
-        this.initQuestionnaire();
-        this.initGoals();
-        this.initAnswers();
-        this.initAssessmentAttribute();
-        this.initParticipants();
-        this.initAssessmentTools();
-        this.initProcedure();
-        this.initDataCollection();
-        this.initThreats();
+        this.loadResources();
 
         this.dataloaded = Promise.resolve(true);
       });
+    this.assessmentService.releaseSection(this.user.uid).subscribe();
+  }
 
-    this.assessmentService.releaseSection(this.user.uid);
-    this.form = this.formBuilder.group({
-      questions: this.formBuilder.array([]),
-      tools: this.formBuilder.array([]),
-      tasks: this.formBuilder.array([]),
-      steps: this.formBuilder.array([]),
-      threats: this.formBuilder.array([]),
-      limitations: this.formBuilder.array([]),
-    });
+  private loadResources() {
+    this.calculatePlanPercentage();
+    this.initQuestionnaire();
+    this.initGoals();
+    this.initAnswers();
+    this.initAssessmentAttribute();
+    this.initParticipants();
+    this.initAssessmentTools();
+    this.initProcedure();
+    this.initDataCollection();
+    this.initThreats();
   }
 
   getApplicationAcronym() {
@@ -1221,6 +1241,10 @@ export class EditPlanComponent implements OnInit {
     return this.planPercentage !== 100;
   }
 
+  isInReviewPhase(): boolean {
+    return this.assessment.state !== 'COMPLETED' && this.assessment.state !== 'REVIEWED';
+  }
+
   // --------------------------- ROUTES ----------------------------
 
   onEdit(section: any) {
@@ -1280,6 +1304,29 @@ export class EditPlanComponent implements OnInit {
         exist = false;
       });
     }
+  }
+
+  openReviewDialog() {
+    this.dialogService.open(DialogDataReviewComponent)
+      .onClose.subscribe(date => {
+      this.reviewDate = date;
+      if (this.reviewDate === null || this.reviewDate === undefined) {
+        const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
+        this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
+        this.toast.showToast('review', 'top-right', 'danger', 'Assessment Plan');
+      }
+      this.reviewRequest = new ReviewRequestDTO(this.assessment.uid, this.reviewDate);
+      this.reviewService.submitReview(this.reviewRequest)
+        .subscribe(data => {
+            this.toast.showToast('review', 'top-right', 'success', 'Assessment Plan');
+            this.assessment = data;
+            const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
+            this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
+          },
+          () => {
+            this.toast.showToast('review', 'top-right', 'danger', 'Assessment Plan');
+          });
+    });
   }
 
   private newQuestion(): FormGroup {

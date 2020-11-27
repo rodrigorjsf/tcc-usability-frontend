@@ -23,19 +23,19 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/my-plans',
       },
       {
-        title: 'In Review Phase',
+        title: 'Reviewed Plans',
         icon: 'book-open-outline',
         link: '/pages/assessment/list',
       },
-      {
-        title: 'Archived Plans',
-        icon: 'done-all-outline',
-        link: '/pages/assessment/list',
-      },
+      // {
+      //   title: 'Archived Plans',
+      //   icon: 'done-all-outline',
+      //   link: '/pages/assessment/list',
+      // },
       {
         title: 'Enter as Collaborator',
         icon: 'person-add-outline',
-        link: '/pages/assessment/list',
+        link: '/pages/assessment/new-collaborator',
       },
     ],
   },
@@ -43,25 +43,25 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
     title: 'ABOUT',
     group: true,
   },
-  {
-    title: 'Evaluation criteria',
-    icon: 'checkmark-square-outline',
-    link: '/pages/layout/stepper',
-  },
-  {
-    title: 'The evaluation',
-    icon: 'question-mark-circle-outline',
-    link: '/pages/layout/list',
-  },
+  // {
+  //   title: 'Evaluation criteria',
+  //   icon: 'checkmark-square-outline',
+  //   link: '/pages/layout/stepper',
+  // },
+  // {
+  //   title: 'The evaluation',
+  //   icon: 'question-mark-circle-outline',
+  //   link: '/pages/layout/list',
+  // },
   {
     title: 'References',
     icon: 'bookmark-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/references',
   },
   {
     title: 'Suggested Scales',
     icon: 'bar-chart-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/suggested-scales',
   },
 ];
 
@@ -75,7 +75,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Review Requests',
     icon: 'eye-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/review-request',
   },
   {
     title: 'Assessment',
@@ -92,19 +92,19 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/assessment/my-plans',
       },
       {
-        title: 'In Review Phase',
+        title: 'Reviewed Plans',
         icon: 'book-open-outline',
         link: '/pages/assessment/list',
       },
-      {
-        title: 'Archived Plans',
-        icon: 'done-all-outline',
-        link: '/pages/assessment/list',
-      },
+      // {
+      //   title: 'Archived Plans',
+      //   icon: 'done-all-outline',
+      //   link: '/pages/assessment/list',
+      // },
       {
         title: 'Enter as Collaborator',
         icon: 'person-add-outline',
-        link: '/pages/assessment/list',
+        link: '/pages/assessment/new-collaborator',
       },
     ],
   },
@@ -112,24 +112,24 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
     title: 'ABOUT',
     group: true,
   },
-  {
-    title: 'Evaluation criteria',
-    icon: 'checkmark-square-outline',
-    link: '/pages/layout/stepper',
-  },
-  {
-    title: 'The evaluation',
-    icon: 'question-mark-circle-outline',
-    link: '/pages/layout/list',
-  },
+  // {
+  //   title: 'Evaluation criteria',
+  //   icon: 'checkmark-square-outline',
+  //   link: '/pages/layout/stepper',
+  // },
+  // {
+  //   title: 'The evaluation',
+  //   icon: 'question-mark-circle-outline',
+  //   link: '/pages/layout/list',
+  // },
   {
     title: 'References',
     icon: 'bookmark-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/references',
   },
   {
     title: 'Suggested Scales',
     icon: 'bar-chart-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/suggested-scales',
   },
 ];

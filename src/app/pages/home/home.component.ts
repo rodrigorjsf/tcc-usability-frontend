@@ -1,8 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {NbThemeService} from '@nebular/theme';
-import {takeWhile} from 'rxjs/operators';
+import {switchMap, takeWhile} from 'rxjs/operators';
 import {SolarData} from '../../@core/data/solar';
 import {Router} from '@angular/router';
+import {AssessmentService} from "../../@core/auth/services/assessment.service";
+import {selectUser} from "../../store/modules/user/user.selectors";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store";
 
 interface CardSettings {
   title: string;
@@ -77,14 +81,17 @@ export class HomeComponent implements OnDestroy {
   private alive = true;
 
   constructor(private themeService: NbThemeService,
+              private assessmentService: AssessmentService,
               private solarService: SolarData,
+              private store: Store<AppState>,
               private router: Router) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.statusCards = this.statusCardsByThemes[theme.name];
+        this.store.select(selectUser).pipe(
+          switchMap(user => this.assessmentService.releaseSection(user.uid))).subscribe();
       });
-
     this.solarService.getSolarData()
       .pipe(takeWhile(() => this.alive))
       .subscribe((data) => {

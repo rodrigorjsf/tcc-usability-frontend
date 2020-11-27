@@ -1,0 +1,898 @@
+<div *ngIf="dataloaded | async" class="container">
+  <div class="col-lg-12">
+    <h3>
+      Review Assessment Plan
+    </h3>
+    <nb-card accent="warning">
+      <nb-card-header><b>READ BEFORE REVIEW THE PLAN</b></nb-card-header>
+      <nb-card-body>
+        The review of the plan will take place by section, therefore, each section will have a textarea at the bottom,
+        which should be filled in by the reviewer with the points he deems relevant to the planning during the
+        review.<br><br>
+        To start the review, it is necessary to press the <b>"Begin Review"</b> button.
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header>
+        <b>PLAN SECTIONS</b>
+        <button (click)="startReview()"
+                [disabled]="isInReview() || isReviewed()" class="fa-pull-right padding-right" hero nbButton
+                size="medium"
+                status="success" style="margin-left:5px">
+          <nb-icon [hidden]="isReviewed()"
+                   nbTooltip="The plan is already being revised."
+                   nbTooltipPlacement="top"
+                   nbTooltipStatus="warning"
+                   [nbTooltipTrigger]="!isInReview() ? 'noop' : 'hover'"
+                   icon="play-circle-outline"></nb-icon>
+          <b *ngIf="!isReviewed()">BEGIN REVIEW</b>
+          <b *ngIf="isReviewed()">ALREADY REVIEWED</b>
+        </button>
+      </nb-card-header>
+      <nb-card-body class="example-items-col">
+        <nb-accordion multi>
+          <nb-accordion-item (click)="onClickApplication(categories.application.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.application.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin" disabled="true">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(getApplicationAcronym()).parentQuestions; let i = index;">
+                    <h4 class="col-lg-12 bottom-margin"><b>{{parentQuestion.title}}</b></h4>
+
+                    <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12 bottom-margin"
+                         style="padding-left: 10px">
+                      <label *ngIf="question.objKey != 'PERC'; else percentage;"
+                             class="col-lg-10"><b>{{question.title}}</b>{{question.subTitle}}</label>
+                      <div *ngIf="isFirstQuestion(question.objKey); else applicationSectionRadioButtons;"
+                           class="container">
+                        <div *ngIf="question.objKey == 'AP-PN'" class="col-lg-12 bottom-margin">
+                          <input [ngModel]="review.assessment.projectName" fullWidth nbInput readonly
+                                 required="true" style="padding-left: 10px" type="text">
+                        </div>
+
+                        <div *ngIf="question.objKey === 'AP-PD'" class="col-lg-12 bottom-margin">
+                          <textarea [ngModel]="review.assessment.projectDescription" fullWidth nbInput
+                                    placeholder="Describe your project" readonly required="true"
+                                    rows="5"
+                                    shape="round" style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                      <ng-template #percentage>
+                        <div *ngIf="!isNull(review.assessment.smartCityPercentage)" class="col-lg-12 bottom-margin">
+                          <label class="col-lg-4 vertical-center"><b>{{question.title}}</b></label>
+                          <h6 style="color: #3c763d; padding-left: 10px">{{review.assessment.smartCityPercentage}}%</h6>
+                        </div>
+                      </ng-template>
+                      <ng-template #applicationSectionRadioButtons>
+                        <div class="container" style="padding-left: 10px">
+                          <nb-select *ngIf="isDataManagement(question.objKey);"
+                                     [selected]="review.assessment.smartCityQuestionnaire.hasDataManagement"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.dataManagement" [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select
+                            *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;"
+                            [(selected)]="review.assessment.smartCityQuestionnaire.hasAppExecution"
+                            placeholder="Not Selected"
+                            style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.applicationExecutionEnvironment"
+                                       [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;"
+                                     [selected]="review.assessment.smartCityQuestionnaire.hasSensorNetwork"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.sensorNetworkManagement"
+                                       [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;"
+                                     [selected]="review.assessment.smartCityQuestionnaire.hasDataProcessing"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.dataProcessing" [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;"
+                                     [selected]="review.assessment.smartCityQuestionnaire.hasDataAccess"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.dataAccess" [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;"
+                                     [selected]="review.assessment.smartCityQuestionnaire.hasServiceManagement"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.serviceManagement" [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select
+                            *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;"
+                            [selected]="review.assessment.smartCityQuestionnaire.hasSoftwareTools"
+                            placeholder="Not Selected"
+                            style="padding-left: 10px">
+                            <nb-option *ngFor="let option of selectOptions.toolsforSoftwareDevelopment"
+                                       [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <nb-select *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;"
+                                     [selected]="review.assessment.smartCityQuestionnaire.defineCityModel"
+                                     placeholder="Not Selected"
+                                     style="padding-left: 10px">
+                            <nb-option [value]="null" disabled="true">Not Selected</nb-option>
+                            <nb-option *ngFor="let option of selectOptions.definingACityModel" [value]="option.value"
+                                       disabled="true">{{ option.label }}</nb-option>
+                          </nb-select>
+                          <hr class="solid">
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="applicationResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round"
+                              [status]="isBlankComment(applicationResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.application.acronym)"
+                            class="padding-right" nbButton
+                            [disabled]="isBlankComment(applicationResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.goals.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.goals.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.goals.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon [nbTooltip]="parentQuestion.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </h4>
+                    </div>
+                    <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+                         style="padding-left: 10px">
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
+
+                      <div *ngFor="let usabilityGoal of review.assessment.usabilityGoals"
+                           class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, usabilityGoal.attribute)"
+                                    [ngModel]="usabilityGoal.goal"
+                                    fullWidth nbInput
+                                    placeholder="Describe the goals here" readonly required="true"
+                                    rows="5"
+                                    shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <br>
+                      <hr class="solid">
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="goalResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round" [status]="isBlankComment(goalResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.goals.acronym)"
+                            class="padding-right" nbButton [disabled]="isBlankComment(goalResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.variables.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.variables.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <h4 class="col-lg-12 bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction"
+                                 class="button-space"
+                                 icon="info-outline" nbButton
+                                 nbTooltipPlacement="right"
+                                 nbTooltipStatus="warning" status="warning" style="padding-left: 5px"></nb-icon>
+                      </h4>
+                    </div>
+                    <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12 bottom-margin"
+                         style="padding-left: 10px">
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
+                      <div *ngIf="parentQuestion.key === 'VM-4'" class="container">
+                        <div *ngFor="let attribute of review.assessment.attributes" class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                                    [ngModel]="attribute.variables"
+                                    fullWidth nbInput
+                                    placeholder="Describe the attribule variables here" readonly rows="2"
+                                    shape="round" style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                      <div *ngIf="parentQuestion.key === 'VM-5'" class="container">
+                        <div *ngFor="let attribute of review.assessment.attributes" class="col-lg-12 bottom-margin">
+                        <textarea *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                                  [ngModel]="attribute.obtainedBy"
+                                  fullWidth nbInput
+                                  placeholder="Describe the methods and criteria here" readonly rows="2"
+                                  shape="round" style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                      <br>
+                      <hr class="solid">
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'VM-6'" class="container">
+                      <nb-card>
+                        <nb-card-body class="form-group">
+                          <div *ngFor="let scale of usabilityScales;let i = index;" class="row">
+                            <nb-checkbox (checkedChange)="scaleSelectionCheckbox($event,scale,i)"
+                                         [checked]="verifyScaleStatus(scale)"
+                                         disabled="true"
+                                         status="primary" style="padding-left: 20px">
+                              <nb-action [nbTooltip]="scale.description"
+                                         class="button-space"
+                                         nbButton
+                                         nbTooltipPlacement="right" nbTooltipStatus="info" status="info">{{scale.name}}
+                                ({{scale.acronym}}
+                                )
+                              </nb-action>
+                            </nb-checkbox>
+                          </div>
+                        </nb-card-body>
+                      </nb-card>
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="variableResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round" [status]="isBlankComment(variableResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.variables.acronym)"
+                            class="padding-right" nbButton [disabled]="isBlankComment(variableResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.participants.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.participants.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.participants.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction"
+                                 class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </label>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-7'" class="bottom-margin-light">
+                      <input [ngModel]="review.assessment.participant.participantsQuantity" class="col-lg-3"
+                             fullWidth
+                             nbInput placeholder="Enter the quantity"
+                             readonly required="true" style="padding-left: 10px" type="number">
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-8'">
+                      <nb-select [selected]="review.assessment.participant.participationLocalType"
+                                 placeholder="Not Selected"
+                                 style="padding-left: 10px">
+                        <nb-option disabled="true" value="P">IN PERSON</nb-option>
+                        <nb-option disabled="true" value="R">REMOTE</nb-option>
+                      </nb-select>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-9'" class="bottom-margin-light">
+                      <textarea [ngModel]="review.assessment.participant.compensationDescription"
+                                fullWidth nbInput placeholder="Describe the compesations here"
+                                readonly
+                                shape="round" style="padding-left: 10px"></textarea>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-10'" class="bottom-margin-light">
+                      <textarea [ngModel]="review.assessment.participant.criteria"
+                                fullWidth nbInput placeholder="Describe the eligibility criteria here"
+                                readonly
+                                shape="round" style="padding-left: 10px"></textarea>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-11'" class="bottom-margin-light">
+                      <nb-select [selected]="review.assessment.participant.hasCollectedInformation"
+                                 class="bottom-margin-light" placeholder="Not Selected"
+                                 style="padding-left: 10px">
+                        <nb-option *ngFor="let option of genericSelectOptions.options"
+                                   [value]="option.value">{{option.label}}</nb-option>
+                      </nb-select>
+                      <textarea [ngModel]="review.assessment.participant.collectedInformationUse"
+                                [disabled]="!review.assessment.participant.hasCollectedInformation" fullWidth nbInput
+                                placeholder="Describes data usage here"
+                                readonly
+                                shape="round" style="padding-left: 10px"></textarea>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-12'" class="bottom-margin-light">
+                      <textarea [ngModel]="review.assessment.participant.instructions"
+                                fullWidth nbInput placeholder="Describes instructions here"
+                                readonly
+                                shape="round" style="padding-left: 10px"></textarea>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'PA-13'" [formGroup]='form' class="bottom-margin-light">
+                      <label *ngIf="review.assessment.participant.questions.length === 0">N/A</label>
+                      <form class='container mt-3' formArrayName="questions">
+                        <section *ngFor='let question of questions.controls; let i = index;' [formGroupName]="i">
+                          <div class='row col-lg-8'>
+                            <textarea class='display-next bottom-margin' formControlName="question"
+                                      fullWidth
+                                      id='input-question-review'
+                                      name='question-review'
+                                      nbInput
+                                      placeholder='New question'
+                                      shape="round" readonly></textarea>
+                          </div>
+                        </section>
+                      </form>
+                    </div>
+                    <br>
+                    <hr class="solid">
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="participantResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round"
+                              [status]="isBlankComment(participantResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.participants.acronym)"
+                            class="padding-right" nbButton
+                            [disabled]="isBlankComment(participantResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.tasks.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.tasks.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.tasks.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <label class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction"
+                                 class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </label>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'TM-14'" class="bottom-margin-light">
+                      <nb-card [formGroup]='form'>
+                        <nb-card-body class="row">
+                          <label *ngIf="!checkIfToolsIsNotEmpty()">N/A</label>
+                          <form class='container mt-3' formArrayName="tools">
+                            <section *ngFor='let tool of tools.controls; let i = index;' [formGroupName]="i">
+                              <div class='row col-lg-8'>
+                            <textarea class='display-next bottom-margin' formControlName="tool"
+                                      fullWidth
+                                      id='input-tool-review'
+                                      name='tool-review'
+                                      nbInput
+                                      placeholder='New instruments, materials, technology, or tool'
+                                      shape="round" readonly></textarea>
+                              </div>
+                            </section>
+                          </form>
+                        </nb-card-body>
+                      </nb-card>
+                      <span *ngIf="checkIfToolsIsNotEmpty()">
+                         <label>Description:</label>
+                      <textarea [ngModel]="review.assessment.assessmentTools.toolsUsageDescription"
+                                fullWidth nbInput placeholder="Describe their usage here"
+                                readonly
+                                shape="round" style="padding-left: 10px"></textarea>
+                      </span>
+                    </div>
+                    <div *ngIf="parentQuestion.key === 'TM-15' || parentQuestion.key === 'TM-16'
+                         || parentQuestion.key === 'TM-17'"
+                         class="bottom-margin-light">
+                      <nb-card [formGroup]='form'>
+                        <nb-card-body class="row">
+                          <label *ngIf="!checkIfTasksIsNotEmpty()">N/A</label>
+                          <form class='container mt-3' formArrayName="tasks">
+                            <section *ngFor='let task of tasks.controls; let i = index;' [formGroupName]="i">
+                              <div *ngIf="parentQuestion.key === 'TM-15'" class='row col-lg-8'>
+                                <textarea class='display-next bottom-margin' formControlName="description"
+                                          fullWidth
+                                          id='input-task-description-review'
+                                          name='task-description-review'
+                                          nbInput
+                                          placeholder='Describe the task'
+                                          shape="round" readonly></textarea>
+                              </div>
+                              <div *ngIf="parentQuestion.key === 'TM-16'" class='row col-lg-12'>
+                                <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
+                                <input class='display-next' formControlName="taskExecutionTime"
+                                       fullWidth
+                                       id='input-edit-task-execution-review'
+                                       name='task-execution-review'
+                                       nbInput
+                                       placeholder='Insert the task execution time (in minutes)' readonly>
+                              </div>
+                              <div *ngIf="parentQuestion.key === 'TM-17'" class='row col-lg-12'>
+                                <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
+                                <input class='display-next' formControlName="acceptanceCriteria"
+                                       fullWidth
+                                       id='input-task-acceptance-criteria-review'
+                                       name='task-acceptance-criteria-review'
+                                       nbInput
+                                       placeholder='Insert the task acceptance criteria' readonly>
+                              </div>
+                            </section>
+                          </form>
+                        </nb-card-body>
+                      </nb-card>
+                    </div>
+                    <br>
+                    <hr class="solid">
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="tasksResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round" [status]="isBlankComment(tasksResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.tasks.acronym)"
+                            class="padding-right" nbButton [disabled]="isBlankComment(tasksResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.procedure.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.procedure.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.procedure.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </h4>
+                    </div>
+                    <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+                         style="padding-left: 10px">
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}
+                        <nb-icon *ngIf="!isNullOrUndefined(question.instruction)"
+                                 [nbTooltip]="question.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </label>
+                      <div *ngIf="question.key === 'PR-18-1'">
+                        <input [ngModel]="review.assessment.assessmentProcedure.occurDate"
+                               [nbDatepicker]="dateTimePicker"
+                               disabled
+                               nbInput placeholder="Pick Date">
+                        <nb-datepicker #dateTimePicker format="yyyy-MM-dd"></nb-datepicker>
+                      </div>
+                      <div *ngIf="question.key === 'PR-18-2'">
+                         <textarea [ngModel]="review.assessment.assessmentProcedure.occurLocal"
+                                   fullWidth nbInput
+                                   placeholder="Describe where it will take place here" readonly required="true"
+                                   rows="5"
+                                   shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <div *ngIf="question.key === 'PR-18-3'">
+                         <textarea [ngModel]="review.assessment.assessmentProcedure.occurDetail"
+                                   fullWidth nbInput
+                                   placeholder="Describe how it will occur here" readonly required="true"
+                                   rows="5"
+                                   shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <div *ngIf="question.key === 'PR-18-4'">
+                         <textarea [ngModel]="review.assessment.assessmentProcedure.occurTime"
+                                   fullWidth nbInput
+                                   placeholder="Describe how long it will take here" readonly required="true"
+                                   rows="5"
+                                   shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+
+                      <br>
+                      <hr class="solid">
+                    </div>
+                    <div class="container col-lg-12">
+                      <div *ngIf="parentQuestion.key === 'PR-19'" [formGroup]="form" class="col-lg-12 bottom-margin">
+                        <form class='container mt-3' formArrayName="steps">
+                          <section *ngFor='let step of steps.controls; let i = index;' [formGroupName]="i">
+                            <div class='row col-lg-12'>
+                              <label>Step Title:</label>
+                              <textarea class='display-next' formControlName="name" fullWidth
+                                        id='input-step-name-review'
+                                        name='step-name-review'
+                                        nbInput
+                                        placeholder='Step title'
+                                        shape="round"
+                                        style="margin-bottom: 10px" readonly></textarea>
+                              <label>Step Description:</label>
+                              <textarea class='display-next' formControlName="description"
+                                        fullWidth
+                                        id='input-step-description-review'
+                                        name='step-description-review'
+                                        nbInput
+                                        placeholder='Step description'
+                                        shape="round" readonly></textarea>
+                            </div>
+                            <hr class="solid">
+                          </section>
+                        </form>
+                      </div>
+                      <div *ngIf="parentQuestion.key === 'PR-20'" class="col-lg-12 bottom-margin">
+                        <nb-select [selected]="review.assessment.assessmentProcedure.questionsAllowed"
+                                   placeholder="Not Selected"
+                                   style="padding-left: 10px">
+                          <nb-option *ngFor="let option of genericSelectOptions.options" [value]="option.value"
+                                     disabled="true">{{ option.label }}</nb-option>
+                        </nb-select>
+                      </div>
+                      <div *ngIf="parentQuestion.key === 'PR-21'" class="col-lg-12 bottom-margin">
+                        <nb-select class="bottom-margin"
+                                   [selected]="review.assessment.assessmentProcedure.isPilotAssessment"
+                                   placeholder="Not Selected"
+                                   style="padding-left: 10px">
+                          <nb-option *ngFor="let option of genericSelectOptions.options" [value]="option.value"
+                                     disabled="true">{{ option.label }}</nb-option>
+                        </nb-select>
+                        <div *ngIf="!isNullOrUndefinedOrFalse(review.assessment.assessmentProcedure.isPilotAssessment)">
+                          <label>Description:</label>
+                          <textarea [ngModel]="review.assessment.assessmentProcedure.pilotDescription"
+                                    [hidden]="!review.assessment.assessmentProcedure.isPilotAssessment" fullWidth
+                                    nbInput placeholder="Describe how will be conducted here" readonly
+                                    required="true"
+                                    rows="5" shape="round"
+                                    style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="procedureResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round"
+                              [status]="isBlankComment(procedureResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.procedure.acronym)"
+                            class="padding-right" nbButton
+                            [disabled]="isBlankComment(procedureResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.data.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.data.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.data.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </h4>
+                    </div>
+                    <div class="container col-lg-12">
+                      <div *ngIf="parentQuestion.key === 'DT-22'">
+                        <textarea [ngModel]="review.assessment.assessmentData.dataCollectionProcedure"
+                                  fullWidth nbInput
+                                  placeholder="Describe the data collection procedure here" readonly rows="5"
+                                  shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <div *ngIf="parentQuestion.key === 'DT-23'">
+                        <label>Description:</label>
+                        <textarea [ngModel]="review.assessment.assessmentData.analysisDescription"
+                                  fullWidth nbInput
+                                  placeholder="Describe how it will be analyzed here" readonly rows="5"
+                                  shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <div *ngIf="parentQuestion.key === 'DT-24'" class="col-lg-12 bottom-margin">
+                        <nb-select class="bottom-margin"
+                                   [selected]="review.assessment.assessmentData.statisticalMethods"
+                                   placeholder="Not Selected"
+                                   style="padding-left: 10px">
+                          <nb-option *ngFor="let option of genericSelectOptions.options" [value]="option.value"
+                                     disabled="true">{{ option.label }}</nb-option>
+                        </nb-select>
+                        <div *ngIf="!isNullOrUndefinedOrFalse(review.assessment.assessmentData.statisticalMethods)">
+                          <label>Description:</label>
+                          <textarea [ngModel]="review.assessment.assessmentData.statisticalMethodsDescription"
+                                    [hidden]="!review.assessment.assessmentData.statisticalMethods" fullWidth
+                                    nbInput placeholder="Describe how will be conducted here" readonly
+                                    required="true"
+                                    rows="5" shape="round"
+                                    style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="dataResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round" [status]="isBlankComment(dataResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.data.acronym)"
+                            class="padding-right" nbButton [disabled]="isBlankComment(dataResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item (click)="onClickApplication(categories.threats.acronym)">
+            <nb-accordion-item-header style="background-color: #d9d9d9;color: #1a1f33">
+              {{getCharacterizationQuestionsObject(categories.threats.acronym).section}}
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="container">
+                <div class="col-lg-12 bottom-margin">
+                  <div
+                    *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.threats.acronym).parentQuestions; let i = index;">
+                    <div class="col-lg-12 row">
+                      <h4 class="bottom-margin padding-right"><b>{{parentQuestion.title}}</b>
+                        <nb-icon *ngIf="!isNullOrUndefined(parentQuestion.instruction)"
+                                 [nbTooltip]="parentQuestion.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </h4>
+                    </div>
+                    <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+                         style="padding-left: 10px">
+                      <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}
+                        <nb-icon *ngIf="!isNullOrUndefined(question.instruction)"
+                                 [nbTooltip]="question.instruction" class="button-space"
+                                 icon="info-outline"
+                                 nbButton
+                                 nbTooltipPlacement="right" nbTooltipStatus="warning" status="warning"></nb-icon>
+                      </label>
+                      <div *ngIf="question.key === 'TH-25-1'" [formGroup]="form" class="col-lg-12 bottom-margin">
+                        <form class='container mt-3' formArrayName="threats">
+                          <section *ngFor='let threat of threats.controls; let i = index;' [formGroupName]="i">
+                            <div class='row col-lg-12'>
+                              <textarea [placeholder]="question.placeholder" class='display-next'
+                                        formControlName="threat"
+                                        fullWidth
+                                        id='input-threat-review'
+                                        name='threat-review'
+                                        nbInput
+                                        shape="round"
+                                        style="margin-bottom: 10px" readonly></textarea>
+                            </div>
+                            <hr class="solid">
+                          </section>
+                        </form>
+                      </div>
+                      <div *ngIf="question.key === 'TH-25-2'">
+                        <textarea [ngModel]="review.assessment.assessmentThreat.controlMeasure"
+                                  [placeholder]="question.placeholder" fullWidth
+                                  nbInput readonly rows="5"
+                                  shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <div *ngIf="question.key === 'TH-25-3'" [formGroup]="form" class="col-lg-12 bottom-margin">
+                        <form class='container mt-3' formArrayName="limitations">
+                          <section *ngFor='let limitation of limitations.controls; let i = index;' [formGroupName]="i">
+                            <div class='row col-lg-12'>
+                              <textarea [placeholder]="question.placeholder" class='display-next'
+                                        formControlName="limitation"
+                                        fullWidth
+                                        id='input-limitation-review'
+                                        name='limitation-review'
+                                        nbInput
+                                        shape="round"
+                                        style="margin-bottom: 10px" readonly></textarea>
+                            </div>
+                            <hr class="solid">
+                          </section>
+                        </form>
+                      </div>
+                      <div *ngIf="question.key === 'TH-25-4'" class="col-lg-12 bottom-margin">
+                        <nb-select class="bottom-margin"
+                                   [selected]="review.assessment.assessmentThreat.ethicalAspectsDefined"
+                                   placeholder="Not Selected"
+                                   style="padding-left: 10px">
+                          <nb-option *ngFor="let option of genericSelectOptions.options" [value]="option.value"
+                                     disabled="true">{{ option.label }}</nb-option>
+                        </nb-select>
+                        <div
+                          *ngIf="!isNullOrUndefinedOrFalse(review.assessment.assessmentThreat.ethicalAspectsDefined)">
+                          <label>Description:</label>
+                          <textarea [ngModel]="review.assessment.assessmentThreat.ethicalAspectsDescription"
+                                    [hidden]="!review.assessment.assessmentThreat.ethicalAspectsDefined"
+                                    [placeholder]="question.placeholder"
+                                    fullWidth nbInput readonly
+                                    required="true"
+                                    rows="5" shape="round"
+                                    style="padding-left: 10px"></textarea>
+                        </div>
+                      </div>
+                      <div *ngIf="question.key === 'TH-25-5'">
+                        <textarea [ngModel]="review.assessment.assessmentThreat.biasDescription"
+                                  [placeholder]="question.placeholder" fullWidth
+                                  nbInput readonly rows="5"
+                                  shape="round" style="padding-left: 10px"></textarea>
+                      </div>
+                      <br>
+                      <hr class="solid">
+                    </div>
+                    <div class="container col-lg-12">
+                    </div>
+                  </div>
+                </div>
+                <hr class="solid" *ngIf="isInReview() || isReviewed()">
+                <nb-card status="primary" *ngIf="isInReview() || isReviewed()">
+                  <nb-card-header class="text-center">
+                    <b>Make your comments on this section of planning here</b>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <textarea [(ngModel)]="threatResponse" fullWidth
+                              nbInput placeholder="Put your observations here"
+                              required="true"
+                              rows="5" shape="round" [status]="isBlankComment(threatResponse) ? 'primary' : 'success'"
+                              style="padding-left: 10px" [readOnly]="isReviewed()"></textarea>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button (click)="submitAnswer(categories.threats.acronym)"
+                            class="padding-right" nbButton [disabled]="isBlankComment(threatResponse) || isReviewed()"
+                            status="success">
+                      <b>SUBMIT ANSWER</b>
+                      <nb-icon icon='done-all-outline'></nb-icon>
+                    </button>
+                  </nb-card-footer>
+                </nb-card>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+        </nb-accordion>
+      </nb-card-body>
+      <nb-card-footer>
+        <div>
+          <button (click)="openFinishDialog()" class="padding-right" nbButton [disabled]="!isInReview() || isReviewed()"
+                  status="success">
+            <b>FINISH REVIEW</b>
+            <nb-icon
+              nbTooltip="You must start the review in order to submit the results."
+              nbTooltipPlacement="top"
+              nbTooltipStatus="warning"
+              [nbTooltipTrigger]="isInReview() ? 'noop' : 'hover'"
+              icon='done-all-outline'></nb-icon>
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+

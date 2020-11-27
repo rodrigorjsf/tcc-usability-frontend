@@ -32,10 +32,6 @@ export class ListAssessmentComponent implements OnInit {
       position: 'right',
       custom: [
         {
-          name: 'edit',
-          title: '<i class="nb-edit"></i>',
-        },
-        {
           name: 'export',
           title: '<i class="nb-arrow-thin-down"></i>',
         },
@@ -54,6 +50,10 @@ export class ListAssessmentComponent implements OnInit {
         title: 'Author',
         type: 'string',
       },
+      profile: {
+        title: 'Profile',
+        type: 'string',
+      },
       state: {
         title: 'State',
         type: 'string',
@@ -67,12 +67,11 @@ export class ListAssessmentComponent implements OnInit {
               private dialogService: NbDialogService,
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
+    this.store.select(selectUser).subscribe(user => this.user = user);
   }
 
   ngOnInit() {
     this.getDataTable();
-    this.store.select(selectUser).subscribe(user => this.user = user);
-
   }
 
   getDataTable() {
@@ -82,7 +81,8 @@ export class ListAssessmentComponent implements OnInit {
         if (data !== null)
           this.source.load(data);
       }),
-    ).subscribe(() => this.assessmentService.releaseSection(this.user.uid));
+    ).subscribe();
+    this.assessmentService.releaseSection(this.user.uid).subscribe();
   }
 
   onEdit(data: any) {
@@ -111,13 +111,15 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   onCustom($event: any, deleteQuestionDialog: TemplateRef<any>) {
-    if ($event.action === 'edit') {
-      this.onEdit($event.data);
-    } else if ($event.action === 'export') {
+    if ($event.action === 'export') {
       this.openDownload($event.data);
     } else {
       this.open(deleteQuestionDialog, $event);
     }
+  }
+
+  onUserRowSelect(event): void {
+    this.onEdit(event.data);
   }
 
   openDownload(data: any) {

@@ -1,0 +1,25 @@
+<div class='container'>
+  <div class='col-lg-12'>
+    <h3>
+      Enter as Collaborator
+    </h3>
+    <nb-card>
+      <nb-card-header>Enter the code that was sent to your email in the field below:</nb-card-header>
+      <nb-card-body class='example-items-col'>
+        <div class='row col-lg-12 bottom-margin'>
+          <input [(ngModel)]='assessmentUid' fullWidth nbInput required='true' type='text'>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div>
+          <button (click)='submit()' [disabled]='!isValid' class='padding-right'
+                  nbButton
+                  status='success'>
+            <nb-icon icon='save-outline'></nb-icon>
+            <b>SUBMIT</b>
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>

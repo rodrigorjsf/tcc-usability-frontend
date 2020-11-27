@@ -14,8 +14,9 @@ import * as FileSaver from "file-saver";
 import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../services/toastService";
 import {SendMailRequest} from "../../../models/dto/SendMailRequest";
-import {SectionControlRequestDTO} from "../../../models/dto/SectionControlRequestDTO";
 import {SectionUpdateRequestDTO} from "../../../models/dto/SectionUpdateRequestDTO";
+import {Observable} from "rxjs";
+import {CollaboratorDTO} from "../../../models/dto/CollaboratorDTO";
 
 @Injectable()
 export class AssessmentService {
@@ -75,6 +76,24 @@ export class AssessmentService {
       {
         headers: this.headers,
         observe: 'body',
+        responseType: 'json',
+      });
+  }
+
+  async newCollaborator(collaborator: CollaboratorDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/add/collaborator`, collaborator,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'json',
+      });
+  }
+
+  async enterAsCollaborator(collaborator: CollaboratorDTO) {
+    return this.http.post<any>(`${this.baseUrl}/assessment/enter/collaborator`, collaborator,
+      {
+        headers: this.headers,
+        observe: 'response',
         responseType: 'json',
       });
   }
@@ -142,7 +161,7 @@ export class AssessmentService {
       });
   }
 
-  getAssessmentByUid(userUid: string) {
+  getAssessmentByUid(userUid: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/assessment/by-uid/` + userUid,
       {
         headers: this.headers,
@@ -160,8 +179,8 @@ export class AssessmentService {
       });
   }
 
-  releaseSection(uid: string) {
-    this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
+  releaseSection(uid: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/assessment/release/section/` + uid,
       {
         headers: this.headers,
         observe: 'response',
@@ -199,7 +218,7 @@ export class AssessmentService {
       data => {
         const blob: any = new Blob([data], {type: 'application/octet-stream'});
 
-        FileSaver.saveAs(blob, fileName.replace(/\s/g, '') + '.pdf');
+        FileSaver.saveAs(blob, fileName.replace(/\s/g, '') + 'Plan.pdf');
       },
       (err) => {
         console.log(err);

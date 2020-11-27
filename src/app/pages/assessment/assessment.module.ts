@@ -20,7 +20,7 @@ import {
 } from '@nebular/theme';
 import {CreateAssessmentComponent} from './create-assessment/create-assessment.component';
 import {ListAssessmentComponent} from './list-assessment/list-assessment.component';
-import {ReviewAssessmentComponent} from './review-assesment/review-assessment.component';
+import {ReviewedPlanComponent} from './reviewed-plan/reviewed-plan.component';
 import {AssessmentRoutingModule} from './assessment-routing.module';
 import {AssessmentService} from '../../@core/auth/services/assessment.service';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -35,6 +35,10 @@ import {EditProcedureSectionComponent} from './list-assessment/edit-plan/edit-pr
 import {EditDataSectionComponent} from './list-assessment/edit-plan/edit-data-section/edit-data-section.component';
 import {EditThreatSectionComponent} from './list-assessment/edit-plan/edit-threat-section/edit-threat-section.component';
 import {NbDateFnsDateModule} from "@nebular/date-fns";
+import { NewCollaboratorComponent } from './new-collaborator/new-collaborator.component';
+import { AddCollaboratorComponent } from './list-assessment/edit-plan/add-collaborator/add-collaborator.component';
+import { RequestReviewComponent } from './list-assessment/edit-plan/request-review/request-review.component';
+import {ReviewService} from "../../@core/auth/services/review.service";
 
 @NgModule({
   imports: [
@@ -63,7 +67,7 @@ import {NbDateFnsDateModule} from "@nebular/date-fns";
     AssessmentComponent,
     CreateAssessmentComponent,
     ListAssessmentComponent,
-    ReviewAssessmentComponent,
+    ReviewedPlanComponent,
     EditPlanComponent,
     EditApplicationSectionComponent,
     EditGoalSectionComponent,
@@ -73,10 +77,14 @@ import {NbDateFnsDateModule} from "@nebular/date-fns";
     EditProcedureSectionComponent,
     EditDataSectionComponent,
     EditThreatSectionComponent,
+    NewCollaboratorComponent,
+    AddCollaboratorComponent,
+    RequestReviewComponent,
   ],
   providers: [
     AssessmentService,
     QuestionService,
+    ReviewService,
   ],
 })
 export class AssessmentModule {
