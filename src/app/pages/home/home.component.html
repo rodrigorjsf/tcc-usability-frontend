@@ -23,7 +23,7 @@
       </div>
     </nb-card-body>
   </nb-card>
-  <nb-card class="fe-pulse-w-pause col-md-12" style="cursor: pointer">
+  <nb-card (click)="goToReviewPlan()" class="fe-pulse-w-pause col-md-12" style="cursor: pointer">
     <nb-card-body>
       <div>
         <nb-icon [options]="{ animation: { type: 'pulse' } }" icon="list-outline" size="large"></nb-icon>
