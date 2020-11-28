@@ -6,6 +6,7 @@ import {AppState} from '../../../store';
 import {selectUser} from '../../../store/modules/user/user.selectors';
 import {Assessment} from "../../../models/assessment";
 import {Router} from "@angular/router";
+import {EditDTO} from "../../../models/dto/EditDTO";
 
 @Component({
   selector: 'ngx-create-assessment',
@@ -16,6 +17,7 @@ export class CreateAssessmentComponent implements OnInit {
   form: FormGroup;
   uid: string;
   assessment: Assessment;
+  editDTO: EditDTO;
 
   constructor(private formBuilder: FormBuilder, private assessmentService: AssessmentService,
               private store: Store<AppState>,
@@ -70,8 +72,13 @@ export class CreateAssessmentComponent implements OnInit {
     (await this.assessmentService.createNewAssessment(this.serializedValues))
       .subscribe(data => {
         this.assessment = data;
-        console.log(this.assessment);
-        this.router.navigate(['/pages/assessment/my-plans']);
+        this.editDTO = new EditDTO(this.assessment.uid,
+          this.assessment.projectName,
+          this.assessment.systemUser.name,
+          this.assessment.userProfile,
+          this.assessment.state);
+        console.log(this.editDTO);
+        this.router.navigate(['/pages/assessment/my-plans/edit'], {state: this.editDTO});
       });
   }
 
