@@ -105,4 +105,13 @@ export class ReviewService {
         this.toast.showToastr('top-right', 'danger', 'Error downloading review');
       });
   }
+
+  findReviewByUid(reviewUid: any) {
+    return this.http.get<any>(`${this.baseUrl}/review/by-uid/` + reviewUid,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'json',
+      });
+  }
 }

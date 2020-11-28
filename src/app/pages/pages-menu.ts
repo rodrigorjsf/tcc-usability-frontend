@@ -25,7 +25,7 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Reviewed Plans',
         icon: 'book-open-outline',
-        link: '/pages/assessment/list',
+        link: '/pages/assessment/reviewed-plan',
       },
       // {
       //   title: 'Archived Plans',
@@ -94,7 +94,7 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Reviewed Plans',
         icon: 'book-open-outline',
-        link: '/pages/assessment/list',
+        link: '/pages/assessment/reviewed-plan',
       },
       // {
       //   title: 'Archived Plans',

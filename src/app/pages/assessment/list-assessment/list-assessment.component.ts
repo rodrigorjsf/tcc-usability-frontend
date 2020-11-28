@@ -32,6 +32,10 @@ export class ListAssessmentComponent implements OnInit {
       position: 'right',
       custom: [
         {
+          name: 'Dashboard',
+          title: '<i class="nb-tables"></i>',
+        },
+        {
           name: 'export',
           title: '<i class="nb-arrow-thin-down"></i>',
         },

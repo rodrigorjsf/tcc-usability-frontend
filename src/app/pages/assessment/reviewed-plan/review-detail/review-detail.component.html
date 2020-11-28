@@ -1,0 +1,45 @@
+<nb-card *ngIf="dataloaded | async">
+  <nb-card-header>Comments made by the reviewer on your evaluation planning.</nb-card-header>
+  <nb-card-body>
+    <nb-card *ngFor="let comment of review.comments" status="control">
+      <nb-card-header>
+        <label *ngIf="comment.section === categories.application.acronym">
+          <b>These are comments on the Application section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.goals.acronym">
+          <b>These are comments on the Goals section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.variables.acronym">
+          <b>These are comments on the Variables and Measurement section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.participants.acronym">
+          <b>These are comments on the Participants section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.tasks.acronym">
+          <b>These are comments on the Tasks and Materials section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.procedure.acronym">
+          <b>These are comments on the the Procedure section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.data.acronym">
+          <b>These are comments on the the Data collection and Data analysis section:</b>
+        </label>
+        <label *ngIf="comment.section === categories.threats.acronym">
+          <b>These are comments on the the Threats to validity section:</b>
+        </label>
+      </nb-card-header>
+      <nb-card-body>
+      <textarea [(ngModel)]="comment.comment"
+                fullWidth
+                nbInput placeholder="N/A"
+                required="true"
+                rows="5" shape="round" status="info"
+                style="padding-left: 10px" readonly></textarea>
+
+      </nb-card-body>
+    </nb-card>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton hero status="primary" (click)="back()">BACK</button>
+  </nb-card-footer>
+</nb-card>

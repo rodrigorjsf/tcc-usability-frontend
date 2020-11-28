@@ -8,6 +8,7 @@ import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {selectUser} from "../../../store/modules/user/user.selectors";
 import {map, switchMap} from "rxjs/operators";
 import {ReviewService} from "../../../@core/auth/services/review.service";
+import {AssessmentService} from "../../../@core/auth/services/assessment.service";
 
 
 @Component({
@@ -60,7 +61,8 @@ export class ReviewedPlanComponent implements OnInit {
     },
   };
 
-  constructor(private reviewService: ReviewService,
+  constructor(private assessmentService: AssessmentService,
+              private reviewService: ReviewService,
               private router: Router,
               private store: Store<AppState>,
               private dialogService: NbDialogService,
@@ -81,10 +83,11 @@ export class ReviewedPlanComponent implements OnInit {
           this.source.load(data);
       }),
     ).subscribe();
+    this.assessmentService.releaseSection(this.user.uid).subscribe();
   }
 
   onEdit(data: any) {
-    this.router.navigate(['/pages/assessment/my-plans/edit'], {state: data});
+    this.router.navigate(['/pages/assessment/reviewed-plan/detail'], {state: data});
   }
 
   async onDelete() {
