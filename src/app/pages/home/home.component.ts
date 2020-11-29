@@ -79,12 +79,14 @@ export class HomeComponent implements OnDestroy {
     dark: this.commonStatusCardsSet,
   };
   private alive = true;
+  private isReviewer: any;
 
   constructor(private themeService: NbThemeService,
               private assessmentService: AssessmentService,
               private solarService: SolarData,
               private store: Store<AppState>,
               private router: Router) {
+    this.store.select(selectUser).subscribe(user => this.isReviewer = user.reviewer);
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {

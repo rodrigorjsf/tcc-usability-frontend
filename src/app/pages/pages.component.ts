@@ -22,7 +22,6 @@ export class PagesComponent {
 
   constructor(private store: Store<AppState>) {
     this.store.select(selectUser).subscribe(user => this.isReviewer = user.reviewer);
-    console.log(this.isReviewer);
     if (this.isReviewer === true) {
       this.menu = REVIEWER_MENU_ITEMS;
     } else {

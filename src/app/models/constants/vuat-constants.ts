@@ -346,7 +346,7 @@ export class VuatConstants {
         {
           "key": "PR-19",
           "title": "19. How will the design of the assessment be?",
-          "instruction": "A. Name the possible steps.\nB. Detail the steps."
+          "instruction": "A. Name the possible steps.\nB. Detail the steps. C. Add the steps in the order they are expected to be performed."
         },
         {
           "key": "PR-20",
