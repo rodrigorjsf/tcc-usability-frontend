@@ -32,7 +32,7 @@ export class ListAssessmentComponent implements OnInit {
       position: 'right',
       custom: [
         {
-          name: 'Dashboard',
+          name: 'dashboard',
           title: '<i class="nb-tables"></i>',
         },
         {
@@ -117,9 +117,9 @@ export class ListAssessmentComponent implements OnInit {
   onCustom($event: any, deleteQuestionDialog: TemplateRef<any>) {
     if ($event.action === 'export') {
       this.openDownload($event.data);
-    } else {
+    } else if ($event.action === 'dashboard') {
+    } else
       this.open(deleteQuestionDialog, $event);
-    }
   }
 
   onUserRowSelect(event): void {
