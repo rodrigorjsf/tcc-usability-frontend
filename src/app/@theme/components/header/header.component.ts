@@ -39,7 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     },
   ];
   currentTheme = 'dark';
-  userMenu = [{title: 'Profile'}, {title: 'Log out'}];
+  // userMenu = [{title: 'Profile'}, {title: 'Log out'}];
+  userMenu = [{title: 'Log out'}];
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(

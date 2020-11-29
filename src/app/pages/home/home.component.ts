@@ -79,7 +79,7 @@ export class HomeComponent implements OnDestroy {
     dark: this.commonStatusCardsSet,
   };
   private alive = true;
-  private isReviewer: any;
+  isReviewer: any;
 
   constructor(private themeService: NbThemeService,
               private assessmentService: AssessmentService,

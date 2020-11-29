@@ -3,7 +3,7 @@
     <a (click)="toggleSidebar()" class="sidebar-toggle" href="#">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a (click)="navigateHome()" class="logo" style="cursor: pointer">ValidUATool<span></span></a>
+    <a (click)="navigateHome()" class="logo" style="cursor: pointer">Usavalins<span></span></a>
         <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
           <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
         </nb-select>

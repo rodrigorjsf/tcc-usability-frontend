@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   template: `
     <span class="created-by">
-      Valid Usability Assessment Planning Tool © 2020
+      Usability Validation Instrument © 2020
     </span>
     <div class="socials">
       <a style="text-decoration:none" href="https://github.com/rodrigorjsf/tcc-usability-frontend" target="_blank"
