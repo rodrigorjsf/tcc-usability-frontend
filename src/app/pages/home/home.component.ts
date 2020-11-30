@@ -114,6 +114,6 @@ export class HomeComponent implements OnDestroy {
   }
 
   goToReviewPlan() {
-    this.router.navigate(['/pages/assessment/reviewed-plan']);
+    this.router.navigate(['/pages/review-request']);
   }
 }
