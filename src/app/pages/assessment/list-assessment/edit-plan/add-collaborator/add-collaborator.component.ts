@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CollaboratorDTO} from "../../../../../models/dto/CollaboratorDTO";
 import {ToastService} from "../../../../../services/toastService";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -8,6 +8,7 @@ import {AppState} from "../../../../../store";
 import {Router} from "@angular/router";
 import {NbToastrService} from "@nebular/theme";
 import {selectUser} from "../../../../../store/modules/user/user.selectors";
+import {TableTransferDTO} from "../../../../../models/dto/TableTransferDTO";
 
 @Component({
   selector: 'ngx-add-collaborator',
@@ -38,12 +39,17 @@ export class AddCollaboratorComponent implements OnInit {
     return this.form.valid;
   }
 
+  get isEmpty() {
+    return this.emails.getRawValue().map(value => value.email).length === 0;
+  }
+
   get emails() {
     return this.form.controls.emails as FormArray;
   }
 
-  get hasCollaborator() {
-    return this.form.controls.emails.value?.length !== 0;
+  back() {
+    this.router.navigate(['/pages/assessment/my-plans/edit'],
+      {state: new TableTransferDTO(this.assessment.uid)});
   }
 
   get values() {

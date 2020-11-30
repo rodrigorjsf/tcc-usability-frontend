@@ -13,13 +13,14 @@
 <div class="header-container">
   <nb-actions size="small">
 
-    <!--    <nb-action class="control-item" icon="bell-outline"></nb-action>-->
+    <nb-action class="control-item" ></nb-action>
     <nb-action *nbIsGranted="['view', 'user']" class="user-action">
       <nb-user [name]="user?.name"
                [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"
                nbContextMenuTag="my-context-menu">
       </nb-user>
+      <nb-icon style="margin-left: 10px" icon="arrow-ios-downward-outline"></nb-icon>
     </nb-action>
   </nb-actions>
 </div>

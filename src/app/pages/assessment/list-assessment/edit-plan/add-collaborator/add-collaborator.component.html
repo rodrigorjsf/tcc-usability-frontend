@@ -34,7 +34,11 @@
       </nb-card-body>
       <nb-card-footer>
         <div>
-          <button (click)='submit()' [disabled]='!isValid'
+          <button (click)='back()' nbButton status='info'>
+            <nb-icon icon='arrow-back-outline'></nb-icon>
+            <b>BACK</b>
+          </button>
+          <button (click)='submit()' [disabled]='!isValid || isEmpty' class="float-right"
                   nbButton
                   status='success'>
             <nb-icon icon='save-outline'></nb-icon>
