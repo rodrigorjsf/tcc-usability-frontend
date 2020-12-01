@@ -17,8 +17,7 @@ import {AssessmentVariablesDTO, VariableDTO} from "../../../../../models/dto/Ass
 })
 export class EditVariableSectionComponent implements OnInit {
 
-  formEditable = false;
-  assessment: any;
+  assessment: Assessment;
   router: Router;
   isVald = false;
   dataloaded: Promise<boolean>;
@@ -39,19 +38,19 @@ export class EditVariableSectionComponent implements OnInit {
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
     this.router = router;
-    this.assessment = this.router.getCurrentNavigation().extras.state;
-    console.log(this.assessment.variables.length);
+    this.assessment = <Assessment> this.router.getCurrentNavigation().extras.state;
     this.fillVariableArray();
   }
 
   ngOnInit() {
+    console.log(this.assessment);
     this.assessmentVariablesDTO = new AssessmentVariablesDTO(this.assessment.uid);
     this.getUsabilityScales();
 
   }
 
   getUsabilityScales() {
-    if (this.usabilityScales === undefined || this.usabilityScales.length === 0) {
+    if (this.usabilityScales === undefined) {
       this.assessmentService.getScaleList()
         .subscribe(scaleData => {
           this.usabilityScales = scaleData;
@@ -226,20 +225,20 @@ export class EditVariableSectionComponent implements OnInit {
   mountVariables() {
     this.assessmentVariablesDTO.scale = this.assessment.scale.map(value => value.acronym);
     this.assessmentVariablesDTO.planVariableAnswers = this.assessment.answers.planVariableAnswers;
-    this.assessmentVariablesDTO.variables = this.assessment.variables.map(value =>
+    this.assessmentVariablesDTO.variables = this.assessment.attributes.map(value =>
       new VariableDTO(value.usabilityAttribute, value.variables, value.obtainedBy));
   }
 
   private fillVariableArray() {
-    if (this.assessment.variables.length !== 5) {
+    if (this.assessment.attributes.length !== 5) {
       let exist = false;
       this.usabilityAttributes.forEach(value => {
-        this.assessment.variables.forEach(variable => {
+        this.assessment.attributes.forEach(variable => {
           if (value === variable.usabilityAttribute)
             exist = true;
         });
         if (exist === false) {
-          this.assessment.variables.push({usabilityAttribute: value, variables: null, obtainedBy: null});
+          this.assessment.attributes.push({usabilityAttribute: value, variables: null, obtainedBy: null});
         }
         exist = false;
       });

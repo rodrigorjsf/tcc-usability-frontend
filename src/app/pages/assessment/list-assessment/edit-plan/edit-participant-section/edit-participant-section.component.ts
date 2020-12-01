@@ -42,7 +42,6 @@ export class EditParticipantSectionComponent implements OnInit {
     this.toast = new ToastService(toastrService);
     this.router = router;
     this.assessment = this.router.getCurrentNavigation().extras.state;
-    console.log(this.assessment.variables.length);
   }
 
   get questions() {

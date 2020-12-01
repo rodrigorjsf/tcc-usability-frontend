@@ -63,10 +63,10 @@ export class EditPlanComponent implements OnInit {
   private readonly instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   private readonly planAnswersConstants = VuatConstants.PLAN_ANSWER;
   private readonly usabilityAtributes = VuatConstants.USABILITY_ATRIBUTES;
-  private categories = VuatConstants.CATEGORIES;
-  private smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
-  private genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
-  private selectOptions = VuatConstants.SELECT_OPTIONS;
+  categories = VuatConstants.CATEGORIES;
+  smartCityCategories = VuatConstants.SMART_CITY_CATEGORY;
+  genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
+  selectOptions = VuatConstants.SELECT_OPTIONS;
   private sectionControl = VuatConstants.SECTION_CONTROL;
 
   constructor(private assessmentService: AssessmentService,
@@ -1266,7 +1266,7 @@ export class EditPlanComponent implements OnInit {
             this.router.navigate(['/pages/assessment/my-plans/edit/variable'], {state: this.assessment});
           else if (this.categories.participants.acronym === section)
             this.router.navigate(['/pages/assessment/my-plans/edit/participant'], {state: this.assessment});
-          else if (this.categories.tools.acronym === section)
+          else if (this.categories.tasks.acronym === section)
             this.router.navigate(['/pages/assessment/my-plans/edit/tools'], {state: this.assessment});
           else if (this.categories.procedure.acronym === section)
             this.router.navigate(['/pages/assessment/my-plans/edit/procedure'], {state: this.assessment});

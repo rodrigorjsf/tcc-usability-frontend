@@ -1,6 +1,6 @@
 <nb-card *ngIf="dataloaded | async">
   <nb-card-header>
-    <h4>Variables and Measurements Section</h4>
+    <h4>attributes and Measurements Section</h4>
   </nb-card-header>
   <nb-card-body>
     <div class="container">
@@ -20,30 +20,30 @@
                style="padding-left: 10px">
             <label class="col-lg-12"><b>{{question.title}}</b>{{question.subTitle}}</label>
             <div *ngIf="parentQuestion.key === 'VM-4'" class="container">
-              <div *ngFor="let variable of assessment.variables" class="col-lg-12 bottom-margin">
-                          <textarea *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
-                                    [(ngModel)]="variable.variables"
+              <div *ngFor="let attribute of assessment.attributes" class="col-lg-12 bottom-margin">
+                          <textarea *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                                    [(ngModel)]="attribute.variables"
                                     fullWidth nbInput
-                                    placeholder="Describe the attribule variables here" rows="2" shape="round"
+                                    placeholder="Describe the attribule attributes here" rows="2" shape="round"
                                     style="padding-left: 10px"></textarea>
-                <nb-checkbox (checkedChange)="checkUsabilityVariable($event, variable.usabilityAttribute, parentQuestion.key)"
-                             *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
-                             [checked]="verifyUsabilityVariableCheck(variable.usabilityAttribute, parentQuestion.key)"
+                <nb-checkbox (checkedChange)="checkUsabilityVariable($event, attribute.usabilityAttribute, parentQuestion.key)"
+                             *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                             [checked]="verifyUsabilityVariableCheck(attribute.usabilityAttribute, parentQuestion.key)"
                              class="padding-right"
                              status="primary" style="padding-left: 20px; padding-top: 10px">Done
                 </nb-checkbox>
               </div>
             </div>
             <div *ngIf="parentQuestion.key === 'VM-5'" class="container">
-              <div *ngFor="let variable of assessment.variables" class="col-lg-12 bottom-margin">
-                        <textarea *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
-                                  [(ngModel)]="variable.obtainedBy"
+              <div *ngFor="let attribute of assessment.attributes" class="col-lg-12 bottom-margin">
+                        <textarea *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                                  [(ngModel)]="attribute.obtainedBy"
                                   fullWidth nbInput
                                   placeholder="Describe the methods and criteria here" rows="2" shape="round"
                                   style="padding-left: 10px"></textarea>
-                <nb-checkbox (checkedChange)="checkUsabilityVariable($event, variable.usabilityAttribute, parentQuestion.key)"
-                             *ngIf="isEqual(question.objectKey, variable.usabilityAttribute)"
-                             [checked]="verifyUsabilityVariableCheck(variable.usabilityAttribute, parentQuestion.key)"
+                <nb-checkbox (checkedChange)="checkUsabilityVariable($event, attribute.usabilityAttribute, parentQuestion.key)"
+                             *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)"
+                             [checked]="verifyUsabilityVariableCheck(attribute.usabilityAttribute, parentQuestion.key)"
                              class="padding-right"
                              status="primary" style="padding-left: 20px; padding-top: 10px">Done
                 </nb-checkbox>

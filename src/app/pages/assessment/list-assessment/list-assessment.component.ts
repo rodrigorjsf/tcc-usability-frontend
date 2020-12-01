@@ -33,15 +33,15 @@ export class ListAssessmentComponent implements OnInit {
       custom: [
         {
           name: 'dashboard',
-          title: '<i class="nb-tables"></i>',
+          title: '<i style="display: flex" class="nb-tables"></i>',
         },
         {
           name: 'export',
-          title: '<i class="nb-arrow-thin-down"></i>',
+          title: '<i style="display: flex" class="nb-arrow-thin-down"></i>',
         },
         {
           name: 'delete',
-          title: '<i class="nb-trash"></i>',
+          title: '<i style="display: flex" class="nb-trash"></i>',
         },
       ],
     },
