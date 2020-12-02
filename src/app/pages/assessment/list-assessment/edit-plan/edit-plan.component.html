@@ -31,14 +31,14 @@
       <nb-card-header>
         <b>PLAN SECTIONS</b>
         <button (click)="openReviewDialog()"
-                [disabled]="isPlanNotDone() || isInReviewPhase()" class="fa-pull-right padding-right" hero nbButton
+                [disabled]="!isPlanDone() || isInReviewPhase() || !isCompletedPlan()" class="fa-pull-right padding-right" hero nbButton
                 size="medium"
                 status="success" style="margin-left:5px">
           <nb-icon
             nbTooltip="The plan must be 100% completed to be submitted for review."
             nbTooltipPlacement="top"
             nbTooltipStatus="warning"
-            [nbTooltipTrigger]="!isPlanNotDone() ? 'noop' : 'hover'"
+            [nbTooltipTrigger]="isPlanDone() ? 'noop' : 'hover'"
             icon="eye-outline"></nb-icon>
           SUBMIT REVIEW
         </button>
@@ -1228,7 +1228,7 @@
       </nb-card-body>
       <nb-card-footer>
         <div>
-          <button (click)="onFinish()" [disabled]="(isPlanNotDone() && !isAuthor) || isInReviewPhase()" class="padding-right" nbButton
+          <button (click)="onFinish()" [disabled]="(!isPlanDone() && !isAuthor) || isInReviewPhase()|| isCompletedPlan()" class="padding-right" nbButton
                   status="success">
             <b>FINISH</b>
             <nb-icon

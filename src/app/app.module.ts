@@ -33,6 +33,7 @@ import {storageSyncMetaReducer} from 'ngrx-store-persist';
 import {AssessmentService} from "./@core/auth/services/assessment.service";
 import {NoSanitizePipe} from "./services/no-sanitizer-pipe.service";
 import {ReviewService} from "./@core/auth/services/review.service";
+import {NbDateFnsDateModule} from "@nebular/date-fns";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {ReviewService} from "./@core/auth/services/review.service";
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    NbDateFnsDateModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

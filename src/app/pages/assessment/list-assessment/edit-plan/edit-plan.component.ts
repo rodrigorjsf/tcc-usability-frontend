@@ -159,6 +159,11 @@ export class EditPlanComponent implements OnInit {
     this.initProcedure();
     this.initDataCollection();
     this.initThreats();
+    console.log(this.assessment.state);
+    console.log(this.planPercentage);
+    console.log(!this.isPlanDone());
+    console.log(this.isInReviewPhase());
+    console.log(this.isCompletedPlan());
   }
 
   getApplicationAcronym() {
@@ -1238,12 +1243,16 @@ export class EditPlanComponent implements OnInit {
     this.submitTooltip = 'noop';
   }
 
-  isPlanNotDone(): boolean {
-    return this.planPercentage !== 100;
+  isPlanDone(): boolean {
+    return this.planPercentage === 100;
   }
 
   isInReviewPhase(): boolean {
-    return this.assessment.state !== 'COMPLETED' && this.assessment.state !== 'REVIEWED';
+    return this.assessment.state === 'IN_REVIEW';
+  }
+
+  isCompletedPlan(): boolean {
+    return this.assessment.state === 'COMPLETED' ||  this.assessment.state === 'REVIEWED';
   }
 
   // --------------------------- ROUTES ----------------------------
