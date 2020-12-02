@@ -3,6 +3,8 @@
 
 Projeto de desenvolvimento do módulo _frontend_ da aplicação **Usability Validation Instrument**  implementado no framework Angular com TypeScript que é um superconjunto de JavaScript, com o objetivo de prover as funcionalidades necessárias ao usuário a partir dos serviços disponibilizados pelo módulo _backend_ implementado na linguagem Java.
 
+Repositório do Back-end: [clique aqui](https://github.com/rodrigorjsf/tcc-usability-backend)
+
 ```
                     :: Usability Validation Instrument ::
 
