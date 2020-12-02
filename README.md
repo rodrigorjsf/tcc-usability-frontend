@@ -1,9 +1,7 @@
 
 # Usability Validation Instrument :: Frontend
 
-_Esse repositório é uma cópia [Original](https://github.com/allan-mlpe/experiment-planning-tool), sendo usado como base para um Trabalho de Conclusão de Curso (TCC) na Universidade Católica de Pernambuco. O objetivo é agregar novas funcionalidades voltadas a avaliação de usabilidade de uma ferramenta orientado à validade de seus resultados._
-
-Projeto de desenvolvimento do módulo _frontend_ da aplicação **PCVT Tool**  implementado no framework Angular com TypeScript que é um superconjunto de JavaScript, com o objetivo de prover as funcionalidades necessárias ao usuário a partir dos serviços disponibilizados pelo módulo _backend_ implementado na linguagem Java.
+Projeto de desenvolvimento do módulo _frontend_ da aplicação **Usability Validation Instrument**  implementado no framework Angular com TypeScript que é um superconjunto de JavaScript, com o objetivo de prover as funcionalidades necessárias ao usuário a partir dos serviços disponibilizados pelo módulo _backend_ implementado na linguagem Java.
 
 ```
                     :: Usability Validation Instrument ::
