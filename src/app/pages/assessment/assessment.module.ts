@@ -40,6 +40,7 @@ import { AddCollaboratorComponent } from './list-assessment/edit-plan/add-collab
 import { RequestReviewComponent } from './list-assessment/edit-plan/request-review/request-review.component';
 import {ReviewService} from "../../@core/auth/services/review.service";
 import { ReviewDetailComponent } from './reviewed-plan/review-detail/review-detail.component';
+import { DashboardComponent } from './list-assessment/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import { ReviewDetailComponent } from './reviewed-plan/review-detail/review-deta
     AddCollaboratorComponent,
     RequestReviewComponent,
     ReviewDetailComponent,
+    DashboardComponent,
   ],
   providers: [
     AssessmentService,

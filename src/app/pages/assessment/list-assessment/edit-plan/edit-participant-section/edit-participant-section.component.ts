@@ -18,18 +18,21 @@ import {ParticipantDTO} from "../../../../../models/dto/ParticipantDTO";
 export class EditParticipantSectionComponent implements OnInit {
 
   form: FormGroup;
-  assessment: any;
+  assessment: Assessment;
   router: Router;
   isVald = false;
   dataloaded: Promise<boolean>;
   planPercentage: number;
   data: any;
   tooltipTrigger: string;
+  newQuestions: string[] = [];
+  avaliableQuestions: any[] = [];
   instrumentQuestions = VuatConstants.PLAN_QUESTIONS;
   planAnswersConstants = VuatConstants.PLAN_ANSWER;
   categories = VuatConstants.CATEGORIES;
   genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
   selectOptions = VuatConstants.SELECT_OPTIONS;
+  participantQuestions = VuatConstants.ATTRIBUTES_QUESTIONS;
   participantDTO: ParticipantDTO;
   toast: ToastService;
 
@@ -41,7 +44,7 @@ export class EditParticipantSectionComponent implements OnInit {
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
     this.router = router;
-    this.assessment = this.router.getCurrentNavigation().extras.state;
+    this.assessment = <Assessment>this.router.getCurrentNavigation().extras.state;
   }
 
   get questions() {
@@ -53,6 +56,7 @@ export class EditParticipantSectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.participantQuestions);
     this.form = this.formBuilder.group({
       questions: this.formBuilder.array([]),
     });
@@ -62,6 +66,7 @@ export class EditParticipantSectionComponent implements OnInit {
           question: [value],
         })));
     }
+    this.loadAvaliableQuestions();
   }
 
   open(dialog: TemplateRef<any>) {
@@ -74,7 +79,13 @@ export class EditParticipantSectionComponent implements OnInit {
   }
 
   removeQuestion(i: number) {
+    const questionControl = this.form.controls.questions as FormArray;
+    const itemToRemove = questionControl.at(i).value;
+    console.log(itemToRemove);
     this.questions.removeAt(i);
+    this.assessment.participant.questions
+      .splice(this.assessment.participant.questions.indexOf(itemToRemove.question), 1);
+
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -153,6 +164,7 @@ export class EditParticipantSectionComponent implements OnInit {
     }
   }
 
+
   async onSubmit() {
     this.mountParticipant();
     console.log(this.participantDTO);
@@ -169,10 +181,24 @@ export class EditParticipantSectionComponent implements OnInit {
   }
 
   mountParticipant() {
-    console.log(this.assessment);
-    console.log(this.assessment.participant);
-    this.assessment.participant.questions = this.questions.getRawValue().map(value => value.question);
-    console.log(this.assessment);
+    if (this.assessment.participant.questions === undefined) {
+      this.assessment.participant.questions = [];
+    }
+    this.questions.getRawValue().forEach(value => {
+      if (this.assessment.participant.questions.indexOf(value.question) === -1)
+        this.assessment.participant.questions.push(value.question);
+    });
+    if (this.newQuestions !== undefined || this.newQuestions.length !== 0) {
+      this.newQuestions.forEach(value => {
+        if (this.assessment.participant.questions.indexOf(value) === -1)
+          this.assessment.participant.questions.push(value);
+      });
+    }
+    this.assessment.participant.questions = this.assessment.participant.questions
+      .filter(function (elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+    console.log(this.assessment.participant.questions);
     this.participantDTO = new ParticipantDTO(this.assessment.uid,
       this.assessment.participant.participantsQuantity,
       this.assessment.participant.participationLocalType,
@@ -183,7 +209,6 @@ export class EditParticipantSectionComponent implements OnInit {
       this.assessment.participant.instructions,
       this.assessment.participant.questions,
       this.assessment.answers.planParticipantsAnswers);
-    console.log(this.participantDTO);
   }
 
   hasNoQuestion() {
@@ -197,5 +222,19 @@ export class EditParticipantSectionComponent implements OnInit {
 
   private newQuestion(): FormGroup {
     return this.formBuilder.group({question: ['']});
+  }
+
+  print() {
+    console.log(this.assessment.participant.questions);
+  }
+
+  private loadAvaliableQuestions() {
+    console.log(this.assessment.usabilityGoals);
+    this.participantQuestions.forEach(value => {
+      this.assessment.usabilityGoals.forEach(value1 => {
+        if (value1.attribute === value.objectKey && (value1.goal !== null && value1.goal !== ''))
+          this.avaliableQuestions.push(value);
+      });
+    });
   }
 }

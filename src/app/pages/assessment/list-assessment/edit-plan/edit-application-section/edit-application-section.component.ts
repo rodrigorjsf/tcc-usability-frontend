@@ -7,6 +7,7 @@ import {ApplicationSectionDTO} from "../../../../../models/dto/ApplicationSectio
 import {AssessmentTransferDTO} from "../../../../../models/dto/AssessmentTransferDTO";
 import {NbToastrService} from "@nebular/theme";
 import {ToastService} from "../../../../../services/toastService";
+import {Assessment} from "../../../../../models/assessment";
 
 @Component({
   selector: 'ngx-edit-application-section',
@@ -15,7 +16,7 @@ import {ToastService} from "../../../../../services/toastService";
 })
 export class EditApplicationSectionComponent implements OnInit {
 
-  assessment: any;
+  assessment: Assessment;
   router: Router;
   isVald = false;
   dataloaded: Promise<boolean>;
@@ -36,7 +37,7 @@ export class EditApplicationSectionComponent implements OnInit {
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
     this.router = router;
-    this.assessment = this.router.getCurrentNavigation().extras.state;
+    this.assessment = <Assessment> this.router.getCurrentNavigation().extras.state;
   }
 
   ngOnInit() {

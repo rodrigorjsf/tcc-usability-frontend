@@ -422,31 +422,174 @@ export class VuatConstants {
     }
   ];
 
+  static readonly ATTRIBUTES_QUESTIONS: Array<any> = [
+    {
+      "objectKey": "LRN",
+      "title": "What were the hardest features to learn?"
+    }, {
+      "objectKey": "LRN",
+      "title": "Why were these features hard to learn?"
+    }, {
+      "objectKey": "LRN",
+      "title": "What were the easiest features to learn?"
+    }, {
+      "objectKey": "LRN",
+      "title": "Why were these features easy to learn?"
+    }, {
+      "objectKey": "LRN",
+      "title": "How would you change the system to make it easier to learn?"
+    }, {
+      "objectKey": "LRN",
+      "title": "Was it easy to learn how to read the available collected data?"
+    }, {
+      "objectKey": "LRN",
+      "title": "Did the descriptive metadata provide all the information needed about the collected data?"
+    }, {
+      "objectKey": "LRN",
+      "title": "Was it easy to understand the available representations of static or dinamic aspects of the city?"
+    }, {
+      "objectKey": "EFF",
+      "title": "How long did it take for you to achieve a sufficient level of proficiency to do useful work in the application?"
+    }, {
+      "objectKey": "EFF",
+      "title": "How long do you think it would take for you to achieve an expert level of proficiency in the application?"
+    }, {
+      "objectKey": "EFF",
+      "title": "What would you do to increase the maximum number of tasks per unit of time you are able to perform within the system?"
+    }, {
+      "objectKey": "EFF",
+      "title": "What is your opinion about the system performance?"
+    }, {
+      "objectKey": "EFF",
+      "title": "What were the moments in which the application showed a slow performance?"
+    }, {
+      "objectKey": "EFF",
+      "title": "Was the system slow to retrieve previously saved data?"
+    }, {
+      "objectKey": "EFF",
+      "title": "Do you think the amount of data collected by the app sensors affects negatively the system's overall performance?"
+    }, {
+      "objectKey": "EFF",
+      "title": "How would you improve the deployment of services and apps developed with the system's tools?"
+    }, {
+      "objectKey": "USR",
+      "title": "Which were the most memorable flows of execution?"
+    }, {
+      "objectKey": "USR",
+      "title": "Which flows do you find easiest to forget?"
+    }, {
+      "objectKey": "USR",
+      "title": "Which features did you use the most?"
+    }, {
+      "objectKey": "USR",
+      "title": "Do you know of any application that provides the same kind of service? Which ones?"
+    }, {
+      "objectKey": "USR",
+      "title": "To solve your problem, would you always choose this system over others? Why or why not?"
+    }, {
+      "objectKey": "USR",
+      "title": "How often would you come back to use the platform offered by the application to deploy services and apps or run apps developed with the system's tools?"
+    }, {
+      "objectKey": "USR",
+      "title": "How often would you come back to use the available representations of static or dinamic aspects of the city?"
+    }, {
+      "objectKey": "USR",
+      "title": "How often would you come back to use the components for data processing or the components for the execution of workflows?"
+    }, {
+      "objectKey": "ERR",
+      "title": "What errors did you get when using the system?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Was it possible to recover from those errors?"
+    }, {
+      "objectKey": "ERR",
+      "title": "At any point, were you forced to reboot your device or restart the application? When?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Were you able to understand what happened when the errors occured?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Do those errors make you not want to use the system?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Did you note any inconsistency on the data captured by the app sensors?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Did you get any errors while trying to access the data collected by the app sensors?"
+    }, {
+      "objectKey": "ERR",
+      "title": "Did you have any problems while using the available tools for report and data analysis? Which ones?"
+    }, {
+      "objectKey": "STF",
+      "title": "In your opinion, what was the best thing about this application?"
+    }, {
+      "objectKey": "STF",
+      "title": "In your opinion, what was the worst thing about this application?"
+    }, {
+      "objectKey": "STF",
+      "title": "What was your first impression of the application?"
+    }, {
+      "objectKey": "STF",
+      "title": "Do you think the application helped you solve your problem?"
+    }, {
+      "objectKey": "STF",
+      "title": "What would you change about this application?"
+    }, {
+      "objectKey": "STF",
+      "title": "Did you find all the information you needed within the application?"
+    }, {
+      "objectKey": "STF",
+      "title": "How would you describe the application?"
+    }, {
+      "objectKey": "STF",
+      "title": "Would you recommend this application?"
+    }, {
+      "objectKey": "STF",
+      "title": "What would you add to make the app better?"
+    }, {
+      "objectKey": "STF",
+      "title": "What would you remove to make the app better?"
+    }, {
+      "objectKey": "STF",
+      "title": "What did you think of the data visualization?"
+    }, {
+      "objectKey": "STF",
+      "title": "How would you improve the data visualization?"
+    }, {
+      "objectKey": "STF",
+      "title": "What features would you add to enhance the collected data access?"
+    }, {
+      "objectKey": "STF",
+      "title": "What features would you add to enhance the service management of the application?"
+    }, {
+      "objectKey": "STF",
+      "title": "Were you satisfied with the tools for software development available within the application?"
+    }, {
+      "objectKey": "STF",
+      "title": "Did the available representations of static or dinamic aspects of the city help you? How?"
+    }
+  ];
+
   static readonly REFERENCES: Array<any> = [
     {
       citation: "REF001",
       work: "FERRÉ, X. et al. Usability basics for software developers, 2001."
     },
-
     {
       citation: "REF002",
       work: "LEWIS, J. R. The System Usability Scale: Past, Present, and Future, 2018."
     },
-
     {
       citation: "REF003",
       work: "ERDINÇ, O.; LEWIS, J. R. Psychometric Evaluation of the T-CSUQ: The Turkish Version of the Computer System Usability Questionnaire, 2013."
     },
-
     {
       citation: "REF004",
       work: "CHIN, J.; DIEHL, V.; NORMAN, K. L. Development of an Instrument Measuring User Satisfaction of the Human-Computer Interface, 1988."
     },
-
     {
       citation: "REF005",
       work: "KIRAKOWSKI, J. The use of Questionnaire Methods for Usability Assessment, 1994."
     }
   ]
-
 }

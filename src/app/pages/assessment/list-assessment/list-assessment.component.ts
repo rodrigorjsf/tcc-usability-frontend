@@ -118,6 +118,7 @@ export class ListAssessmentComponent implements OnInit {
     if ($event.action === 'export') {
       this.openDownload($event.data);
     } else if ($event.action === 'dashboard') {
+      this.router.navigate(['/pages/assessment/my-plans/dashboard'], {state: $event.data});
     } else
       this.open(deleteQuestionDialog, $event);
   }

@@ -1,46 +1,4 @@
-<div class="row col-lg-auto" hidden>
-  <div class="col-lg-3">
-    <div class="col col-lg-12"></div>
-    <nb-card size="small">
-      <nb-card-body>
-        Application
-      </nb-card-body>
-    </nb-card>
-    <nb-card size="small">
-      <nb-card-body>
-        Goals
-      </nb-card-body>
-    </nb-card>
-  </div>
-  <div class="col-lg-3">
-    <div class="col col-lg-12"></div>
-    <nb-card size="giant">
 
-    </nb-card>
-  </div>
-  <div class="col-lg-3">
-    <div class="col col-lg-12"></div>
-    <nb-card size="small">
-
-    </nb-card>
-    <nb-card size="small">
-
-    </nb-card>
-  </div>
-  <div class="col-lg-3">
-    <div class="col col-lg-12"></div>
-    <nb-card size="giant">
-
-    </nb-card>
-  </div>
-  <div class="col-lg-12">
-    <div class="col col-lg-12"></div>
-    <nb-card size="medium" class="align-middle">
-      <nb-card-body>
-      </nb-card-body>
-    </nb-card>
-  </div>
-</div>
 
 <div *ngIf="dataloaded | async" class="container">
   <div class="col-lg-12">
@@ -588,15 +546,15 @@
                       <form class='container mt-3' formArrayName="questions">
                         <section *ngFor='let question of questions.controls; let i = index;' [formGroupName]="i">
                           <div class='row col-lg-8'>
-                            <textarea class='display-next' formControlName="question"
+                            <textarea class='display-next bottom-margin' formControlName="question"
                                       fullWidth
                                       id='input-question'
                                       name='question'
                                       nbInput
                                       placeholder='New question'
-                                      shape="round"></textarea>
+                                      shape="round" readonly></textarea>
                             <nb-icon (click)="open(deleteQuestionDialog)" class="display-next"
-                                     icon="minus-circle-outline" nbButton
+                                     icon="minus-circle-outline" nbButton hidden
                                      status="danger"></nb-icon>
                             <ng-template #deleteQuestionDialog let-data let-ref="dialogRef">
                               <nb-card accent="warning">
@@ -676,16 +634,16 @@
                           <form class='container mt-3' formArrayName="tools">
                             <section *ngFor='let tool of tools.controls; let i = index;' [formGroupName]="i">
                               <div class='row col-lg-8'>
-                            <textarea class='display-next' formControlName="tool"
+                            <textarea class='display-next bottom-margin' formControlName="tool"
                                       fullWidth
                                       id='input-tool'
                                       name='tool'
                                       nbInput
                                       placeholder='New instruments, materials, technology, or tool'
-                                      shape="round"></textarea>
+                                      shape="round" readonly></textarea>
                                 <nb-icon (click)="open(deleteToolDialog)" class="display-next"
                                          icon="minus-circle-outline" nbButton
-                                         status="danger"></nb-icon>
+                                         status="danger" hidden></nb-icon>
                                 <ng-template #deleteToolDialog let-data let-ref="dialogRef">
                                   <nb-card accent="warning">
                                     <nb-card-body>Do you really want to remove the tool?</nb-card-body>
@@ -729,16 +687,16 @@
                           <form class='container mt-3' formArrayName="tasks">
                             <section *ngFor='let task of tasks.controls; let i = index;' [formGroupName]="i">
                               <div *ngIf="parentQuestion.key === 'TM-15'" class='row col-lg-8'>
-                                <textarea class='display-next' formControlName="description"
+                                <textarea class='display-next bottom-margin' formControlName="description"
                                           fullWidth
                                           id='input-task-description'
                                           name='task-description'
                                           nbInput
                                           placeholder='Describe the task'
-                                          shape="round"></textarea>
+                                          shape="round" readonly></textarea>
                                 <nb-icon (click)="open(deleteTaskDialog)" class="display-next"
                                          icon="minus-circle-outline" nbButton
-                                         status="danger"></nb-icon>
+                                         status="danger" hidden></nb-icon>
                                 <ng-template #deleteTaskDialog let-data let-ref="dialogRef">
                                   <nb-card accent="warning">
                                     <nb-card-body>Do you really want to remove the task?</nb-card-body>
@@ -759,7 +717,7 @@
                                        id='input-edit-task-execution'
                                        name='task-execution'
                                        nbInput
-                                       placeholder='Insert the task execution time (in minutes)'>
+                                       placeholder='Insert the task execution time (in minutes)' readonly>
                               </div>
                               <div *ngIf="parentQuestion.key === 'TM-17'" class='row col-lg-12'>
                                 <label>{{i + 1}}. {{getTaskDescription(i)}}</label>
@@ -768,7 +726,7 @@
                                        id='input-task-acceptance-criteria'
                                        name='task-acceptance-criteria'
                                        nbInput
-                                       placeholder='Insert the task acceptance criteria'>
+                                       placeholder='Insert the task acceptance criteria' readonly>
                               </div>
                             </section>
                           </form>
@@ -903,18 +861,18 @@
                                         nbInput
                                         placeholder='Step title'
                                         shape="round"
-                                        style="margin-bottom: 10px"></textarea>
+                                        style="margin-bottom: 10px" readonly></textarea>
                               <label>Step Description:</label>
-                              <textarea class='display-next' formControlName="description"
+                              <textarea class='display-next bottom-margin' formControlName="description"
                                         fullWidth
                                         id='input-step-description'
                                         name='step-description'
                                         nbInput
                                         placeholder='Step description'
-                                        shape="round"></textarea>
+                                        shape="round" readonly></textarea>
                               <nb-icon (click)="open(deleteStepDialog)" class="display-next" icon="minus-circle-outline"
                                        nbButton
-                                       status="danger"></nb-icon>
+                                       status="danger" hidden></nb-icon>
                               <ng-template #deleteStepDialog let-data let-ref="dialogRef">
                                 <nb-card accent="warning">
                                   <nb-card-body>Do you really want to remove the step?</nb-card-body>
@@ -1128,17 +1086,17 @@
                         <form class='container mt-3' formArrayName="threats">
                           <section *ngFor='let threat of threats.controls; let i = index;' [formGroupName]="i">
                             <div class='row col-lg-12'>
-                              <textarea [placeholder]="question.placeholder" class='display-next'
+                              <textarea [placeholder]="question.placeholder" class='display-next bottom-margin'
                                         formControlName="threat"
                                         fullWidth
                                         id='input-threat'
                                         name='threat'
                                         nbInput
                                         shape="round"
-                                        style="margin-bottom: 10px"></textarea>
+                                        style="margin-bottom: 10px" readonly></textarea>
                               <nb-icon (click)="open(deleteTreatDialog)" class="display-next"
                                        icon="minus-circle-outline" nbButton
-                                       status="danger"></nb-icon>
+                                       status="danger" hidden></nb-icon>
                               <ng-template #deleteTreatDialog let-data let-ref="dialogRef">
                                 <nb-card accent="warning">
                                   <nb-card-body>Do you really want to remove the threat?</nb-card-body>
@@ -1181,17 +1139,17 @@
                         <form class='container mt-3' formArrayName="limitations">
                           <section *ngFor='let limitation of limitations.controls; let i = index;' [formGroupName]="i">
                             <div class='row col-lg-12'>
-                              <textarea [placeholder]="question.placeholder" class='display-next'
+                              <textarea [placeholder]="question.placeholder" class='display-next bottom-margin'
                                         formControlName="limitation"
                                         fullWidth
                                         id='input-limitation'
                                         name='limitation'
                                         nbInput
                                         shape="round"
-                                        style="margin-bottom: 10px"></textarea>
+                                        style="margin-bottom: 10px" readonly></textarea>
                               <nb-icon (click)="open(deleteTreatDialog)" class="display-next"
                                        icon="minus-circle-outline" nbButton
-                                       status="danger"></nb-icon>
+                                       status="danger" hidden></nb-icon>
                               <ng-template #deleteTreatDialog let-data let-ref="dialogRef">
                                 <nb-card accent="warning">
                                   <nb-card-body>Do you really want to remove the threat?</nb-card-body>

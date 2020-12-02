@@ -17,6 +17,7 @@ import {EditThreatSectionComponent} from "./list-assessment/edit-plan/edit-threa
 import {NewCollaboratorComponent} from "./new-collaborator/new-collaborator.component";
 import {AddCollaboratorComponent} from "./list-assessment/edit-plan/add-collaborator/add-collaborator.component";
 import {ReviewDetailComponent} from "./reviewed-plan/review-detail/review-detail.component";
+import {DashboardComponent} from "./list-assessment/dashboard/dashboard.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: 'my-plans',
         component: ListAssessmentComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'my-plans/dashboard',
+        component: DashboardComponent,
         canActivate: [AdminGuard],
       },
       {
