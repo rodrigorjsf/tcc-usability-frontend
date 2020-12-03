@@ -1,9 +1,15 @@
-<div class="row col-lg-auto turn-flex" >
+<div class="row col-lg-auto turn-flex">
+  <div class="col-lg-12 bottom-margin">
+    <button (click)='back()' nbButton status='info'>
+      <nb-icon icon='arrow-back-outline'></nb-icon>
+      <b>BACK</b>
+    </button>
+  </div>
   <div class="col-lg-3">
     <label>Project Name</label>
     <nb-card size="tiny" style="height: 60px;">
       <nb-card-body>
-        Usability Validation Instrument
+        {{assessment.projectName}}
       </nb-card-body>
     </nb-card>
   </div>
@@ -11,7 +17,7 @@
     <label>Project Description</label>
     <nb-card size="tiny" style="height: 60px;">
       <nb-card-body>
-        Usability Validation Instrument - A instrument capable of assisting researchers in developing usability assessment plans for smart city applications.
+        {{assessment.projectDescription}}
       </nb-card-body>
     </nb-card>
   </div>
@@ -19,7 +25,7 @@
     <label>Date</label>
     <nb-card size="tiny" style="height: 60px;">
       <nb-card-body class="text-center">
-        20 / 11 / 2020
+        {{formatedDate()}}
       </nb-card-body>
     </nb-card>
   </div>
@@ -27,42 +33,233 @@
     <nb-card size="giant">
       <nb-card-header class="text-center">Is it a Smart City application?</nb-card-header>
       <nb-card-body>
-
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(getApplicationAcronym()).parentQuestions; let i = index;">
+          <div class="row" *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+               style="padding-left: 10px">
+            <div *ngIf="question.title.includes('1.1') === false && question.title.includes('1.2') === false">
+              <label style="font-size: 90%" *ngIf="question.objKey != 'PERC'; else percentage;"
+              ><b>{{removeNumberString(question.title)}}</b></label>
+              <ng-template #percentage>
+                <div *ngIf="!isNull(assessment.smartCityPercentage)" class="col-lg-12 bottom-margin">
+                  <label style="font-size: 90%" class="vertical-center"><b>{{question.title}}</b></label>
+                  <h6 style="padding-left: 10px; color: #3c763d">{{assessment.smartCityPercentage}}%</h6>
+                </div>
+                <hr class="solid">
+              </ng-template>
+              <div class="container" style="padding-left: 10px">
+                <div *ngIf="isDataManagement(question.objKey);">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+                <div *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;">
+                  <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
+                  <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
+                  <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    SELECTED</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </nb-card-body>
     </nb-card>
   </div>
   <div class="col-lg-3">
     <nb-card size="giant">
       <nb-card-header class="text-center">Assessment goals</nb-card-header>
+      <nb-card-body>
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.goals.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+          </div>
+          <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+               style="padding-left: 10px">
+            <label class="col-lg-12"><b>{{removeNumberString(question.title)}}</b></label>
 
+            <div *ngFor="let usabilityGoal of assessment.usabilityGoals" class="col-lg-12">
+              <div style="padding-left: 10px" *ngIf="isEqual(question.objectKey, usabilityGoal.attribute);">
+                <p *ngIf="!isNullOrUndefined(usabilityGoal.goal)">{{usabilityGoal.goal}}</p>
+                <p *ngIf="isNullOrUndefined(usabilityGoal.goal);" class="red-color-text">N/A</p>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </nb-card-body>
     </nb-card>
   </div>
-  <div class="col-lg-3">
+  <div class="col-lg-4">
     <nb-card size="giant">
       <nb-card-header class="text-center">Variables and measurement</nb-card-header>
-
+      <nb-card-body>
+        <div
+          *ngFor="let parentQuestion of getCharacterizationQuestionsObject(categories.variables.acronym).parentQuestions; let i = index;">
+          <div class="col-lg-12 row">
+            <p *ngIf="parentQuestion.key === 'VM-4'"
+               class="col-lg-12 bottom-margin padding-right"><b>Which variables will be measured during the
+              assessment?</b></p>
+            <p *ngIf="parentQuestion.key === 'VM-5'"
+               class="col-lg-12 bottom-margin padding-right"><b>How will the listed variables be obtained?</b></p>
+          </div>
+          <div *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
+               style="padding-left: 10px">
+            <label class="col-lg-12"><b>{{question.title}}</b></label>
+            <div *ngIf="parentQuestion.key === 'VM-4'" class="container">
+              <div *ngFor="let attribute of assessment.attributes" class="col-lg-12">
+                <div style="padding-left: 10px" *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)">
+                  <p *ngIf="!isNullOrUndefined(attribute.variables)">{{attribute.variables}}</p>
+                  <p *ngIf="isNullOrUndefined(attribute.variables);" class="red-color-text">N/A</p>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="parentQuestion.key === 'VM-5'" class="container">
+              <div *ngFor="let attribute of assessment.attributes" class="col-lg-12">
+                <div style="padding-left: 10px" *ngIf="isEqual(question.objectKey, attribute.usabilityAttribute)">
+                  <p *ngIf="!isNullOrUndefined(attribute.obtainedBy)">{{attribute.obtainedBy}}</p>
+                  <p *ngIf="isNullOrUndefined(attribute.obtainedBy);" class="red-color-text">N/A</p>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <hr *ngIf="parentQuestion.key === 'VM-4'" class="solid">
+        </div>
+      </nb-card-body>
     </nb-card>
   </div>
-  <div class="col-lg-3">
+  <div class="col-lg-2">
     <nb-card size="giant">
       <nb-card-header class="text-center">Scales</nb-card-header>
-
-    </nb-card>
-  </div>
-  <div class="col-lg-12">
-    <div class="col col-lg-12"></div>
-    <nb-card size="small" class="align-middle">
-      <nb-card-header class="text-center">Participants</nb-card-header>
       <nb-card-body>
+        <div *ngFor="let scale of assessment.scale;">
+          <nb-action [nbTooltip]="scale.description"
+                     class="button-space text-center bottom-margin"
+                     nbButton
+                     nbTooltipPlacement="right" nbTooltipStatus="info" status="info">{{scale.name}}
+            <br>({{scale.acronym}})
+          </nb-action>
+        </div>
       </nb-card-body>
     </nb-card>
   </div>
   <div class="col-lg-12">
-    <div class="col col-lg-12"></div>
-    <nb-card size="small" class="align-middle">
+    <nb-card size="medium" class="align-middle">
+      <nb-card-header class="text-center">Participants</nb-card-header>
+      <nb-card-body class="row col-lg-12">
+        <div class="col col-lg-2">
+          <label><b>How many participants?</b></label>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.participantsQuantity)"
+             style="padding-left: 10px"
+             class="bottom-margin-light">{{this.assessment.participant.participantsQuantity }} people</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.participantsQuantity)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          <label><b>Will it be an in-person or a remote participation?</b></label>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.participationLocalType)"
+             style="padding-left: 10px" class="bottom-margin-light">
+            {{this.assessment.participant.participationLocalType === 'R' ? 'REMOTE' : 'IN PERSON' }}</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.participationLocalType)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          <label><b>Form of compensation:</b></label>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.compensationDescription)"
+             style="padding-left: 10px" class="bottom-margin-light">
+            {{this.assessment.participant.compensationDescription}}</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.compensationDescription)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+        </div>
+        <div class="col col-lg-4">
+          <label><b>Will a demographic questionnaire be used to collect information from the participants?</b></label>
+          <p
+            *ngIf="!isNullOrUndefined(this.assessment.participant.hasCollectedInformation) && this.assessment.participant.hasCollectedInformation"
+            style="padding-left: 10px" class="bottom-margin-light">YES</p>
+          <p
+            *ngIf="!isNullOrUndefined(this.assessment.participant.hasCollectedInformation) && !this.assessment.participant.hasCollectedInformation"
+            style="padding-left: 10px" class="bottom-margin-light">NO</p>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.collectedInformationUse)"
+             style="padding-left: 10px"
+             class="bottom-margin-light">{{this.assessment.participant.collectedInformationUse }}</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.participantsQuantity)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          <label><b>List the eligibility criteria for the participants:</b></label>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.criteria)"
+             style="padding-left: 10px" class="bottom-margin-light">{{this.assessment.participant.criteria }}</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.criteria)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+        </div>
+        <div class="col col-lg-3">
+          <label><b>Explain the instructions to be given to the participants:</b></label>
+          <p *ngIf="!isNullOrUndefined(this.assessment.participant.instructions)"
+             style="padding-left: 10px" class="bottom-margin-light">{{this.assessment.participant.instructions}}</p>
+          <p *ngIf="isNullOrUndefined(this.assessment.participant.instructions)"
+             style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+        </div>
+        <div class="col col-lg-3">
+          <label><b>List the questions that will be asked to the participants:</b></label>
+          <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
+            <p *ngFor="let question of assessment.participant.questions"
+               style="padding-left: 10px" class="bottom-margin-light">{{question}}</p>
+          </div>
+          <div *ngIf="isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
+            <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-12">
+    <nb-card size="large" class="align-middle">
       <nb-card-header class="text-center">Procedure</nb-card-header>
       <nb-card-body>
-        <div class="turn-flex" [ngStyle]="{backgroundImage:'url(./procedure_arrow.png)'}"></div>
+        <div class="col-lg-12">
+
+        </div>
+        <div [ngStyle]="{backgroundImage:'url(https://cadeira-spring-react.s3-sa-east-1.amazonaws.com/procedure_arrow.png)'}"></div>
       </nb-card-body>
     </nb-card>
   </div>

@@ -31,6 +31,7 @@ export class Assessment {
   scale: Scale[];
   userProfile: string;
   state: string;
+  creationDate: Date;
 
   constructor() {
   }
