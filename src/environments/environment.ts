@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8084/api',
+  baseUrl: 'https://usavalins-backend.herokuapp.com/api',
 };

@@ -1,38 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import {AssessmentService} from "../../../../@core/auth/services/assessment.service";
-import {ReviewService} from "../../../../@core/auth/services/review.service";
-import {QuestionService} from "../../../../@core/auth/services/question.service";
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {NbDialogService, NbToastrService} from "@nebular/theme";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../../store";
-import {ToastService} from "../../../../services/toastService";
-import {selectUser} from "../../../../store/modules/user/user.selectors";
-import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
-import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
-import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
-import {Assessment} from "../../../../models/assessment";
+import {Component, OnInit} from '@angular/core';
+import {AssessmentService} from '../../../../@core/auth/services/assessment.service';
+import {ReviewService} from '../../../../@core/auth/services/review.service';
+import {QuestionService} from '../../../../@core/auth/services/question.service';
+import {Router} from '@angular/router';
+import {FormGroup} from '@angular/forms';
+import {NbDialogService, NbToastrService} from '@nebular/theme';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../../store';
+import {ToastService} from '../../../../services/toastService';
+import {selectUser} from '../../../../store/modules/user/user.selectors';
+import {SectionUpdateRequestDTO} from '../../../../models/dto/SectionUpdateRequestDTO';
+import {SectionControlRequestDTO} from '../../../../models/dto/SectionControlRequestDTO';
+import {SectionControlResponseDTO} from '../../../../models/dto/SectionControlResponseDTO';
+import {Assessment} from '../../../../models/assessment';
 import {
-  AssessmentData,
-  AssessmentProcedure, AssessmentThreat,
-  AssessmentTools,
   Attribute,
   Participant,
   Scale,
   SmartCityQuestionnaire,
-  UsabilityGoal
-} from "../../../../models/AssessmentSections";
-import {ReviewRequestDTO} from "../../../../models/dto/ReviewRequestDTO";
-import {VuatConstants} from "../../../../models/constants/vuat-constants";
-import {format} from "date-fns";
-import {type} from "os";
-import {PlanAnswers} from "../../../../models/assessment-answers";
+  UsabilityGoal,
+} from '../../../../models/AssessmentSections';
+import {ReviewRequestDTO} from '../../../../models/dto/ReviewRequestDTO';
+import {VuatConstants} from '../../../../models/constants/vuat-constants';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'ngx-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
 
