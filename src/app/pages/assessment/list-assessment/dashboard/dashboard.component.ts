@@ -1,38 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import {AssessmentService} from "../../../../@core/auth/services/assessment.service";
-import {ReviewService} from "../../../../@core/auth/services/review.service";
-import {QuestionService} from "../../../../@core/auth/services/question.service";
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {NbDialogService, NbToastrService} from "@nebular/theme";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../../store";
-import {ToastService} from "../../../../services/toastService";
-import {selectUser} from "../../../../store/modules/user/user.selectors";
-import {SectionUpdateRequestDTO} from "../../../../models/dto/SectionUpdateRequestDTO";
-import {SectionControlRequestDTO} from "../../../../models/dto/SectionControlRequestDTO";
-import {SectionControlResponseDTO} from "../../../../models/dto/SectionControlResponseDTO";
-import {Assessment} from "../../../../models/assessment";
+import {Component, OnInit} from '@angular/core';
+import {AssessmentService} from '../../../../@core/auth/services/assessment.service';
+import {ReviewService} from '../../../../@core/auth/services/review.service';
+import {QuestionService} from '../../../../@core/auth/services/question.service';
+import {Router} from '@angular/router';
+import {FormGroup} from '@angular/forms';
+import {NbDialogService, NbToastrService} from '@nebular/theme';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../../store';
+import {ToastService} from '../../../../services/toastService';
+import {selectUser} from '../../../../store/modules/user/user.selectors';
+import {SectionUpdateRequestDTO} from '../../../../models/dto/SectionUpdateRequestDTO';
+import {SectionControlRequestDTO} from '../../../../models/dto/SectionControlRequestDTO';
+import {SectionControlResponseDTO} from '../../../../models/dto/SectionControlResponseDTO';
+import {Assessment} from '../../../../models/assessment';
 import {
   AssessmentData,
-  AssessmentProcedure, AssessmentThreat,
-  AssessmentTools,
+  AssessmentProcedure, AssessmentThreat, AssessmentTools,
   Attribute,
   Participant,
   Scale,
   SmartCityQuestionnaire,
-  UsabilityGoal
-} from "../../../../models/AssessmentSections";
-import {ReviewRequestDTO} from "../../../../models/dto/ReviewRequestDTO";
-import {VuatConstants} from "../../../../models/constants/vuat-constants";
-import {format} from "date-fns";
-import {type} from "os";
-import {PlanAnswers} from "../../../../models/assessment-answers";
+  UsabilityGoal,
+} from '../../../../models/AssessmentSections';
+import {ReviewRequestDTO} from '../../../../models/dto/ReviewRequestDTO';
+import {VuatConstants} from '../../../../models/constants/vuat-constants';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'ngx-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
 
@@ -97,6 +94,10 @@ export class DashboardComponent implements OnInit {
     this.initGoals();
     this.initAssessmentAttribute();
     this.initParticipants();
+    this.initProcedure();
+    this.initAssessmentTools();
+    this.initDataCollection();
+    this.initThreats();
   }
 
   isEqual(var1: any, var2: any): boolean {
@@ -119,12 +120,24 @@ export class DashboardComponent implements OnInit {
     return obj === this.smartCityCategories.dataManagement.acronym;
   }
 
+  isNullOrUndefinedOrFalse(object: any): boolean {
+    return object === false || object === null || object === undefined;
+  }
+
+  isNullOrUndefinedOrTrue(object: any): boolean {
+    return object === true || object === null || object === undefined;
+  }
+
   removeNumberString(text: string): string {
     return text.replace(/[0-9]/g, '').split('.').join('').trim();
   }
 
   formatedDate(): string {
     return format(new Date(this.assessment.creationDate), 'yyyy-MM-dd');
+  }
+
+  formatDate(date: any): string {
+    return format(new Date(date), 'yyyy-MM-dd');
   }
 
   isFirstQuestion(obj: string): boolean {
@@ -172,6 +185,22 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  initAssessmentTools() {
+    if (this.isNullOrUndefined(this.assessment.assessmentTools)) {
+      this.assessment.assessmentTools = new AssessmentTools();
+    }
+  }
+
+  initDataCollection() {
+    if (this.isNullOrUndefined(this.assessment.assessmentData))
+      this.assessment.assessmentData = new AssessmentData();
+  }
+
+  initThreats() {
+    if (this.isNullOrUndefined(this.assessment.assessmentThreat))
+      this.assessment.assessmentThreat = new AssessmentThreat();
+  }
+
   initAssessmentAttribute() {
     if (this.isNullOrUndefined(this.assessment.attributes) || this.assessment.attributes.length === 0) {
       this.usabilityAtributes.forEach(value => this.assessment.attributes.push(new Attribute(value)));
@@ -196,6 +225,11 @@ export class DashboardComponent implements OnInit {
         exist = false;
       });
     }
+  }
+
+  initProcedure() {
+    if (this.isNullOrUndefined(this.assessment.assessmentProcedure))
+      this.assessment.assessmentProcedure = new AssessmentProcedure();
   }
 
   initParticipants() {

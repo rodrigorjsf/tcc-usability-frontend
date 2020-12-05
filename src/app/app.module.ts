@@ -34,6 +34,7 @@ import {AssessmentService} from "./@core/auth/services/assessment.service";
 import {NoSanitizePipe} from "./services/no-sanitizer-pipe.service";
 import {ReviewService} from "./@core/auth/services/review.service";
 import {NbDateFnsDateModule} from "@nebular/date-fns";
+import {NbMomentDateModule} from "@nebular/moment";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {NbDateFnsDateModule} from "@nebular/date-fns";
     HttpClientModule,
     AppRoutingModule,
     NbDateFnsDateModule,
+    NbMomentDateModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

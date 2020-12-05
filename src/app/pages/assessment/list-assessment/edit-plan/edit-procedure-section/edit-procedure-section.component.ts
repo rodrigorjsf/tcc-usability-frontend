@@ -19,7 +19,7 @@ import {format} from 'date-fns';
 export class EditProcedureSectionComponent implements OnInit {
 
   form: FormGroup;
-  assessment: any;
+  assessment: Assessment;
   router: Router;
   isVald = false;
   dataloaded: Promise<boolean>;
@@ -34,6 +34,7 @@ export class EditProcedureSectionComponent implements OnInit {
   genericSelectOptions = VuatConstants.GENERIC_SELECT_OPTIONS;
   assessmentProcedureDTO: AssessmentProcedureDTO;
   toast: ToastService;
+  atualDate: any;
 
   constructor(private assessmentService: AssessmentService,
               private questionService: QuestionService,
@@ -43,7 +44,7 @@ export class EditProcedureSectionComponent implements OnInit {
               private toastrService: NbToastrService) {
     this.toast = new ToastService(toastrService);
     this.router = router;
-    this.assessment = this.router.getCurrentNavigation().extras.state;
+    this.assessment = <Assessment>this.router.getCurrentNavigation().extras.state;
   }
 
   get steps() {
@@ -58,10 +59,19 @@ export class EditProcedureSectionComponent implements OnInit {
       this.assessment.assessmentProcedure.assessmentProcedureSteps.map(value =>
         this.steps.push(this.formBuilder.group({name: [value.name], description: [value.description]})));
     }
+    this.atualDate = this.assessment.assessmentProcedure.occurDate;
   }
 
   getApplicationAcronym() {
     return this.categories.application.acronym;
+  }
+
+  validateDate(): boolean {
+    if (this.atualDate === this.assessment.assessmentProcedure.occurDate) {
+      return true;
+    }
+    this.atualDate = this.assessment.assessmentProcedure.occurDate;
+    return false;
   }
 
   getCharacterizationQuestionsObject(key: string): any {
@@ -174,7 +184,8 @@ export class EditProcedureSectionComponent implements OnInit {
   mountProcedure() {
     this.assessmentProcedureDTO = new AssessmentProcedureDTO(
       this.assessment.uid,
-      format(this.assessment.assessmentProcedure.occurDate, 'yyyy-MM-dd'),
+      this.validateDate() ? this.assessment.assessmentProcedure.occurDate.toString() :
+        format(this.assessment.assessmentProcedure.occurDate, 'yyyy-MM-dd'),
       this.assessment.assessmentProcedure.occurLocal,
       this.assessment.assessmentProcedure.occurDetail,
       this.assessment.assessmentProcedure.occurTime,

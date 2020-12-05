@@ -1,53 +1,109 @@
-.turn-flex {
-  display: flex;
-}
+.dashboard {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  max-height: 100%;
+  overflow-y: scroll;
+  grid-template-columns: 10% 90%;
+  grid-template-rows: 2.5% minmax(auto, 30%) minmax(auto, 30%) minmax(auto, 30%) minmax(auto, 40%);
+  grid-row-gap: 0.5%;
+  grid-template-areas:
+    'button .'
+    'project-info project-info'
+    'assessments assessments'
+    'participants participants'
+    'procedure procedure'
+    'analytics analytics';
+;
 
-.red-color-text {
-  color: #FF0000;
-}
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 
-.bottom-margin {
-  margin-bottom: 30px;
-}
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-.bottom-margin-light {
-  margin-bottom: 15px;
-}
+  &__project-info,
+  &__assessments,
+  &__analytics {
+    display: grid;
+    width: 100%;
+  }
 
-.top-margin-checkbox {
-  margin-top: 5px;
-}
+  &__project-info {
+    grid-area: project-info;
+    grid-template-columns: 25% 55% 15%;
+    grid-column-gap: 2.5%;
+    grid-template-areas: 'project-name project-description date';
+  }
 
-.top-margin {
-  margin-top: 30px;
-}
+  &__assessments {
+    grid-area: assessments;
+    grid-template-columns: 25% 25% 34% 10%;
+    grid-column-gap: 2%;
+    grid-template-areas: 'is-smart goals variables-and-measurement scales';
+  }
 
-.padding-right {
-  float: right;
-}
+  &__analytics {
+    grid-area: analytics;
+    grid-template-columns: 35% 26% 35%;
+    grid-column-gap: 2%;
+    justify-content: space-evenly;
+    grid-template-areas: 'tasks-and-materials data-collection-and-analysis threats';
+  }
 
-.vertical-center {
-  margin: auto;
-  width: 50%;
-  float: left;
-}
+  &__button {
+    grid-area: button;
+    max-width: 100%;
+  }
 
-.teste {
-  float: left;
-}
+  &__project-name {
+    grid-area: project-name;
+    max-width: 100%;
+  }
 
-nb-checkbox:not(:only-child) {
-  margin-right: 1.5rem;
-}
+  &__project-description {
+    grid-area: project-description;
+    max-width: 100%;
+  }
 
-.my-tooltip {
-  white-space: pre-line;
-}
+  &__date {
+    grid-area: date;
+  }
 
-hr.solid {
-  border-top: 3px solid #bbb;
-}
+  &__is-smart {
+    grid-area: is-smart;
+  }
 
-.button-space {
-  margin-left: 15px;
+  &__goals {
+    grid-area: goals;
+  }
+
+  &__variables-and-measurement {
+    grid-area: variables-and-measurement;
+  }
+
+  &__scales {
+    grid-area: scales;
+  }
+
+  &__participants {
+    grid-area: participants;
+  }
+
+  &__procedure {
+    grid-area: procedure;
+  }
+
+  &__tasks-and-materials {
+    grid-area: tasks-and-materials;
+  }
+
+  &__data-collection-and-analysis {
+    grid-area: data-collection-and-analysis;
+  }
+
+  &__threats {
+    grid-area: threats;
+  }
 }
