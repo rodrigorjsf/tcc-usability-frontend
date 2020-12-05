@@ -14,6 +14,7 @@ import {SectionControlRequestDTO} from '../../../../models/dto/SectionControlReq
 import {SectionControlResponseDTO} from '../../../../models/dto/SectionControlResponseDTO';
 import {Assessment} from '../../../../models/assessment';
 import {
+  AssessmentProcedure,
   Attribute,
   Participant,
   Scale,
@@ -92,6 +93,7 @@ export class DashboardComponent implements OnInit {
     this.initGoals();
     this.initAssessmentAttribute();
     this.initParticipants();
+    this.initProcedure();
   }
 
   isEqual(var1: any, var2: any): boolean {
@@ -114,12 +116,24 @@ export class DashboardComponent implements OnInit {
     return obj === this.smartCityCategories.dataManagement.acronym;
   }
 
+  isNullOrUndefinedOrFalse(object: any): boolean {
+    return object === false || object === null || object === undefined;
+  }
+
+  isNullOrUndefinedOrTrue(object: any): boolean {
+    return object === true || object === null || object === undefined;
+  }
+
   removeNumberString(text: string): string {
     return text.replace(/[0-9]/g, '').split('.').join('').trim();
   }
 
   formatedDate(): string {
     return format(new Date(this.assessment.creationDate), 'yyyy-MM-dd');
+  }
+
+  formatDate(date: any): string {
+    return format(new Date(date), 'yyyy-MM-dd');
   }
 
   isFirstQuestion(obj: string): boolean {
@@ -191,6 +205,11 @@ export class DashboardComponent implements OnInit {
         exist = false;
       });
     }
+  }
+
+  initProcedure() {
+    if (this.isNullOrUndefined(this.assessment.assessmentProcedure))
+      this.assessment.assessmentProcedure = new AssessmentProcedure();
   }
 
   initParticipants() {

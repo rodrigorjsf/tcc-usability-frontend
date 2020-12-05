@@ -31,7 +31,7 @@
   </section>
   <section class="dashboard__assessments">
     <div class="dashboard__is-smart">
-      <nb-card size="giant">
+      <nb-card accent="success" size="giant">
         <nb-card-header class="text-center">Is it a Smart City application?</nb-card-header>
         <nb-card-body>
           <div
@@ -39,8 +39,8 @@
             <div class="row" *ngFor="let question of parentQuestion.questions" class="container col-lg-12"
                  style="padding-left: 10px">
               <div *ngIf="question.title.includes('1.1') === false && question.title.includes('1.2') === false">
-                <label style="font-size: 90%" *ngIf="question.objKey != 'PERC'; else percentage;"
-                ><b>{{removeNumberString(question.title)}}</b></label>
+                <label style="font-size: 90%" *ngIf="question.objKey != 'PERC'; else percentage;">
+                  <b>{{removeNumberString(question.title)}}</b></label>
                 <ng-template #percentage>
                   <div *ngIf="!isNull(assessment.smartCityPercentage)" class="col-lg-12 bottom-margin">
                     <label style="font-size: 90%" class="vertical-center"><b>{{question?.title}}</b></label>
@@ -113,7 +113,7 @@
       </nb-card>
     </div>
     <div class="dashboard__goals">
-      <nb-card size="giant">
+      <nb-card accent="success" size="giant">
         <nb-card-header class="text-center">Assessment goals</nb-card-header>
         <nb-card-body>
           <div
@@ -137,7 +137,7 @@
       </nb-card>
     </div>
     <div class="dashboard__variables-and-measurement">
-      <nb-card size="giant">
+      <nb-card accent="success" size="giant">
         <nb-card-header class="text-center">Variables and measurement</nb-card-header>
         <nb-card-body>
           <div
@@ -176,7 +176,7 @@
       </nb-card>
     </div>
     <div class="dashboard__scales">
-      <nb-card size="giant">
+      <nb-card accent="success" size="giant">
         <nb-card-header class="text-center">Scales</nb-card-header>
         <nb-card-body>
           <div *ngFor="let scale of assessment.scale;">
@@ -192,7 +192,7 @@
     </div>
   </section>
   <div class="dashboard__participants">
-    <nb-card size="medium" class="align-middle">
+    <nb-card accent="success" size="medium" class="align-middle">
       <nb-card-header class="text-center">Participants</nb-card-header>
       <nb-card-body class="row col-lg-12">
         <div class="col col-lg-2">
@@ -255,13 +255,70 @@
     </nb-card>
   </div>
   <div class="dashboard__procedure">
-    <nb-card size="large" class="align-middle">
+    <nb-card accent="success" size="large" class="align-middle">
       <nb-card-header class="text-center">Procedure</nb-card-header>
       <nb-card-body>
-        <div class="col-lg-12">
+        <div style="display: flex; height: 45%" class="row col-lg-12">
+          <div class="col-lg-2">
+            <label><b>When will it occur?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.occurDate)"
+              style="padding-left: 10px"
+              class="bottom-margin-light">{{formatDate(assessment.assessmentProcedure.occurDate)}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.occurDate)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            <label><b>How much time will it require?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.occurTime)"
+              style="padding-left: 10px" class="bottom-margin-light">{{assessment.assessmentProcedure.occurTime}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.occurTime)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          </div>
+          <div class="col-lg-3">
+            <label><b>Where will it occur?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.occurLocal)"
+              style="padding-left: 10px" class="bottom-margin-light">{{assessment.assessmentProcedure.occurLocal}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.occurLocal)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          </div>
+          <div class="col-lg-3">
+            <label><b>How will it occur?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.occurDetail)"
+              style="padding-left: 10px" class="bottom-margin-light">{{assessment.assessmentProcedure.occurDetail}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.occurDetail)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          </div>
+          <div class="col-lg-4">
+            <label><b>Will there be a pilot assessment?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.isPilotAssessment) && this.assessment.assessmentProcedure.isPilotAssessment"
+              style="padding-left: 10px" class="bottom-margin-light">YES</p>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.isPilotAssessment) && !this.assessment.assessmentProcedure.isPilotAssessment"
+              style="padding-left: 10px" class="bottom-margin-light">NO</p>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.pilotDescription)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentProcedure.pilotDescription }}</p>
+          </div>
 
         </div>
-        <div [ngStyle]="{backgroundImage:'url(https://cadeira-spring-react.s3-sa-east-1.amazonaws.com/procedure_arrow.png)'}"></div>
+        <hr class="solid">
+        <div style="justify-content: center; height: 45%" class="row col-lg-12">
+          <nb-card accent="info" *ngFor="let step of assessment.assessmentProcedure.assessmentProcedureSteps; let i = index;"
+                   class="col-lg-2" style="margin-right: 15px"
+                   nbTooltip="Description: {{step.description}}" nbTooltipStatus="control">
+            <nb-card-header class="text-center">
+              Step {{i}}
+            </nb-card-header>
+            <nb-card-body style="display: flex; align-items: center; justify-items: center">
+              {{step.name}}
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div
+          [ngStyle]="{backgroundImage:'url(https://cadeira-spring-react.s3-sa-east-1.amazonaws.com/procedure_arrow.png)'}"></div>
       </nb-card-body>
     </nb-card>
   </div>
