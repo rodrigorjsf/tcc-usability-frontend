@@ -14,7 +14,8 @@ import {SectionControlRequestDTO} from '../../../../models/dto/SectionControlReq
 import {SectionControlResponseDTO} from '../../../../models/dto/SectionControlResponseDTO';
 import {Assessment} from '../../../../models/assessment';
 import {
-  AssessmentProcedure,
+  AssessmentData,
+  AssessmentProcedure, AssessmentThreat, AssessmentTools,
   Attribute,
   Participant,
   Scale,
@@ -94,6 +95,9 @@ export class DashboardComponent implements OnInit {
     this.initAssessmentAttribute();
     this.initParticipants();
     this.initProcedure();
+    this.initAssessmentTools();
+    this.initDataCollection();
+    this.initThreats();
   }
 
   isEqual(var1: any, var2: any): boolean {
@@ -179,6 +183,22 @@ export class DashboardComponent implements OnInit {
         exist = false;
       });
     }
+  }
+
+  initAssessmentTools() {
+    if (this.isNullOrUndefined(this.assessment.assessmentTools)) {
+      this.assessment.assessmentTools = new AssessmentTools();
+    }
+  }
+
+  initDataCollection() {
+    if (this.isNullOrUndefined(this.assessment.assessmentData))
+      this.assessment.assessmentData = new AssessmentData();
+  }
+
+  initThreats() {
+    if (this.isNullOrUndefined(this.assessment.assessmentThreat))
+      this.assessment.assessmentThreat = new AssessmentThreat();
   }
 
   initAssessmentAttribute() {

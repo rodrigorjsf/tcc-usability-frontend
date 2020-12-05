@@ -186,6 +186,7 @@
                        nbTooltipPlacement="right" nbTooltipStatus="info" status="info">{{scale.name}}
               <br>({{scale.acronym}})
             </nb-action>
+            <br>
           </div>
         </nb-card-body>
       </nb-card>
@@ -194,7 +195,7 @@
   <div class="dashboard__participants">
     <nb-card accent="success" size="medium" class="align-middle">
       <nb-card-header class="text-center">Participants</nb-card-header>
-      <nb-card-body class="row col-lg-12">
+      <nb-card-body style="overflow: hidden;" class="row col-lg-12">
         <div class="col col-lg-2">
           <label><b>How many participants?</b></label>
           <p *ngIf="!isNullOrUndefined(this.assessment.participant.participantsQuantity)"
@@ -241,16 +242,19 @@
           <p *ngIf="isNullOrUndefined(this.assessment.participant.instructions)"
              style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
         </div>
-        <div class="col col-lg-3">
+        <div style="height: 100%" class="col col-lg-3">
           <label><b>List the questions that will be asked to the participants:</b></label>
-          <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
-            <p *ngFor="let question of assessment.participant.questions"
-               style="padding-left: 10px" class="bottom-margin-light">{{question}}</p>
-          </div>
-          <div *ngIf="isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
-            <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          <div style="overflow-y: auto;height: 300px">
+            <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
+              <p *ngFor="let question of assessment.participant.questions"
+                 style="padding-left: 10px" class="bottom-margin-light">{{question}}</p>
+            </div>
+            <div *ngIf="isNullOrUndefinedOrEmpty(this.assessment.participant.questions)">
+              <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            </div>
           </div>
         </div>
+
       </nb-card-body>
     </nb-card>
   </div>
@@ -264,7 +268,7 @@
             <p
               *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.occurDate)"
               style="padding-left: 10px"
-              class="bottom-margin-light">{{formatDate(assessment.assessmentProcedure.occurDate)}}</p>
+              class="bottom-margin-light">{{assessment.assessmentProcedure.occurDate}}</p>
             <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.occurDate)"
                style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
             <label><b>How much time will it require?</b></label>
@@ -298,6 +302,8 @@
             <p
               *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.isPilotAssessment) && !this.assessment.assessmentProcedure.isPilotAssessment"
               style="padding-left: 10px" class="bottom-margin-light">NO</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentProcedure.isPilotAssessment)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
             <p *ngIf="!isNullOrUndefined(this.assessment.assessmentProcedure.pilotDescription)"
                style="padding-left: 10px"
                class="bottom-margin-light">{{this.assessment.assessmentProcedure.pilotDescription }}</p>
@@ -305,14 +311,17 @@
 
         </div>
         <hr class="solid">
-        <div style="justify-content: center; height: 45%" class="row col-lg-12">
-          <nb-card accent="info" *ngFor="let step of assessment.assessmentProcedure.assessmentProcedureSteps; let i = index;"
-                   class="col-lg-2" style="margin-right: 15px"
+        <div
+          style="overflow-x: auto;overflow-y: hidden; flex-direction: column; justify-content: center; height: 45%"
+          class="row">
+          <nb-card accent="info"
+                   *ngFor="let step of assessment.assessmentProcedure.assessmentProcedureSteps; let i = index;"
+                   class="col-lg-2" style="margin-left: 15px; height: 80%; min-height: 80%"
                    nbTooltip="Description: {{step.description}}" nbTooltipStatus="control">
             <nb-card-header class="text-center">
               Step {{i}}
             </nb-card-header>
-            <nb-card-body style="display: flex; align-items: center; justify-items: center">
+            <nb-card-body class="text-center">
               {{step.name}}
             </nb-card-body>
           </nb-card>
@@ -324,26 +333,140 @@
   </div>
   <section class="dashboard__analytics">
     <div class="dashboard__tasks-and-materials">
-      <div class="col col-lg-12"></div>
-      <nb-card size="small" class="align-middle">
+      <nb-card size="giant" accent="success" class="align-middle">
         <nb-card-header class="text-center">Tasks and materials</nb-card-header>
         <nb-card-body>
+          <div style="display: flex; height: 100%" class="row col-lg-12">
+            <div style="height: 50%" class="col col-lg-12">
+              <label><b>What instruments, materials, technology, and tools will be used and how?</b></label>
+              <div style="overflow-y: auto;height: 90%">
+                <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.assessmentTools.tools)">
+                  <p *ngFor="let tool of assessment.assessmentTools.tools"
+                     style="padding-left: 10px" class="bottom-margin-light">{{tool}}</p>
+                </div>
+                <div *ngIf="isNullOrUndefinedOrEmpty(this.assessment.assessmentTools.tools)">
+                  <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+                </div>
+              </div>
+            </div>
+            <div style="height: 50%" class="col col-lg-12">
+              <label><b>What tasks will the participants need to perform?</b></label>
+              <div style="overflow-y: auto;height: 90%">
+                <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.assessmentTools.tasks)">
+                  <div *ngFor="let task of assessment.assessmentTools.tasks; let i = index;">
+                    <p style="padding-left: 10px" class="bottom-margin-light"><b>{{i + 1}}
+                      .Description:</b> {{task.description}}</p>
+                    <p style="padding-left: 10px" class="bottom-margin-light"><b>{{i + 1}}.Execution
+                      Time:</b> {{task.taskExecutionTime}}</p>
+                    <p style="padding-left: 10px" class="bottom-margin-light"><b>{{i + 1}}.Acceptance
+                      Criteria:</b> {{task.acceptanceCriteria}}</p>
+                    <hr class="solid">
+                  </div>
+                </div>
+                <div *ngIf="isNullOrUndefinedOrEmpty(this.assessment.assessmentTools.tasks)">
+                  <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </nb-card-body>
       </nb-card>
     </div>
     <div class="dashboard__data-collection-and-analysis">
       <div class="col col-lg-12"></div>
-      <nb-card size="small" class="align-middle">
+      <nb-card size="giant" accent="success" class="align-middle">
         <nb-card-header class="text-center">Data collection and analysis</nb-card-header>
         <nb-card-body>
+          <div class="col-lg-12">
+            <label><b>What will be the data collection procedure?</b></label>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentData.dataCollectionProcedure)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentData.dataCollectionProcedure}}</p>
+            <p *ngIf="isNullOrUndefined(assessment.assessmentData.dataCollectionProcedure)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            <label><b>How will the data collected be analyzed?</b></label>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentData.analysisDescription)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentData.analysisDescription}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentData.analysisDescription)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            <label><b>Describe the statistical methods, if any, that will be be used:</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentData.statisticalMethods) && this.assessment.assessmentData.statisticalMethods"
+              style="padding-left: 10px" class="bottom-margin-light">YES</p>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentData.statisticalMethods) && !this.assessment.assessmentData.statisticalMethods"
+              style="padding-left: 10px" class="bottom-margin-light">NO</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentData.statisticalMethods)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentData.statisticalMethodsDescription)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentData.statisticalMethodsDescription}}</p>
+          </div>
         </nb-card-body>
       </nb-card>
     </div>
     <div class="dashboard__threats">
-      <div class="col col-lg-12"></div>
-      <nb-card size="small" class="align-middle">
+      <nb-card size="giant" accent="success" class="align-middle">
         <nb-card-header class="text-center">Threats to validity</nb-card-header>
         <nb-card-body>
+          <div style="height: 100%" class="col col-lg-12">
+            <label><b>What are the threats to the validity of the assessment?</b></label>
+            <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.assessmentThreat.threats)"
+                 style="overflow-y: auto;overflow-x: hidden; height: 20%">
+              <p *ngFor="let threat of this.assessment.assessmentThreat.threats"
+                 style="padding-left: 10px" class="bottom-margin-light">{{threat}}</p>
+            </div>
+            <div class="col-lg-6" *ngIf="isNullOrUndefinedOrEmpty(this.assessment.assessmentThreat.threats)">
+              <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            </div>
+            <hr class="solid">
+            <div style="height: 20%; margin-bottom: 15px">
+              <label><b>How will the threats to validity be controlled?</b></label>
+              <div *ngIf="!isNullOrUndefined(this.assessment.assessmentThreat.controlMeasure)"
+                   style="overflow-y: auto;overflow-x: hidden; height: 90%">
+                <p style="padding-left: 10px"
+                   class="bottom-margin-light">{{this.assessment.assessmentThreat.controlMeasure}}</p>
+              </div>
+              <div class="col-lg-6" *ngIf="isNullOrUndefined(this.assessment.assessmentThreat.controlMeasure)">
+                <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+              </div>
+            </div>
+            <br>
+            <hr class="solid">
+            <div style="height: 20%; margin-bottom: 15px">
+              <label><b>List the limitations for the assessment:</b></label>
+              <div *ngIf="!isNullOrUndefinedOrEmpty(this.assessment.assessmentThreat.limitations)"
+                   style="overflow-y: auto;overflow-x: hidden; height: 100%">
+                <p *ngFor="let limitation of this.assessment.assessmentThreat.limitations"
+                   style="padding-left: 10px" class="bottom-margin-light">{{limitation}}</p>
+              </div>
+              <div class="col-lg-6" *ngIf="isNullOrUndefinedOrEmpty(this.assessment.assessmentThreat.limitations)">
+                <p style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+              </div>
+            </div>
+            <br>
+            <hr class="solid">
+            <label><b>Are the ethical aspects of the assessment well defined for the participants?</b></label>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentThreat.ethicalAspectsDefined) && this.assessment.assessmentThreat.ethicalAspectsDefined"
+              style="padding-left: 10px" class="bottom-margin-light">YES</p>
+            <p
+              *ngIf="!isNullOrUndefined(this.assessment.assessmentThreat.ethicalAspectsDefined) && !this.assessment.assessmentThreat.ethicalAspectsDefined"
+              style="padding-left: 10px" class="bottom-margin-light">NO</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentThreat.ethicalAspectsDefined)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentThreat.ethicalAspectsDescription)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentThreat.ethicalAspectsDescription}}</p>
+            <hr class="solid">
+            <label><b>List the biases of the assessment:</b></label>
+            <p *ngIf="!isNullOrUndefined(this.assessment.assessmentThreat.biasDescription)"
+               style="padding-left: 10px"
+               class="bottom-margin-light">{{this.assessment.assessmentThreat.biasDescription}}</p>
+            <p *ngIf="isNullOrUndefined(this.assessment.assessmentThreat.biasDescription)"
+               style="padding-left: 10px" class="bottom-margin-light red-color-text">N/A</p>
+          </div>
         </nb-card-body>
       </nb-card>
     </div>

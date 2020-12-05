@@ -184,7 +184,7 @@ export class EditProcedureSectionComponent implements OnInit {
   mountProcedure() {
     this.assessmentProcedureDTO = new AssessmentProcedureDTO(
       this.assessment.uid,
-      this.validateDate() ? this.assessment.assessmentProcedure.occurDate.toISOString().substring(0, 10) :
+      this.validateDate() ? this.assessment.assessmentProcedure.occurDate.toString() :
         format(this.assessment.assessmentProcedure.occurDate, 'yyyy-MM-dd'),
       this.assessment.assessmentProcedure.occurLocal,
       this.assessment.assessmentProcedure.occurDetail,

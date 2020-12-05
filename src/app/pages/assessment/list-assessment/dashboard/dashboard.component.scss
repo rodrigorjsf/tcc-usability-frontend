@@ -6,7 +6,7 @@
   overflow-y: scroll;
   grid-template-columns: 10% 90%;
   grid-template-rows: 2.5% minmax(auto, 30%) minmax(auto, 30%) minmax(auto, 30%) minmax(auto, 40%);
-  grid-row-gap: 2%;
+  grid-row-gap: 0.5%;
   grid-template-areas:
     'button .'
     'project-info project-info'
@@ -46,7 +46,8 @@
 
   &__analytics {
     grid-area: analytics;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 35% 26% 35%;
+    grid-column-gap: 2%;
     justify-content: space-evenly;
     grid-template-areas: 'tasks-and-materials data-collection-and-analysis threats';
   }
