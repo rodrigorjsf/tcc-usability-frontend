@@ -1,4 +1,4 @@
-<div class="dashboard">
+<div *ngIf="dataloaded | async" class="dashboard">
   <button class="dashboard__button" (click)='back()' nbButton status='info'>
     <nb-icon icon='arrow-back-outline'></nb-icon>
     <b>BACK</b>
@@ -57,52 +57,52 @@
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.applicationExecutionEnvironment.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasAppExecution">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasAppExecution &&
+                  !isNull(assessment.smartCityQuestionnaire.hasAppExecution)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasAppExecution)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.sensorNetworkManagement.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasSensorNetwork">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasSensorNetwork &&
+                  !isNull(assessment.smartCityQuestionnaire.hasSensorNetwork)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasSensorNetwork)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.dataProcessing.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataProcessing">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataProcessing &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataProcessing)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataProcessing)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.dataAccess.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataAccess">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataAccess &&
+                  !isNull(assessment.smartCityQuestionnaire.hasDataAccess)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataAccess)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.serviceManagement.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasServiceManagement">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasServiceManagement &&
+                  !isNull(assessment.smartCityQuestionnaire.hasServiceManagement)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasServiceManagement)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.toolsforSoftwareDevelopment.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.hasSoftwareTools">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.hasSoftwareTools &&
+                  !isNull(assessment.smartCityQuestionnaire.hasSoftwareTools)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasSoftwareTools)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                   <div *ngIf="question.objKey === smartCityCategories.definingACityModel.acronym;">
-                    <p *ngIf="assessment.smartCityQuestionnaire.hasDataManagement">YES</p>
-                    <p *ngIf="!assessment.smartCityQuestionnaire.hasDataManagement &&
-                  !isNull(assessment.smartCityQuestionnaire.hasDataManagement)">NO</p>
-                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.hasDataManagement)" class="red-color-text">NOT
+                    <p *ngIf="assessment.smartCityQuestionnaire.defineCityModel">YES</p>
+                    <p *ngIf="!assessment.smartCityQuestionnaire.defineCityModel &&
+                  !isNull(assessment.smartCityQuestionnaire.defineCityModel)">NO</p>
+                    <p *ngIf="isNull(assessment.smartCityQuestionnaire.defineCityModel)" class="red-color-text">NOT
                       SELECTED</p>
                   </div>
                 </div>
