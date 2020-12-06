@@ -212,7 +212,8 @@ export class EditParticipantSectionComponent implements OnInit {
   }
 
   hasNoQuestion() {
-    if (this.questions.getRawValue().map(value => value.question).length === 0)
+    if (this.questions.getRawValue().map(value => value.question).length === 0 ||
+      this.assessment.participant.questions.length === 0)
       return true;
     else if (this.questions.getRawValue().map(value => value.question).length === 1) {
       return this.questions.getRawValue().map(value => value.question)[0] === '';
