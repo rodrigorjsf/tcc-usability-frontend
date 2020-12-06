@@ -1243,7 +1243,7 @@ export class EditPlanComponent implements OnInit {
   }
 
   isInReviewPhase(): boolean {
-    return this.assessment.state === 'IN_REVIEW';
+    return this.assessment.state === 'IN_REVIEW' || this.assessment.state === 'WAITING_REVIEW';
   }
 
   isCompletedPlan(): boolean {
