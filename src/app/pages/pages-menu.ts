@@ -27,11 +27,15 @@ export const USER_MENU_ITEMS: NbMenuItem[] = [
         icon: 'book-open-outline',
         link: '/pages/assessment/reviewed-plan',
       },
-      // {
-      //   title: 'Archived Plans',
-      //   icon: 'done-all-outline',
-      //   link: '/pages/assessment/list',
-      // },
+      {
+        title: 'Express Planning',
+        icon: 'flash-outline',
+        link: '/pages/assessment/express',
+        badge: {
+          dotMode: true,
+          status: 'success',
+        },
+      },
       {
         title: 'Enter as Collaborator',
         icon: 'person-add-outline',
@@ -96,11 +100,15 @@ export const REVIEWER_MENU_ITEMS: NbMenuItem[] = [
         icon: 'book-open-outline',
         link: '/pages/assessment/reviewed-plan',
       },
-      // {
-      //   title: 'Archived Plans',
-      //   icon: 'done-all-outline',
-      //   link: '/pages/assessment/list',
-      // },
+      {
+        title: 'Express Planning',
+        icon: 'flash-outline',
+        link: '/pages/assessment/express',
+        badge: {
+          dotMode: true,
+          status: 'success',
+        },
+      },
       {
         title: 'Enter as Collaborator',
         icon: 'person-add-outline',

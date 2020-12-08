@@ -18,6 +18,7 @@ import {NewCollaboratorComponent} from "./new-collaborator/new-collaborator.comp
 import {AddCollaboratorComponent} from "./list-assessment/edit-plan/add-collaborator/add-collaborator.component";
 import {ReviewDetailComponent} from "./reviewed-plan/review-detail/review-detail.component";
 import {DashboardComponent} from "./list-assessment/dashboard/dashboard.component";
+import {ExpressPlanningComponent} from "./express-planning/express-planning.component";
 
 const routes: Routes = [
   {
@@ -97,6 +98,11 @@ const routes: Routes = [
       {
         path: 'reviewed-plan',
         component: ReviewedPlanComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'express',
+        component: ExpressPlanningComponent,
         canActivate: [AdminGuard],
       },
       {

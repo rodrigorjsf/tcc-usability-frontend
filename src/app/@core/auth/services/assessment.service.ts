@@ -227,6 +227,26 @@ export class AssessmentService {
       });
   }
 
+  downloadExpressPlan() {
+    const request = this.http.get(`${this.baseUrl}/assessment/express/file`,
+      {
+        headers: this.headers,
+        observe: 'body',
+        responseType: 'arraybuffer',
+      });
+    request.subscribe(
+      data => {
+        const blob: any = new Blob([data], {type: 'application/octet-stream'});
+
+        FileSaver.saveAs(blob, 'instrument-canvas-express-plan.pdf');
+      },
+      (err) => {
+        console.log(err);
+        const statusInfo = err.statusText ? `${err.statusText}.` : '';
+        this.toast.showToast('download', 'top-right', 'danger', 'assessment');
+      });
+  }
+
   sendPlanToEmail(emails: SendMailRequest) {
     const request = this.http.post<any>(`${this.baseUrl}/assessment/export/to-email`, emails,
       {

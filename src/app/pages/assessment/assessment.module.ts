@@ -41,6 +41,7 @@ import { RequestReviewComponent } from './list-assessment/edit-plan/request-revi
 import {ReviewService} from "../../@core/auth/services/review.service";
 import { ReviewDetailComponent } from './reviewed-plan/review-detail/review-detail.component';
 import { DashboardComponent } from './list-assessment/dashboard/dashboard.component';
+import { ExpressPlanningComponent } from './express-planning/express-planning.component';
 
 @NgModule({
     imports: [
@@ -85,6 +86,7 @@ import { DashboardComponent } from './list-assessment/dashboard/dashboard.compon
     RequestReviewComponent,
     ReviewDetailComponent,
     DashboardComponent,
+    ExpressPlanningComponent,
   ],
   providers: [
     AssessmentService,
