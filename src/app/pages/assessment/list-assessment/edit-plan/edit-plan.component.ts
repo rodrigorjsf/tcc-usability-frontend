@@ -1247,7 +1247,7 @@ export class EditPlanComponent implements OnInit {
   }
 
   isCompletedPlan(): boolean {
-    return this.assessment.state === 'COMPLETED' ||  this.assessment.state === 'REVIEWED';
+    return this.assessment.state === 'COMPLETED' || this.assessment.state === 'REVIEWED';
   }
 
   // --------------------------- ROUTES ----------------------------
@@ -1316,21 +1316,19 @@ export class EditPlanComponent implements OnInit {
       .onClose.subscribe(date => {
       this.reviewDate = date;
       if (this.reviewDate === null || this.reviewDate === undefined) {
-        const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
-        this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
-        this.toast.showToast('review', 'top-right', 'danger', 'Assessment Plan');
+      } else {
+        this.reviewRequest = new ReviewRequestDTO(this.assessment.uid, this.reviewDate);
+        this.reviewService.submitReview(this.reviewRequest)
+          .subscribe(data => {
+              this.toast.showToast('review', 'top-right', 'success', 'Assessment Plan');
+              this.assessment = data;
+              const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
+              this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
+            },
+            () => {
+              this.toast.showToast('review', 'top-right', 'danger', 'Assessment Plan');
+            });
       }
-      this.reviewRequest = new ReviewRequestDTO(this.assessment.uid, this.reviewDate);
-      this.reviewService.submitReview(this.reviewRequest)
-        .subscribe(data => {
-            this.toast.showToast('review', 'top-right', 'success', 'Assessment Plan');
-            this.assessment = data;
-            const assessmentTransferDTO = new AssessmentTransferDTO(this.assessment.uid, this.assessment.projectName);
-            this.router.navigate(['/pages/assessment/my-plans'], {state: assessmentTransferDTO});
-          },
-          () => {
-            this.toast.showToast('review', 'top-right', 'danger', 'Assessment Plan');
-          });
     });
   }
 
